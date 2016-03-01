@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(5000);
+    });
+    </script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>VXGI</h1>
+                        <h3>Voxel Global Illumination</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="https://www.facebook.com/Cidz87" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Fábio Dias</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/helder.novais.64?fref=ts" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Helder Novais</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/nicolau.carvalho.56?fref=ts" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Pedro Carvalho</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+
+    <!-- Post Content -->
+    <div class="articlePost">
+        <div class="row">
+            <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="a"></a>
+                <h1 class="articleTitle">What is VXGI?</h1>
+                <p>Voxel Global Illumination, VXGI, it is a new way, developed by <i>NVIDIA</i>, to simulate Global Ilumination.</p>
+                <blockquote style="font-family: 'Tahoma'; color:white"> <i>Voxel Global Illumination (VXGI) is a stunning advancement, delivering incredibly realistic lighting, shading and reflections to next-generation games and game engines.</i>
+                <br/>
+                <h3 style="font-weight:normal; text-align:right; font-family: 'Trocchi', serif">
+                    <i>NVIDIA</i>
+                </h3>
+                </blockquote>
+
+                <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the Unreal Engine 4 supports this technology, for now.</p>
+
+                <p>This techinique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
+
+                <p>A clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
+
+                <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
+
+                <h2 class="articleSubTitle">3D Clipmap</h2>
+
+                <p>Clipmaps are multidimensional textures that were proposed as a solution to reduce the memory footprint of very large textures (<a href=" http://doi.acm.org/10.1145/280814.280855" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
+
+                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+
+
+                <br/>
+
+                <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+            </div>
+
+            <div id="b" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="b"></a>
+                <h1 class="articleTitle">A mãe do Basofe de 2!</h1>
+                <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
+
+                <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
+
+                <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
+
+                <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
+
+                <p>For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
+
+                <h2 class="articleSubTitle">The Final Frontier</h2>
+
+                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+
+                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+
+                <br/>
+
+                <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+            </div>
+
+        </div>
+    </div>
+
+    <br><br><hr><br><br>
+    
+    <div class="banner">
+        
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="text-align:center">VXGI : Voxel Global Illumination</h2>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="copyright text-muted small">Universidade do Minho, Projecto Integrado - VXGI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
