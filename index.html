@@ -19,14 +19,23 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="fonts/lato.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.js"></script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            //alert("ola");
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
 
 </head>
 
@@ -43,13 +52,14 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <a href="#contact" class="btn btn-default btn-lg"><i class="fa fa-google"></i> <span class="network-name">Fábio Dias</span></a>
+                                <a id="alud"class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i><span class="network-name">&nbsp;&nbsp;Fábio Dias</span> </span><span class="network-name email" style="display:none">a64330@alunos.uminho.pt</span></a>
+                                
                             </li>
                             <li>
-                                <a href="" class="btn btn-default btn-lg"><i class="fa fa-google"></i> <span class="network-name">Helder Novais</span></a>
+                                <a id="H" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Helder Novais</span></span><span class="network-name email" style="display:none" >a64378@alunos.uminho.pt</span></a>
                             </li>
                             <li>
-                                <a href="" class="btn btn-default btn-lg"><i class="fa fa-google"></i> <span class="network-name">Pedro Carvalho</span></a>
+                                <a id="P" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Pedro Carvalho</span></span><span class="network-name email" style="display:none" >a64367@alunos.uminho.pt</span></a>
                             </li>
                         </ul>
                     </div>
@@ -102,7 +112,7 @@
                             How VXGI works?
                         </h3>
                     </a>
-                    <p class="lead" style="text-align:justify">VXGI works by following some steps, like: Opacity Voxelization, Emittance Voxelization and Cone Tracing.</p>
+                    <p class="lead" style="text-align:justify">VXGI works by following some steps, like: Opacity Voxelization, Emittance Voxelization and Cone Tracing. Here you can observe a detail explanation to understand the implementation.</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive" src="img/howIt.jpg" alt="">
@@ -124,12 +134,12 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <div class="clearfix"></div>
-                    <a style="text-align:center" href="post.html">
+                    <a style="text-align:center" href="post.html#c">
                         <h3 class="post-title">
                             VXGI steps.
                         </h3>
                     </a>
-                    <p class="lead" style="text-align:justify">NVIDIA VXGI is an implementation of a global illumination algorithm known as Voxel Cone Tracing. Global illumination computes all lighting in the scene, including secondary reflections of light of diffuse and specular surfaces.</p>
+                    <p class="lead" style="text-align:justify">In order to VXGI fully function is needed to follow a series of steps. Here you can see which steps are made and a brief explanation of what is done.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="img/steps.png" alt="">
@@ -150,12 +160,12 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <a style="text-align:center" href="APIL/2.0.html">
+                    <a style="text-align:center" href="API/2.0.html">
                         <h3 class="post-title">
                             VXGI documentation.
                         </h3>
                     </a>
-                    <p class="lead" style="text-align:justify">NVIDIA VXGI is an implementation of a global illumination algorithm known as Voxel Cone Tracing. Global illumination computes all lighting in the scene, including secondary reflections of light of diffuse and specular surfaces.</p>
+                    <p class="lead" style="text-align:justify">We decided to create a more visually appealing documentation than looking to the source code by creating a web page with the information of which the VXGI API.</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive" src="img/api.jpg" alt="">

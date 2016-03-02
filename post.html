@@ -19,24 +19,42 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="fonts/lato.css" rel="stylesheet" type="text/css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
     <script>
 
     $(document).ready(function(){
         var hash=$(location).attr('hash');
-        $("div " + hash).fadeIn(5000);
+        $("div " + hash).fadeIn(2000);
     });
     </script>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
@@ -52,13 +70,14 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <a href="https://www.facebook.com/Cidz87" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Fábio Dias</span></a>
+                                <a id="alud"  class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i><span class="network-name">&nbsp;&nbsp;Fábio Dias</span> </span><span class="network-name email" style="display:none">a64330@alunos.uminho.pt</span></a>
+                                
                             </li>
                             <li>
-                                <a href="https://www.facebook.com/helder.novais.64?fref=ts" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Helder Novais</span></a>
+                                <a id="H" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Helder Novais</span></span><span class="network-name email" style="display:none" >a64378@alunos.uminho.pt</span></a>
                             </li>
                             <li>
-                                <a href="https://www.facebook.com/nicolau.carvalho.56?fref=ts" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Pedro Carvalho</span></a>
+                                <a id="P" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Pedro Carvalho</span></span><span class="network-name email" style="display:none" >a64367@alunos.uminho.pt</span></a>
                             </li>
                         </ul>
                     </div>
@@ -95,46 +114,140 @@
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
 
-                <h2 class="articleSubTitle">3D Clipmap</h2>
+                <h2 class="articleSubTitle" onclick="hide('3dclip')">3D Clipmap</h2>
 
-                <p>Clipmaps are multidimensional textures that were proposed as a solution to reduce the memory footprint of very large textures (<a href=" http://doi.acm.org/10.1145/280814.280855" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
+                <div id="3dclip">
+                    <p>Clipmaps are multidimensional textures that were proposed as a solution to reduce the memory footprint of very large textures (<a href="http://doi.acm.org/10.1145/280814.280855" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
 
-                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+                    <p>A clipmap is a partial representation of a mipmap, in which the levels are clipped according to a user-defined maximum size (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). The clipmaps only differ from mipmaps in the finer levels of detail. So the finer levels have the same number of voxels, but the same spatial resolution as the mipmap.</p>
 
+                    <p>The regions near the camera are represented with finer levels of detail and far regions with coarser levels of detail. This maps nicely when applying voxel cone tracing, due to the higher spatial density of pixels near the camera.</p>
 
-                <br/>
-
-                <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+                    <p>When the camera moves, we don't need to update de clipmap completely, since only a small portion of the clipmap needs to be updated because most of the data is already present in the clipmap since it was needed in the previous frame.</p>
+                </div>
             </div>
 
             <div id="b" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="b"></a>
-                <h1 class="articleTitle">A mãe do Basofe de 2!</h1>
-                <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
+                <h1 class="articleTitle">How VXGI works?</h1>
 
-                <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
+                <p>The main steps of the VXGI technique consists on the voxelization of the scene, encoding the opacity and emittance information in the clipmap and then is used the voxel cone tracing to compute the global illumination.</p>
 
-                <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
+                <h2 class="articleSubTitle" onclick="hide('opacity')">Opacity Voxelization</h2>
 
-                <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
+                <div id="opacity">
+                    <p>The first step of the VXGI algorithm is the opacity voxelization and downsampling (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>. In this step, the scene geometry is converted to a map which encodes the opacity of space with voxels. If a cube matches a complete voxel, it will produce a fully opaque voxel. But after downsampling, the opacity is reduced to 50%. Each next level of downsampling reduces the previous level to half, like the textures in the mipmap.</p>
 
-                <p>For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
+                    <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization. </p>
+                </div>
 
-                <h2 class="articleSubTitle">The Final Frontier</h2>
 
-                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+                <h2 class="articleSubTitle" onclick="hide('emittance')">Emittance Voxelization</h2>
 
-                <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+                <div id="emittance"  style="display:none">
+                    <p>In this pass it is used the opacity values calculated before to determinate amount of light that geometry in their volume reflets or emits in all directions. </p>
 
-                <br/>
+                    <p></p>
 
-                <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+                    <p>The downsampling does not affect the color the surroundings as long as it doesn't become smaller than a voxel.</p>
+                </div>
+
+                <h2 class="articleSubTitle " onclick="hide('voxelCone')">Voxel Cone Tracing</h2>
+
+                 <div id="voxelCone" style="display:none">
+                    <p>The final step is the cone tracing. This is the process that computes approximatly the surface irradiance coming from a set of directions, given a primary direction and the cone angle. This technque is described by the equation below.</p>
+                    <br>
+                    <center>
+                        <img class="img-responsive" src="img/ConeTracingEquation.png" alt=""><i>Source:<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a></i>
+                    </center>
+                    <br>
+                    <p>The cone traverse the given direction, taking samples from the emittance texture that contribute to irradiance. In order to reduce light leaking, occlusion is also calculated as the product of opacities from all the previous samples (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>.</p>
+
+                    <p>This step compute the diffuse and specular indirect illumination. The diffuse tracing </p>
+                </div>
+
             </div>
 
+            <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="c"></a>
+                <h1 class="articleTitle">VXGI steps.</h1>
+
+                <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Create the Global Illumination Object</h2>
+
+                <div id="steps1">
+
+                    <p><img src="img/arrow.png" class="normalP"/>First we need to create the Global Illumination Object and then insert the multiples parameters there are needed in order to work.</p>
+
+                    <p class="codeClass">HRESULT <span style="color:green">CreateVXGIObject</span>() {...}</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>The parameters used are a instance of VXGI::GIParameters.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::GIParameters <span style="color:red">params</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Using the variable params it is possible to render the interface ( <i>g_pSceneRenderer</i> instance of <i>SceneRenderer*</i> inicialized before ( <i>SceneRenderer* g_pSceneRenderer = NULL;</i> )), with the help of the scene renderer file.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.rendererInterface = g_pSceneRenderer-><span style="color:rgb(0, 137, 255)">GetRendererInterface()</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>GetRendererInterface() it is a function from <i>Direct3D</i> and in VXGI it is an instance of <i>VXGI::Util::IRendererInterfaceD3D11 m_RendererInterface;</i></p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::Util::IRendererInterfaceD3D11* <span style="color:rgb(0, 137, 255)">GetRendererInterface()</span>{</p>
+                    <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:red">return</span> &m_RendererInterface;</p>
+                    <p style="text-align:left; margin-left:50px;margin-top:-31px;" class="codeClass">}</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Here we can see were VXGI is doing the shader type by calling <i>Direct3D</i>.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.shaderType = VXGI::GIParameters::ST_D3D_BYTECODE_SM50;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Here it is possible to see the <i>DLL</i> that is being called:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.d3dCompilerDLLName = <span style="color:rgb(247, 235, 129)">"d3dcompiler_47.dll"</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Next we need to disable the scatter light injection. Why? Because we only want to use the light from the voxelization.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.maxScatterIterations = <span style="color:purple">0</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>In the bellow code it is possible to see that VXGI send error messages in case something went wrong. If it was in the creation of the global illumination object:</p>
+
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">if(<span style="color:rgb(0, 137, 255)">VXGI_FAILED</span>(<span style="color:rgb(0, 137, 255)">VFX_VXGI_CreateGIObject</span>(params, &g_pGI))){</p>
+                    <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:rgb(0, 137, 255)">MessageBoxA</span>(g_DeviceManager-><span style="color:rgb(0, 137, 255)">GetHWND()</span>,</p>
+                    <p style="text-align:left; margin-left:195px;margin-top:-25px;" class="codeClass"><span style="color:rgb(247, 235, 129)">"Failed to create a VXGI object."</span>,</p>
+                    <p style="text-align:left; margin-left:195px;margin-top:-25px;" class="codeClass"><span style="color:rgb(247, 235, 129)">"VXGI Sample"</span>, MB_ICONERROR);</p>
+                    <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:red">return</span> E_FAIL;</p>
+                    <p style="text-align:left; margin-left:50px;margin-top:-31px;" class="codeClass">}</p>
+
+
+                    <p><img src="img/arrow.png" class="normalP"/>If it was in the creation of the global illumination tracer:</p>
+
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">if(<span style="color:rgb(0, 137, 255)">VXGI_FAILED</span>(g_pGI-><span style="color:rgb(0, 137, 255)">createNewTracer</span>(params, &g_pGI))){</p>
+                    <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:rgb(0, 137, 255)">MessageBoxA</span>(g_DeviceManager-><span style="color:rgb(0, 137, 255)">GetHWND()</span>,</p>
+                    <p style="text-align:left; margin-left:195px;margin-top:-25px;" class="codeClass"><span style="color:rgb(247, 235, 129)">"Failed to create a VXGI tracer."</span>,</p>
+                    <p style="text-align:left; margin-left:195px;margin-top:-25px;" class="codeClass"><span style="color:rgb(247, 235, 129)">"VXGI Sample"</span>, MB_ICONERROR);</p>
+                    <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:red">return</span> E_FAIL;</p>
+                    <p style="text-align:left; margin-left:50px;margin-top:-31px;" class="codeClass">}</p>
+
+
+                    <p><img src="img/arrow.png" class="normalP"/>Otherwise it will create the Global Illumination Object and the Global Illumination Tracer.</p>
+                </div>
+
+                <div id="steps1">
+
+                </div>
+
+            </div>
+        </div>
+
+        <br/>
+
+        <div id="btnDown" style="margin-right:219px">
+            <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
         </div>
     </div>
 
     <br><br><hr><br><br>
+
+    
     
     <div class="banner">
         

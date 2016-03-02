@@ -66,7 +66,27 @@ blockquote p {
         inset 0 0 5px rgba(53,86,129, 0.5),
         inset -285px 0 35px white;
     border-radius: 0 10px 0 10px;
-    background: #fff url(../img/bartoszkosowski.jpg) no-repeat center left;
+    background: #fff url(../img/voxel.gif) no-repeat center left;
+}
+
+.codeClass {
+  color:#355681;
+  text-align: center;
+  font-size: 20px;
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0px 1em;
+}
+
+.disNone {
+  display: none;
+}
+
+.normalP{
+  margin-top: -4px;
+  width:32px;
+  height:12px;
 }
 
 .articleSubTitle {
@@ -186,7 +206,7 @@ blockquote p {
 
 .intro-header {
     padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-    padding-bottom: 50px;
+    padding-bottom: 100px;
     text-align: center;
     color: #f8f8f8;
     background: url(../img/VXGI.jpg) no-repeat center center;

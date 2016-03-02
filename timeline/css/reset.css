@@ -34,6 +34,13 @@ body {
 ol, ul {
 	list-style: none;
 }
+
+#listOL{
+	margin-left:80px;
+	margin-top:-15px;
+	list-style-type: decimal !important;
+}
+
 blockquote, q {
 	quotes: none;
 }
