@@ -136,7 +136,7 @@
                 var count=0;
                 var html;
                 if(elem.parent().prop("nodeName") === "struct" | elem.parent().prop("nodeName") === "class")
-                  html="<li class='list-group-item list-group-item-success'>";
+                  html="<li class='list-group-item list-group-item-success' style='color:rgb(51, 51, 51)''>";
                 else
                   html="<li id='"+idx+"' class='list-group-item' style='display:none' >";
                 html+="<div class='lititle'>"
@@ -174,10 +174,10 @@
 
               if(elem.prop("nodeName") === 'func'){
                    
-                   names.push({ label:elem.find('name').text() , category:"func", id: idx});
+                   names.push({ label:elem.find('> name').text() , category:"func", id: idx});
 
-                   string+="<span style='color:#900000'>function " +elem.find('type').text()+"</span>";
-                   string+="<span style='margin-left:5px'>"+elem.find('name').text()+"</span>";
+                   string+="<span style='color:#900000'><strong>function</strong> " +elem.find('> type').text()+"</span>";
+                   string+="<span style='margin-left:5px'>"+elem.find('> name').text()+"</span>";
               }
               if(elem.prop("nodeName") === 'comment'){
                    
@@ -209,8 +209,8 @@
               }
               string+='</dt>';
               string+='<dd style="margin-left:20px">';
-              if(elem.find('comment').length>0)
-                string+= elem.find('comment').text();
+              if(elem.find('>comment').length>0 && !(elem.prop("nodeName") === 'struct' | elem.prop("nodeName") === 'class'))
+                string+= elem.find('>comment').text();
 
                  if(elem.prop("nodeName") === 'enum'){
                     string+="<ul>";
@@ -229,15 +229,16 @@
                   });
                    }
                   if(elem.prop("nodeName") === 'func'){
+                    if(elem.find('var').length){
                     string+="<p style='font-weight:bold'>Parameters</p>";
                     string+="<dl>";
-                     elem.children('parameters').each(function () {
+                     elem.find('parameters').children().each(function () {
                        string+="<dt>";
-                       string+="<span style='color:#900000'>"+elem.find('type').text()+"</span>";
-                      string+="<span style='margin-left:5px'>"+elem.find('name').text()+"</span>";                       string+="</dt>";
-                       string+="<dd style='margin-left:20px'>";
-
-                       if($(this).find('comment').length>0)
+                       string+="<span style='color:#900000'>"+$(this).find('type').text()+"</span>";
+                      string+="<span style='margin-left:5px'>"+$(this).find('name').text()+"</span>";                       
+                      string+="</dt>";
+                      string+="<dd style='margin-left:20px'>";
+                    if($(this).find('comment').length>0)
                           string+= $(this).find('comment').text();
                        string+="</dd>";
                        
@@ -245,6 +246,7 @@
                   });
 
                      string+="</dl>";
+                   }
                  }
 
               string+='</dd>';
