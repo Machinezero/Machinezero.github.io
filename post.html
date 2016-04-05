@@ -11,17 +11,25 @@
 
     <title>VXGI - Voxel Global Illumination</title>
 
-    <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <link href="css/landing-page.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="fonts/lato.css" rel="stylesheet" type="text/css">
 
     <script src="js/jquery.js"></script>
+    <script src="fullScreen/jqueryFull.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    
+
+
+    <link href="fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="fullScreen/fullScreen.js"></script>
 
     <script type="text/javascript">
     $(document).ready(function(){
@@ -49,7 +57,6 @@
     </script>
 
     <script>
-
     $(document).ready(function(){
         var hash=$(location).attr('hash');
         $("div " + hash).fadeIn(2000);
@@ -85,14 +92,9 @@
             </div>
 
         </div>
-        <!-- /.container -->
 
     </div>
-    <!-- /.intro-header -->
 
-    <!-- Page Content -->
-
-    <!-- Post Content -->
     <div class="articlePost">
         <div class="row">
             <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
@@ -108,7 +110,7 @@
 
                 <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the Unreal Engine 4 supports this technology, for now.</p>
 
-                <p>This techinique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
+                <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
 
                 <p>A clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
@@ -155,40 +157,62 @@
                 <h2 class="articleSubTitle " onclick="hide('voxelCone')">Voxel Cone Tracing</h2>
 
                  <div id="voxelCone" style="display:none">
-                    <p>The final step is the cone tracing. This is the process that computes approximatly the surface irradiance coming from a set of directions, given a primary direction and the cone angle. This technque is described by the equation below.</p>
+                    <p>The final step is the cone tracing. This is the process that computes approximatly the surface irradiance coming from a set of directions, given a primary direction and the cone angle. This technique is described by the equation below.</p>
                     <br>
                     <center>
-                        <img class="img-responsive" src="img/ConeTracingEquation.png" alt=""><i>Source:<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a></i>
+                    <img src="http://latex.codecogs.com/gif.latex?Irradiance = \sum{}{}Emittance_i\left(\frac{ConeFactor}{SampleSize}\right)^{2}\prod_{0}^{i}(1-Opacity_k)^{tStep * OpacityCorrectionFactor}" border="0" ><br><i>Source:</i><a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a>
+                        <!--img class="img-responsive" src="img/ConeTracingEquation.png" alt=""><i>Source:<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a></i-->
                     </center>
                     <br>
                     <p>The cone traverse the given direction, taking samples from the emittance texture that contribute to irradiance. In order to reduce light leaking, occlusion is also calculated as the product of opacities from all the previous samples (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>.</p>
 
-                    <p>This step compute the diffuse and specular indirect illumination. The diffuse tracing </p>
-                </div>
+                    <div class="col-sm-10">
+                        <p style="margin-left:-15px">This step compute the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="img/diffuse_tracing.png" class="normalP" style="width:120px; height:80px !important" />
+                    </div>
 
+                    <br><br><br>
+                    <div class="col-sm-10">
+                        <p style="margin-left:-15px">Specular tracing shoots one cone from every visible specular surface in the reflected view direction. If the surface is rough, it is used a wider cone.</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="img/rough_specular.png" class="normalP" style="width:120px; height:80px !important" />
+                    </div>
+
+                    <br><br><br>
+                    <div class="col-sm-10">
+                        <p style="margin-left:-15px">For finer surface, it is used a thiner cone. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="img/finer_specular.png" class="normalP" style="width:120px; height:80px !important" />
+                    </div>
+                </div>
             </div>
 
             <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="c"></a>
                 <h1 class="articleTitle">VXGI steps.</h1>
 
-                <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Create the Global Illumination Object</h2>
+                <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Create the Voxels Global Illumination Object</h2>
 
                 <div id="steps1">
 
-                    <p><img src="img/arrow.png" class="normalP"/>First we need to create the Global Illumination Object and then insert the multiples parameters there are needed in order to work.</p>
+                    <p><img src="img/arrow.png" class="normalP"/>First we need to create the <i>Global Illumination Object</i> and then insert the multiples parameters that are needed in order to work.</p>
 
                     <p class="codeClass">HRESULT <span style="color:green">CreateVXGIObject</span>() {...}</p>
 
-                    <p><img src="img/arrow.png" class="normalP"/>The parameters used are a instance of VXGI::GIParameters.</p>
+                    <p><img src="img/arrow.png" class="normalP"/>The parameters used are a instance of
+                    <span style="font-family: monospace;color:#355681;"> VXGI::GIParameters</span>.</p>
 
                     <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::GIParameters <span style="color:red">params</span>;</p>
 
-                    <p><img src="img/arrow.png" class="normalP"/>Using the variable params it is possible to render the interface ( <i>g_pSceneRenderer</i> instance of <i>SceneRenderer*</i> inicialized before ( <i>SceneRenderer* g_pSceneRenderer = NULL;</i> )), with the help of the scene renderer file.</p>
+                    <p><img src="img/arrow.png" class="normalP"/>Using the variable <span style="color:red;font-family: monospace;">params</span> it is possible to render the interface ( <span style="font-family: monospace;color:#355681;">g_pSceneRenderer</span> instance of <span style="font-family: monospace;color:#355681;">SceneRenderer*</span> inicialized before ( <span style="font-family: monospace;color:#355681;">SceneRenderer* g_pSceneRenderer = </span><span style="font-family: monospace;color:purple;">NULL</span><span style="font-family: monospace;color:#355681;">;</span> )), with the help of the scene renderer file.</p>
 
                     <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.rendererInterface = g_pSceneRenderer-><span style="color:rgb(0, 137, 255)">GetRendererInterface()</span>;</p>
 
-                    <p><img src="img/arrow.png" class="normalP"/>GetRendererInterface() it is a function from <i>Direct3D</i> and in VXGI it is an instance of <i>VXGI::Util::IRendererInterfaceD3D11 m_RendererInterface;</i></p>
+                    <p><img src="img/arrow.png" class="normalP"/><span style="font-family: monospace;color:rgb(0, 137, 255);">GetRendererInterface()</span> is a function from <i>Direct3D</i> and in VXGI is an instance of <span style="font-family: monospace;color:#355681;">VXGI::Util::IRendererInterfaceD3D11 m_RendererInterface;</span></p>
 
                     <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::Util::IRendererInterfaceD3D11* <span style="color:rgb(0, 137, 255)">GetRendererInterface()</span>{</p>
                     <p style="text-align:left; margin-left:60px;margin-top:-25px;" class="codeClass"><span style="color:red">return</span> &m_RendererInterface;</p>
@@ -201,6 +225,23 @@
                     <p><img src="img/arrow.png" class="normalP"/>Here it is possible to see the <i>DLL</i> that is being called:</p>
 
                     <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.d3dCompilerDLLName = <span style="color:rgb(247, 235, 129)">"d3dcompiler_47.dll"</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>In our project we decide to give some options to the user for the inicialization of the application, in order to the user have more interaction with the application. Like the number of directions, changing to the booth <i>Emittance</i> and <i>Opacity Map</i>:</p>
+                    <p><img src="img/arrow.png" style="margin-left:100px !important" class="normalP"/>Six:</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.opacityDirectionCount = </p>
+                    <p style="text-align:left; margin-left:135px;margin-top:-25px;" class="codeClass">VXGI::OpacityDirections::<span style="color:rgb(0, 137, 255)">SIX_DIMENSIONAL</span>;</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.emittanceDirectionCount = </p>
+                    <p style="text-align:left; margin-left:135px;margin-top:-25px;" class="codeClass">VXGI::EmittanceDirections::<span style="color:rgb(0, 137, 255)">SIX_DIMENSIONAL</span>;</p>
+
+                    <p><img src="img/arrow.png" style="margin-left:100px !important" class="normalP"/>Or three:</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.opacityDirectionCount = </p>
+                    <p style="text-align:left; margin-left:135px;margin-top:-25px;" class="codeClass">VXGI::OpacityDirections::<span style="color:rgb(0, 137, 255)">THREE_DIMENSIONAL</span>;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.emittanceDirectionCount = </p>
+                    <p style="text-align:left; margin-left:135px;margin-top:-25px;" class="codeClass">VXGI::EmittanceDirections::<span style="color:rgb(0, 137, 255)">THREE_DIMENSIONAL</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Besides that it is possible to change the size of the Clipmap and it is important to reference that the bigger the Clipmap value, the lower it will be the size of each voxel, resulting in a better visual aspect but the performance will decrease. This variable variates between 16 and 256:</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.voxelizationParamters.mapSize = (unsigned)ClipSize;</p>
 
                     <p><img src="img/arrow.png" class="normalP"/>Next we need to disable the scatter light injection. Why? Because we only want to use the light from the voxelization.</p>
 
@@ -231,11 +272,340 @@
                     <p><img src="img/arrow.png" class="normalP"/>Otherwise it will create the Global Illumination Object and the Global Illumination Tracer.</p>
                 </div>
 
-                <div id="steps1">
+                <h2 class="articleSubTitle" onclick="hide('steps2')"> STEP 2 - Create Voxelization Geometry and Pixel Shaders</h2>
+
+                <div id="steps2" style="display:none">
+
+                    <p><img src="img/arrow.png" class="normalP"/>Next we need to create the voxelization on the geometry shader from the vertex shader. This is made on the <span style="color:rgb(0, 137, 255)">SceneRenderer</span>, unlike the previous step that was performed on the <span style="color:rgb(0, 137, 255)">Main</span> file. This voxelization (in the geometry shader) is made by calling:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">createVoxelizationGeometryShaderFromVS</span></p>
+                    <p style="text-align:left; margin-left:120px;margin-top:-25px;" class="codeClass">(&m_pVoxelizationGS, g_DefaultVS, sizeof(g_DefaultVS))...</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>But there are other method to make this:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">createVoxelizationGeometryShaderFromDS</span></p>
+                    <p style="text-align:left; margin-left:120px;margin-top:-25px;" class="codeClass">(&m_pVoxelizationGS, g_DefaultVS, sizeof(g_DefaultVS))...</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>After this, we need to do the voxelization on the pixel shader and like the case above there are two ways to do it:</p>
+
+                    <p><img src="img/arrow.png" style="margin-left:100px;" class="normalP"/>Advanced:</p>
+
+                    <p style="text-align:left; margin-left:150px; margin-top:-15px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">createVoxelizationPixelShader</span></p>
+                    <p style="text-align:left; margin-left:220px;margin-top:-25px;" class="codeClass">(&m_pVoxelizationPS, desc)...</p>
+
+                    <p><img src="img/arrow.png" style="margin-left:100px;" class="normalP"/>Default:</p>
+
+                    <p style="text-align:left; margin-left:150px; margin-top:-15px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">createVoxelizationDefaultPixelShader</span></p>
+                    <p style="text-align:left; margin-left:220px;margin-top:-25px;" class="codeClass">(&m_pVoxelizationPS, desc)...</p>
 
                 </div>
 
+                <h2 class="articleSubTitle" onclick="hide('steps3')"> STEP 3 - Scene Voxelization</h2>
+
+                <div id="steps3" style="display:none">
+
+                    <p><img src="img/arrow.png" class="normalP"/>The next step it is to voxelize the scene. In order to do so there are a few calls there are needed, besides that it is important to reference that this calls are made inside the <u><i>render</i></u> function in the <span style="color:rgb(0, 137, 255)">Main</span> file.</p>
+                    <p><img src="img/arrow.png" class="normalP"/>First we need to attribute some values to the parameter <span style="color:red;font-family: monospace;">params</span>.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::LightDesc light = g_pSceneRenderer-><span style="color:rgb(0, 137, 255)">GetLightDesc</span>();</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::UpdateVoxelizationParameters <span style="color:red">params</span>;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.clipmapAnchor = VXGI::Vector3f(centerPt.m128_f32);</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.giRange = g_fClipmapRange;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.lights = &light;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">params</span>.lightCount = 1;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Next we need to create two booleans initialized with <span style="color:purple;font-family: monospace;">false</span> to be used further in the code:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:rgb(0, 137, 255)">bool</span> performOpacityVoxelization = <span style="color:purple">false</span>;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:rgb(0, 137, 255)">bool</span> performEmittanceVoxelization = <span style="color:purple">false</span>;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Next we need to call the function <span style="font-family: monospace;color:rgb(0, 137, 255)">prepareForOpacityVoxelization()</span> passing the booleans created before as arguments:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">prepareForOpacityVoxelization</span>( params,</p>
+                    <p style="text-align:left; margin-left:265px; margin-top:-25px;" class="codeClass">performOpacityVoxelization,</p>
+                    <p style="text-align:left; margin-left:265px; margin-top:-25px;" class="codeClass">performEmittanceVoxelization);</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>After this we need to check the value of the previous booleans:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">if</span>(performOpacityVoxelization || performEmittanceVoxelization){ ... }</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>If any of them has the flag with value <span style="color:purple;font-family: monospace;">true</span> we continue. Next we need to get the invalidated regions. This is a set of world-space boxes that contains some geometry that changed since the previous frame. This is important because we only need to voxelize the things that change or the newest parts of the scene that we now can voxelize.</p>
+                    <p><img src="img/arrow.png" class="normalP"/>If this occurs then we can perform the <u><i>Emittance</u></i> and/or the <u><i>Opacity</u></i> voxelization steps, according the value of the previous booleans:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">if</span>(performOpacityVoxelization)</p>
+                    <p style="text-align:left; margin-left:150px; margin-top:-25px" class="codeClass">g_pSceneRenderer-><span style="color:rgb(0, 137, 255)">RenderSceneCommon</span>(g_pGI , regions,</p>
+                    <p style="text-align:left; margin-left:250px; margin-top:-25px" class="codeClass">numRegions, voxelizationMatrix, <span style="color:purple">NULL</span>, <span style="color:purple">true</span>);</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">if</span>(performEmittanceVoxelization) {</p>
+                    <p style="text-align:left; margin-left:150px; margin-top:-25px" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">prepareForEmittanceVoxelization</span>();</p>
+                    <p style="text-align:left; margin-left:150px; margin-top:-25px" class="codeClass">g_pSceneRenderer-><span style="color:rgb(0, 137, 255)">RenderSceneCommon</span>(g_pGI , <span style="color:purple">NULL</span>, <span style="color:purple">0</span></p>
+                    <p style="text-align:left; margin-left:250px; margin-top:-25px" class="codeClass">voxelizationMatrix, <span style="color:purple">NULL</span>, <span style="color:purple">true</span>);</p>
+                    <p style="text-align:left; margin-left:50px;margin-top:-30px;" class="codeClass">}</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>And finally we only need to finalize the voxelization process:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">g_pGI-><span style="color:rgb(0, 137, 255)">finalizeVoxelization</span>();</p>
+
+                </div>
+
+                <h2 class="articleSubTitle" onclick="hide('steps4')"> STEP 4 - Cone Tracing</h2>
+
+                <div id="steps4" style="display:none">
+
+                    <p><img src="img/arrow.png" class="normalP"/>First we need to attribute some values to the parameters <span style="color:red;font-family: monospace;">diffuseParams</span> and <span style="color:red;font-family: monospace;">specularParams</span>:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::DiffuseTracingParameters <span style="color:red">diffuseParams</span>;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass">VXGI::SpecularTracingParameters <span style="color:red">specularParams</span>;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">diffuseParams</span>.numCones = g_numcones;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">diffuseParams</span>.tracingSparsity = g_tracingSparsity;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">diffuseParams</span>.enableConeRotation = g_cone_rotation;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">diffuseParams</span>.irradianceScale = g_fDiffuseScale;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">specularParams</span>.irradianceScale = g_fSpecularScale;</p>
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">specularParams</span>.filter = VXGI::SpecularTracingParameters::FILTER_NONE;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>This parameter adds occluded directional ambient color to the scene. It is an array with six positions for every direction of each voxel, ordered as follows: X+, X-, Y+, Y-, Z+, Z-.</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">for</span>(n = <span style="color:purple">0</span>; n < <span style="color:purple">6</span>; n++) {</p>
+                    
+                    <p style="text-align:left; margin-left:100px;margin-top:-25px;" class="codeClass">diffuseParams.ambientColors[n] = ambientColor;</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Case the <span style="font-family: monospace;color:#355681;">g_fDiffuseScale</span> variable it is greater then zero the diffuse component will be computed:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">if</span>(g_fDiffuseScale > <span style="color:purple">0</span>) {</p>
+                    <p style="text-align:left; margin-left:100px;margin-top:-25px;" class="codeClass">g_pGITracer-><span style="color:rgb(0, 137, 255)">computeDiffuseChannel</span>(diffuseParams,</p>
+                    <p style="text-align:left; margin-left:250px;margin-top:-25px;" class="codeClass">indirectDiffuse, inputBuffers);</p>
+
+                    <p><img src="img/arrow.png" class="normalP"/>Case the <span style="font-family: monospace;color:#355681;">g_fSpecularScale</span> variable it is greater then zero the specular component will be computed:</p>
+
+                    <p style="text-align:left; margin-left:50px;" class="codeClass"><span style="color:red">if</span>(g_fSpecularScale > <span style="color:purple">0</span>) {</p>
+                    <p style="text-align:left; margin-left:100px;margin-top:-25px;" class="codeClass">g_pGITracer-><span style="color:rgb(0, 137, 255)">computeSpecularChannel</span>(specularParams,</p>
+                    <p style="text-align:left; margin-left:250px;margin-top:-25px;" class="codeClass">indirectDiffuse, inputBuffers);</p>
+
+
+                </div>
             </div>
+            
+            <div id="d" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="d"></a>
+                <h1 class="articleTitle">Application & Tutorial</h1>
+                
+                <p>This section has the purpose of helping the users to test our application. It contains a detailed tutorial to ease the interation between the user and the interface.</p>
+
+                <p>If you want to try the demo for yourself you can download it  <a href="Download/VXGI Demo.zip" download>here</a>.</p>
+                
+                <h2 class="articleSubTitle" onclick="hide('before')">Before Starting the Application</h2>
+                
+                <div id="before">
+                    <ol type="1">
+                        <li>Open Terminal in "bin" folder.</li>
+                        <li>Execute GFSDK_VXGI_Sample_GlobalIllumination_x64.exe along the following parameters:</li>
+                        <ul>
+                            <li>Name of the model in folder "media"</li>
+                            <li>Number of Directions (3 or 6 directions)</li>
+                            <li>Size of the Clipmap</li>
+                        </ul>
+                    </ol>
+                    Example:
+                    <img class="img-responsive" src="img/tutorial/terminal.png" alt="">
+                    <br/>
+                    <p>We only provided the Sponza model in our link above, but you can download other famous models like Rungholt and Power Plant <a href="http://graphics.cs.williams.edu/data/meshes.xml">here</a>.</p>
+                </div>
+                
+                <h2 class="articleSubTitle " onclick="hide('after')">After Starting the Application</h2>
+                
+                <div id="after" style="display:none">
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>After starting the application, the object is shown with the respectively frames per second. A simple interface is also displayed in the upper-left corner with modifiable parameters that change the scene appearence in real time.</p>
+                    
+                    <div>
+                        <center>
+                            <div class="image">
+                                <a rel="gallery" title="Interface" href="img/tutorial/initialSettings.jpg">
+                                    <img class="img-responsive" src="img/tutorial/initialSettings.jpg"/>
+                                </a>
+                                <i class="legend">Interface</i>
+                            </div>
+                        </center>
+                    </div>
+                    
+                    <br><br>
+                        
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>To view the voxelization process you can alternate the debug options by pressing 'g'. As you can see below, the scene is first voxelized and after that is performed the emittance voxelization to emit and reflect the light injected directly in the scene.</p>
+                        
+                    <table align="center" style="width:100%">
+                        <tr>
+                            <td align="center" style="width:33%">
+                                <div class="image" >
+                                    <a rel="gallery" title="Main Scene" href="img/tutorial/main.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/main.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:33%">
+                                <div class="image">
+                                    <a rel="gallery" title="Opacity Voxelization" href="img/tutorial/opacity.png">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/opacity.png"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:33%">
+                                <div class="image">
+                                    <a rel="gallery" title="Emmitance Voxelization" href="img/tutorial/emmitance.png">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/emmitance.png"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">Main Scene</i></td>
+                            <td align="center"><i class="legend">Opacity Voxelization</i></td>
+                            <td align="center"><i class="legend">Emittance Voxelization</i></td>
+                        </tr>
+                    </table>
+                        
+                    <br><br>
+                            
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>Also is possible to switch on and off the global illumination of the scene by clicking on the <i>Enable GI</i> button. The results are shown on the images below.</p>
+                            
+                    <table style="width:100%">
+                        <tr>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="No Global Illumination" href="img/tutorial/NoGI.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/NoGI.jpg"/>
+                                    </a>
+                            </td>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="With Global Illumination" href="img/tutorial/GI.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/GI.jpg"/>
+                                    </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">No Global Illumination</i></td>
+                            <td align="center"><i class="legend">With Global Illumination</i></td>
+                        </tr>
+                    </table>
+                    
+                    <br><br>
+                                
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>The objects that aren't directly illuminated don't have any color. They are only visible due to the ambient color. Disabling this parameter(<i>Ambient Scale</i> value is 0.0) the non-illuminated sections are black. By enabling the global illumination are now visible due to the indirect diffuse color and specular light.</p>
+                                
+                    <table style="width:100%;display:block;">
+                        <tr>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="No Global Illumination" href="img/tutorial/NoAmbientNoGI.png">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/NoAmbientNoGI.png"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="With Global Illumination" href="img/tutorial/NoAmbientGI.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/NoAmbientGI.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">No Global Illumination</i></td>
+                            <td align="center"><i class="legend">With Global Illumination</i></td>
+                        </tr>
+                    </table>
+                                
+                    <br><br>
+                                    
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>The scene may suffer from banding issues. To reduce this effect we can use the <i>Cone Rotation</i> parameter. It performs a random per-pixel rotation of the diffuse cone set. This results on a better visual result, but costs some performance.</p>
+                                    
+                    <table style="width:100%">
+                        <tr>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="No Cone Rotation" href="img/tutorial/NoConeRotation.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/NoConeRotation.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:50%">
+                                <div class="image">
+                                    <a rel="gallery" title="With Cone Rotation" href="img/tutorial/ConeRotation.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/ConeRotation.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">No Cone Rotation</i></td>
+                            <td align="center"><i class="legend">With Cone Rotation</i></td>
+                        </tr>
+                    </table>
+                                    
+                    <br><br>
+                                        
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>Parameters:</p>
+                    
+                    <table style="width:100%">
+                        <tr>
+                            <td align="center" style="width:33%">
+                                <div class="image">
+                                    <a rel="gallery" title="Only Direct Light" href="img/tutorial/Nothing.png">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/Nothing.png"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:33%">
+                                <div class="image">
+                                    <a rel="gallery" title="Ambient Color Only" href="img/tutorial/AmbientOnly.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/AmbientOnly.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center" style="width:33%">
+                                <div class="image">
+                                    <a rel="gallery" title="Diffuse Color Only" href="img/tutorial/DiffuseOnly.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/DiffuseOnly.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">Only Direct Light</i></td>
+                            <td align="center"><i class="legend">Ambient Color Only</i></td>
+                            <td align="center"><i class="legend">Diffuse Color Only</i></td>
+                        </tr>
+                    </table>
+                    
+                    <br><br>
+                                            
+                    <table style="width:100%">
+                        <tr>
+                            <td align="center">
+                                <div class="image">
+                                    <a rel="gallery" title="Specular Light Only" href="img/tutorial/SpecularOnly.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/SpecularOnly.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="image">
+                                    <a rel="gallery" title="All parameters Enabled" href="img/tutorial/EverythingEnabled.jpg">
+                                        <img class="img-responsive col-lg-12" src="img/tutorial/EverythingEnabled.jpg"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"><i class="legend">Specular Light Only</i></td>
+                            <td align="center"><i class="legend">All parameters Enabled</i></td>
+                        </tr>
+                    </table>
+                    
+                    <br> 
+
+                </div>
+            </div>
+            
         </div>
 
         <br/>
@@ -248,7 +618,6 @@
     <br><br><hr><br><br>
 
     
-    
     <div class="banner">
         
         <div class="container">
@@ -260,12 +629,9 @@
             </div>
 
         </div>
-        <!-- /.container -->
 
     </div>
-    <!-- /.banner -->
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
@@ -275,12 +641,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
 </body>
 

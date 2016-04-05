@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="js/jquery.js"></script>
+
+    <script src="js/amcharts.js"> </script>
+    <script src="js/serial.js"> </script>
+    <script src="js/dark.js"> </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+
+
+    <!-- amCharts javascript code -->
+        <script type="text/javascript">
+            AmCharts.makeChart("camera",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Camera",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Camera",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Frames per Second (FPS)"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Static vs Dynamic Camera (without VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "100",
+                            "column-2": "100"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "column-1": "71",
+                            "column-2": "70"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "19",
+                            "column-2": "19"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+        <!-- amCharts javascript code -->
+        <script type="text/javascript">
+            AmCharts.makeChart("cameravxgi",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Camera",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Camera",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Frames per Second (FPS)",
+                            "minimum": 0
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Static vs Dynamic Camera (with VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "54",
+                            "column-2": "47"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "column-1": "51",
+                            "column-2": "40"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "18",
+                            "column-2": "12"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+        <script type="text/javascript">
+            AmCharts.makeChart("speedupcam",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Camera",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Camera",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Speedup (%)",
+                            "minimum": 0
+
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "SpeedUp Camera Benchmark (With VXGI vs Without VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "0.54",
+                            "column-2": "0.47"
+                        },
+                        {
+                            "category": "Ponte Lima 3D",
+                            "column-1": "0.719",
+                            "column-2": "0.571"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "0.947",
+                            "column-2": "0.632"
+                        }
+                    ]
+                }
+            );
+        </script>
+        <script type="text/javascript">
+            AmCharts.makeChart("light",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Light",
+                            "type": "column",
+                            "valueField": "static"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Light",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-1",
+                            "valueField": "dynamic"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "FPS",
+                            "title": "Frames per Second (FPS)",
+                            "minimum": 0
+                        },
+                        {
+                            "id": "ValueAxis-2",
+                            "position": "right",
+                            "gridAlpha": 0,
+                            "title": "Axis title"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Light",
+                            "size": 15,
+                            "text": "Dynamic vs Static Light  (without VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "static": "100",
+                            "dynamic": "98"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "static": "70",
+                            "dynamic": "68"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "static": "20",
+                            "dynamic": "19"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+        <script type="text/javascript">
+            AmCharts.makeChart("lightvxgi",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Light",
+                            "type": "column",
+                            "valueField": "static"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Light",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-1",
+                            "valueField": "dynamic"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "FPS",
+                            "title": "Frames per Second (FPS)",
+                            "minimum": 0                            
+                        },
+                        {
+                            "id": "ValueAxis-2",
+                            "position": "right",
+                            "gridAlpha": 0,
+                            "title": "Axis title"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Light",
+                            "size": 15,
+                            "text": "Dynamic vs Static Light  (with VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "static": "54",
+                            "dynamic": "35"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "static": "51",
+                            "dynamic": "23"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "static": "17",
+                            "dynamic": "6"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+        <script type="text/javascript">
+            AmCharts.makeChart("speeduplight",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Static Light",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dynamic Light",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Speedup (%)",
+                            "minimum": 0
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "SpeedUp Light Benchmark (With VXGI vs Without VXGI)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "0.54",
+                            "column-2": "0.357"
+                        },
+                        {
+                            "category": "Ponte Lima 3D",
+                            "column-1": "0.729",
+                            "column-2": "0.338"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "0.85",
+                            "column-2": "0.316"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+        <!-- amCharts javascript code -->
+        <script type="text/javascript">
+            AmCharts.makeChart("sl",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "With VXGI",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Without VXGI",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "axisFrequency": 0,
+                            "axisTitleOffset": 0,
+                            "id": "ValueAxis-1",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "title": "Speedup (%)",
+                            "titleFontSize": 12
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Camera Speedup (Dynamic/Static)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "0.87",
+                            "column-2": "1"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "column-1": "0.784",
+                            "column-2": "0.99"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "0.667",
+                            "column-2": "1"
+                        }
+                    ]
+                }
+            );
+        </script>
+        <script type="text/javascript">
+            AmCharts.makeChart("spl",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "theme": "dark",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "With VXGI",
+                            "type": "column",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Without VXGI",
+                            "type": "column",
+                            "valueAxis": "ValueAxis-2",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "axisFrequency": 0,
+                            "axisTitleOffset": 0,
+                            "id": "ValueAxis-1",
+                            "maximum": 1,
+                            "minimum": 0,
+                            "title": "Speedup (%)",
+                            "titleFontSize": 12
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Light Speedup (Dynamic/Static)"
+                        }
+                    ],
+                    "dataProvider": [
+                        {
+                            "category": "Sponza",
+                            "column-1": "0.648",
+                            "column-2": "0.98"
+                        },
+                        {
+                            "category": "Ponte de Lima 3D",
+                            "column-1": "0.45",
+                            "column-2": "0.97"
+                        },
+                        {
+                            "category": "Rungholt",
+                            "column-1": "0.353",
+                            "column-2": "0.95"
+                        }
+                    ]
+                }
+            );
+        </script>
+
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>VXGI</h1>
+                        <h3>Voxel Global Illumination</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a id="alud"  class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i><span class="network-name">&nbsp;&nbsp;Fábio Dias</span> </span><span class="network-name email" style="display:none">a64330@alunos.uminho.pt</span></a>
+                                
+                            </li>
+                            <li>
+                                <a id="H" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Helder Novais</span></span><span class="network-name email" style="display:none" >a64378@alunos.uminho.pt</span></a>
+                            </li>
+                            <li>
+                                <a id="P" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Pedro Carvalho</span></span><span class="network-name email" style="display:none" >a64367@alunos.uminho.pt</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+
+    <!-- Post Content -->
+    <div class="articlePost">
+        <div class="row">
+            <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 row" style="display:none">
+                <a name="a"></a>
+                <h1 class="articleTitle">Performance analysis</h1>
+
+                <p>It was important for us to anaylize the performance of VXGI to assess its viability. So we decided to benchmark the heaviness of the algorithm and to test its behaviour in adverse conditions.<p>
+
+                <p>In a first approach, we decided to test the performance of the voxelization part of the algorithm. That being the opacity voxelization, refering to the voxelization of the scene around the camera, and the emittance voxelization, which is the voxelization of the surfaces directly hit by the light.</p>
+
+                <p>We benchmarked the opacity voxelization by rotating the camera around itself, which makes the clipmap anchor (center point of the scene being voxelized) change every frame.</p>
+                <p>The emittance voxelization was benchmarked by changing the position of the light every frame, which forces the whole emittance voxelization algorithm to be recalculated.</p>
+
+                <p>There was a thought behind the scenes we used, like the number of triangles and the actual setting of the scene (outside or inside, extensity).</p>
+                <p>The number of triangles of the scenes can be seen below:</p>
+                <div class="row">
+    <div class="col-lg-8 col-lg-offset-3 text-center">
+                <table style="border:solid 1px black;">
+                     <tr style="border:solid 1px black;">
+                         <th style="border:solid 1px black;"> </th>
+                        <th style="border:solid 1px black;">Sponza</th>
+                        <th style="border:solid 1px black;">Ponte de Lima 3D</th>
+                        <th style="border:solid 1px black;">Rungholt</th>
+                      </tr>
+                      <tr style="border:solid 1px black;">
+                      <td style="border:solid 1px black;">Number of triangles</td>
+                        <td style="border:solid 1px black;">262,267</td>
+                        <td style="border:solid 1px black;">1,064,210</td>
+                        <td style="border:solid 1px black;">6,704,264 </td>
+                      </tr>
+                </table>
+            </div>
+        </div>
+
+    <hr/>
+
+        <p>The hardware used was a Nvidia Geforce GTX 950m.</p>
+
+                <h2 class="articleSubTitle" onclick="hide('op')"> Opacity Voxelization Performance Impact</h2>
+                <div id="op">
+                <p>To test the normal performance impact of rotating the camera, we decided to compare static and dynamic Camera movement, with and without VXGI. We can see that the impact of rotating the camera is pratically null. But with VXGI, there is a noticeable impact, this is due to the recalculation of the opacity voxelization of part of the scene.</p>
+
+                <div class="row" style="margin-left: 10px;margin-right: 10px">
+                    <div class="col-sm-6" style="padding: 0px">
+                    <div id="camera" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+                    </div>
+                    <div class="col-sm-6" style="padding: 0px">
+                    <div id="cameravxgi" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+
+                    </div>
+                </div>
+
+                <hr/>
+
+                <p>
+                    The speedup graph proves that without VXGI there is zero performance impact. With VXGI, the assessment is different.
+                </p>
+                <div class="row" style="margin-left: 10px;margin-right: 10px">
+                    <div class="col-sm-6" style="padding: 0px">
+                         <div id="sl" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+                    </div>
+                    <div class="col-sm-6" style="padding: 0px">
+                    <div id="speedupcam" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+                    </div>
+                </div>
+                <hr/>
+                <p>
+                    From the left graph, we can also conclude that the opacity voxelization is more impactful in larger scenes, which makes sense because there are more surfaces to be voxelized. 
+                </p>
+                <p>From the right graph, we can conclude that the camera is less and less impactful on the performance for larger scenes. This is because, in larger scenes, the frames per second drop due to the dimension of the scene, so the camera performance impact is negligenciable.</p>
+                </div>
+             <h2 class="articleSubTitle" onclick="hide('ep')"> Emittance Voxelization Performance Impact</h2>
+                <div id="ep" style="display: none">
+
+                <p>To test the performance impact of light changes, we decided to compare dynamic and static light, with and withou VXGI. There is a very small impact without VXGI, which only makes more noticeable the impact on the measurements with VXGI. When the light changes position, the Emittance Map is thrown away, and a new one is calculated, which explains the slower performance.</p>
+                <div class="row" style="margin-left: 10px;margin-right: 10px">
+                    <div class="col-sm-6" style="padding: 0px">
+                        <div id="light" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+
+                    </div>
+                    <div class="col-sm-6" style="padding: 0px">
+                    <div id="lightvxgi" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+
+                    </div>
+                </div>
+                <hr/>
+
+                <p>There is a slower performance than when we tested the opacity voxelization, but we can't conclude that one algorithm is heaver than another because in the opacity voxelization performance tests, only part of the structure is being recalculated, while in this emittance algorithm tests, everything is being recalculated. One solution is to rotate the scene instead of the camera, forcing everything to be recalculated, which we are still trying to do.</p>
+                 <div class="row" style="margin-left: 10px;margin-right: 10px">
+                    <div class="col-sm-6" style="padding: 0px">
+                         <div id="spl" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+                    </div>
+                    <div class="col-sm-6" style="padding: 0px">
+                     <div id="speeduplight" style="width: 100%; height: 400px; background-color: #282828;" ></div>
+                    </div>
+                </div>
+                <hr/>
+                <p>For larger scenes, a dynamic light is gradually slower compared to a static one, but when comparing vxgi vs without vxgi, the performance impact gets more and more negligenciable, the larger the dimension of the scene.</p>
+            </div>
+
+
+            </div>
+
+        </div>
+
+        <br/>
+
+        <div id="btnDown" style="margin-right:219px">
+            <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+        </div>
+    </div>
+
+    <br><br><hr><br><br>
+
+    
+    
+    <div class="banner">
+        
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="text-align:center">VXGI : Voxel Global Illumination</h2>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="copyright text-muted small">Universidade do Minho, Projecto Integrado - VXGI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
