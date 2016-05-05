@@ -241,6 +241,48 @@
         </tr>
     </table>
 
+     <hr/>
+    <h2>Sixth Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 16" href="imagesSize/Clipmap_64_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="imagesSize/Clipmap_64_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 17" href="imagesSize/Clipmap_128_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="imagesSize/Clipmap_128_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 18" href="imagesSize/Clipmap_256_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="imagesSize/Clipmap_256_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 19" href="imagesSize/Clipmap_256_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="imagesSize/Clipmap_256_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 16</i></td>
+            <td align="center"><i class="legend">Figure 17</i></td>
+            <td align="center"><i class="legend">Figure 18</i></td>
+            <td align="center"><i class="legend">Figure 19</i></td>
+        </tr>
+    </table>
     <br/>
     <br/>
 </body>
