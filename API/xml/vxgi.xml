@@ -386,6 +386,11 @@
 			<name>allocationMapLodBias</name>
 			<comment type="default">Controls allocation granularity, bigger values result in coarser allocation map being used.</comment>
 		</var>
+   	 	<var>
+			<type>uint32_t</type>
+			<name>mipLevels</name>
+			<comment type="default">Number of levels in a mipmap stack used for scene representation. These levels do not include stack levels, and there can be 0 of them.</comment>
+		</var>
 		<var>
 			<type>uint32_t</type>
 			<name>stackLevels</name>
