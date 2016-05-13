@@ -147,14 +147,14 @@
                 <h2 class="articleSubTitle" onclick="hide('emittance')">Emittance Voxelization</h2>
 
                 <div id="emittance"  style="display:none">
-                    <p>In this pass it is used the opacity values calculated before to determinate amount of light that geometry in their volume reflets or emits in all directions. </p>
+                    <p>In this pass it is used the opacity values calculated before to determinate the amount of light that geometry in their volume reflects or emits in all directions. </p>
 
                     <p></p>
 
                     <p>The downsampling does not affect the color the surroundings as long as it doesn't become smaller than a voxel.</p>
                 </div>
 
-                <h2 class="articleSubTitle " onclick="hide('voxelCone')">Voxel Cone Tracing</h2>
+                 <h2 class="articleSubTitle " onclick="hide('voxelCone')">Voxel Cone Tracing</h2>
 
                  <div id="voxelCone" style="display:none">
                     <p>The final step is the cone tracing. This is the process that computes approximatly the surface irradiance coming from a set of directions, given a primary direction and the cone angle. This technique is described by the equation below.</p>
@@ -166,30 +166,35 @@
                     <br>
                     <p>The cone traverse the given direction, taking samples from the emittance texture that contribute to irradiance. In order to reduce light leaking, occlusion is also calculated as the product of opacities from all the previous samples (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>.</p>
 
+                    <br>
+
                     <div class="col-sm-10">
                         <p style="margin-left:-15px">This step compute the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
                     </div>
-                    <div class="col-sm-2">
-                        <img src="img/diffuse_tracing.png" class="normalP" style="width:120px; height:80px !important" />
+                    <div style="float:right;padding:0px">
+                        <img src="img/diffuse_tracing.png" class="normalP" style="width:150px; height:100px !important" />
                     </div>
 
-                    <br><br><br>
+                    <br><br><br><br>
+
                     <div class="col-sm-10">
                         <p style="margin-left:-15px">Specular tracing shoots one cone from every visible specular surface in the reflected view direction. If the surface is rough, it is used a wider cone.</p>
                     </div>
-                    <div class="col-sm-2">
-                        <img src="img/rough_specular.png" class="normalP" style="width:120px; height:80px !important" />
+                    <div style="float:right;padding:0px">
+                        <img src="img/rough_specular.png" class="normalP" style="width:150px; height:100px !important" />
                     </div>
 
-                    <br><br><br>
+                    <br><br><br><br>
+
                     <div class="col-sm-10">
                         <p style="margin-left:-15px">For finer surface, it is used a thiner cone. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
                     </div>
-                    <div class="col-sm-2">
-                        <img src="img/finer_specular.png" class="normalP" style="width:120px; height:80px !important" />
+                    <div style="float:right;padding:0px">
+                        <img src="img/finer_specular.png" class="normalP" style="width:150px; height:100px !important" />
                     </div>
                 </div>
             </div>
+
 
             <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="c"></a>
