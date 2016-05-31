@@ -1,0 +1,26 @@
+<html>
+  	<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChartq10);
+      function drawChartq10() {
+
+        var q10 = google.visualization.arrayToDataTable([
+          ['Answer', 'Count'],
+          ['No, the one with the fountain is better.',3],['No, the one with the lion statue is better.',9],['Yes',6]
+        ]);
+
+        var options = {
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechartq10'));
+
+        chart.draw(q10, options);
+      }
+    </script>
+	  </head>
+	  <body>
+	    <div id="piechartq10" style="width: 900px; height: 500px;"></div>
+	  </body>
+	</html>

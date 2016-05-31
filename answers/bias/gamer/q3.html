@@ -1,0 +1,26 @@
+<html>
+  	<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChartq3);
+      function drawChartq3() {
+
+        var q3 = google.visualization.arrayToDataTable([
+          ['Answer', 'Count'],
+          ['FIgure 7',5],['Figure 8',6],['Figure 9',7]
+        ]);
+
+        var options = {
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechartq3'));
+
+        chart.draw(q3, options);
+      }
+    </script>
+	  </head>
+	  <body>
+	    <div id="piechartq3" style="width: 900px; height: 500px;"></div>
+	  </body>
+	</html>
