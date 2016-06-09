@@ -3,12 +3,12 @@
    <head>
       <meta charset="utf-8">
       <title>Nvidia VXGI Documentation</title>
-      <link href="http://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-      <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-      <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <link href="css-js/css/jquery-ui.css" rel="stylesheet">
+      <link rel="stylesheet" href="css-js/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css-js/font-awesome/css/font-awesome.min.css">
+      <script src="css-js/js/jquery-1.10.2.js"></script>
+      <script src="css-js/js/jquery-ui.js"></script>
+      <script src="css-js/js/bootstrap.min.js"></script>
       <style>
 
       #menu {
@@ -50,6 +50,13 @@
             background-color: #4CAF50;
         }
 
+        .fixedbutton {
+          position: fixed;
+          bottom: 10px;
+          right: 20px; 
+          z-index: 99;
+      }
+
         
       </style>
       <style type="text/css">
@@ -82,10 +89,12 @@
           });
       </script>
    </head>
-   <body style="background-image:url(VXGI1.png);  background-repeat: no-repeat;background-attachment: fixed; ">
+   <body style="background-image:url(img/VXGI1.png);  background-repeat: no-repeat;background-attachment: fixed; ">
+
+   <a href="index.html" class="fixedbutton"><img src="img/back.png" width="87" height="71"></a>
       <!-- HTML --> 
       <div id="top" style="width:100%;position:fixed; top:0; height:60px;  z-index: 99;
-      background-image: url(paper.png);">
+      background-image: url(img/paper.png);">
 
       <div class="ui-widget" style="float:left;margin-left:5%;margin-top:13px;vertical-align: middle;" >
          Search:
@@ -106,7 +115,7 @@
       <script>
           $(function() {
             var names = [];
-            var fileUrl = "xml/vxgi.xml";
+            var fileUrl = "API/vxgi.xml";
             var stringData = $.ajax({
                     url: fileUrl,
                     async: false
@@ -127,7 +136,7 @@
                 var count=0;
                 var html;
                 if(elem.parent().prop("nodeName") === "struct" | elem.parent().prop("nodeName") === "class")
-                  html="<li class='list-group-item list-group-item-success'>";
+                  html="<li class='list-group-item list-group-item-success' style='color:rgb(51, 51, 51)''>";
                 else
                   html="<li id='"+idx+"' class='list-group-item' style='display:none' >";
                 html+="<div class='lititle'>"
@@ -165,10 +174,10 @@
 
               if(elem.prop("nodeName") === 'func'){
                    
-                   names.push({ label:elem.find('name').text() , category:"func", id: idx});
+                   names.push({ label:elem.find('> name').text() , category:"func", id: idx});
 
-                   string+="<span style='color:#900000'>function " +elem.find('type').text()+"</span>";
-                   string+="<span style='margin-left:5px'>"+elem.find('name').text()+"</span>";
+                   string+="<span style='color:#900000'><strong>function</strong> " +elem.find('> type').text()+"</span>";
+                   string+="<span style='margin-left:5px'>"+elem.find('> name').text()+"</span>";
               }
               if(elem.prop("nodeName") === 'comment'){
                    
@@ -200,8 +209,8 @@
               }
               string+='</dt>';
               string+='<dd style="margin-left:20px">';
-              if(elem.find('comment').length>0)
-                string+= elem.find('comment').text();
+              if(elem.find('>comment').length>0 && !(elem.prop("nodeName") === 'struct' | elem.prop("nodeName") === 'class'))
+                string+= elem.find('>comment').text();
 
                  if(elem.prop("nodeName") === 'enum'){
                     string+="<ul>";
@@ -220,15 +229,16 @@
                   });
                    }
                   if(elem.prop("nodeName") === 'func'){
+                    if(elem.find('var').length){
                     string+="<p style='font-weight:bold'>Parameters</p>";
                     string+="<dl>";
-                     elem.children('parameters').each(function () {
+                     elem.find('parameters').children().each(function () {
                        string+="<dt>";
-                       string+="<span style='color:#900000'>"+elem.find('type').text()+"</span>";
-                      string+="<span style='margin-left:5px'>"+elem.find('name').text()+"</span>";                       string+="</dt>";
-                       string+="<dd style='margin-left:20px'>";
-
-                       if($(this).find('comment').length>0)
+                       string+="<span style='color:#900000'>"+$(this).find('type').text()+"</span>";
+                      string+="<span style='margin-left:5px'>"+$(this).find('name').text()+"</span>";                       
+                      string+="</dt>";
+                      string+="<dd style='margin-left:20px'>";
+                    if($(this).find('comment').length>0)
                           string+= $(this).find('comment').text();
                        string+="</dd>";
                        
@@ -236,6 +246,7 @@
                   });
 
                      string+="</dl>";
+                   }
                  }
 
               string+='</dd>';

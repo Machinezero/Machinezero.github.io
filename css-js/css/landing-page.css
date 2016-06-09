@@ -66,7 +66,7 @@ blockquote p {
         inset 0 0 5px rgba(53,86,129, 0.5),
         inset -285px 0 35px white;
     border-radius: 0 10px 0 10px;
-    background: #fff url(../img/voxel.gif) no-repeat center left;
+    background: #fff url(../../img/voxel.gif) no-repeat center left;
 }
 
 .codeClass {
@@ -209,7 +209,7 @@ blockquote p {
     padding-bottom: 100px;
     text-align: center;
     color: #f8f8f8;
-    background: url(../img/VXGI.jpg) no-repeat center center;
+    background: url(../../img/VXGI.jpg) no-repeat center center;
     background-size: cover;
 }
 
@@ -290,7 +290,7 @@ blockquote p {
 .banner {
     padding: 100px 0;
     color: #f8f8f8;
-    background: url(../img/VXGI.jpg) no-repeat center center;
+    background: url(../../img/VXGI.jpg) no-repeat center center;
     background-size: cover;
 }
 

@@ -1,26 +1,0 @@
-<html>
-  	<head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChartq11);
-      function drawChartq11() {
-
-        var q11 = google.visualization.arrayToDataTable([
-          ['Answer', 'Count'],
-          ['',1],['',28],['I think that fountain's shadows have more detail.',1]
-        ]);
-
-        var options = {
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechartq11'));
-
-        chart.draw(q11, options);
-      }
-    </script>
-	  </head>
-	  <body>
-	    <div id="piechartq11" style="width: 900px; height: 500px;"></div>
-	  </body>
-	</html>
