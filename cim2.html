@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+    <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css-js/css/landing-page.css" rel="stylesheet">
+
+    <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="css-js/js/jquery.js"></script>
+    <script src="css-js/fullScreen/jqueryFull.js"></script>
+    <script src="css-js/js/bootstrap.min.js"></script>
+
+    
+
+
+    <link href="css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="css-js/fullScreen/fullScreen.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+</head>
+
+<body>
+<h3>Quiz 2</h3>
+<h3 style="color:red">INFO:Click on the images for fullscreen</h3>
+    <hr/>
+    <h2>First Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 1" href="img/quiz2/TEST 1/16_Cones_WithConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 1/16_Cones_WithConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 2" href="img/quiz2/TEST 1/64_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 1/64_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 3" href="img/quiz2/TEST 1/8_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 1/8_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 1</i></td>
+            <td align="center"><i class="legend">Figure 2</i></td>
+            <td align="center"><i class="legend">Figure 3</i></td>
+        </tr>
+    </table>
+
+    <hr/>
+    <h2>Second Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 4" href="img/quiz2/TEST 2/16_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 2/16_Cones_WithConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 5" href="img/quiz2/TEST 2/32_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 2/32_Cones_WithConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 6" href="img/quiz2/TEST 2/64_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 2/64_Cones_WithConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 4</i></td>
+            <td align="center"><i class="legend">Figure 5</i></td>
+            <td align="center"><i class="legend">Figure 6</i></td>
+        </tr>
+    </table>
+
+    <hr/>
+    <h2>Third Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 7" href="img/quiz2/TEST 3/32_Cones_NoConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 3/32_Cones_NoConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 8" href="img/quiz2/TEST 3/64_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 3/64_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 9" href="img/quiz2/TEST 3/64_Cones_WithConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 3/64_Cones_WithConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 7</i></td>
+            <td align="center"><i class="legend">Figure 8</i></td>
+            <td align="center"><i class="legend">Figure 9</i></td>
+        </tr>
+    </table>
+
+    <hr/>
+    <h2>Fourth Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 10" href="img/quiz2/TEST 4/16_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 4/16_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 11" href="img/quiz2/TEST 4/8_Cones_NoConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 4/8_Cones_NoConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 12" href="img/quiz2/TEST 4/8_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 4/8_Cones_WithConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 10</i></td>
+            <td align="center"><i class="legend">Figure 11</i></td>
+            <td align="center"><i class="legend">Figure 12</i></td>
+        </tr>
+    </table>
+
+    <hr/>
+    <h2>Fifth Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 13" href="img/quiz2/TEST 5/32_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 5/32_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 14" href="img/quiz2/TEST 5/32_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 5/32_Cones_WithConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 15" href="img/quiz2/TEST 5/8_Cones_NoConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 5/8_Cones_NoConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 13</i></td>
+            <td align="center"><i class="legend">Figure 14</i></td>
+            <td align="center"><i class="legend">Figure 15</i></td>
+        </tr>
+    </table>
+
+     <hr/>
+    <h2>Sixth Choice</h2>
+        <hr/>
+
+    <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 16" href="img/quiz2/TEST 6/32_Cones_NoConeRotation_Sparsity_1.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 6/32_Cones_NoConeRotation_Sparsity_1.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 17" href="img/quiz2/TEST 6/32_Cones_NoConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 6/32_Cones_NoConeRotation_Sparsity_4.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 18" href="img/quiz2/TEST 6/64_Cones_WithConeRotation_Sparsity_4.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz2/TEST 6/64_Cones_WithConeRotation_Sparsity_4.jpg">
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 16</i></td>
+            <td align="center"><i class="legend">Figure 17</i></td>
+            <td align="center"><i class="legend">Figure 18</i></td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+</body>
+
+</html>

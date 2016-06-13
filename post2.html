@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+    <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css-js/css/landing-page.css" rel="stylesheet">
+
+    <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="css-js/js/jquery.js"></script>
+    <script src="css-js/fullScreen/jqueryFull.js"></script>
+    <script src="css-js/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+    <script type="text/javascript" src="css-js/syntaxhighlighter_3.0.83/scripts/shBrushCpp.js"></script>
+    <link type="text/css" rel="stylesheet" href="css-js/syntaxhighlighter_3.0.83/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+    <link href="css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="css-js/fullScreen/fullScreen.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>VXGI</h1>
+                        <h3>Voxel Global Illumination</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a id="alud"  class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i><span class="network-name">&nbsp;&nbsp;Fábio Dias</span> </span><span class="network-name email" style="display:none">a64330@alunos.uminho.pt</span></a>
+                                
+                            </li>
+                            <li>
+                                <a id="H" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Helder Novais</span></span><span class="network-name email" style="display:none" >a64378@alunos.uminho.pt</span></a>
+                            </li>
+                            <li>
+                                <a id="P" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Pedro Carvalho</span></span><span class="network-name email" style="display:none" >a64367@alunos.uminho.pt</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="articlePost">
+        <div class="row">
+
+            <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="c"></a>
+                <h1 class="articleTitle">VXGI steps.</h1>
+
+                <p>You can download a demo without VXGI <a href="Download/GFSDK_VXGI_r0_9_19557187_novxgi.zip" download>here</a>, and follow the steps bellow to achieve global illumination in DirectX environment.</p>
+
+                <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Creating the VXGI Object</h2>
+
+                <div id="steps1" style="font-size:12px">
+
+<pre class="brush: cpp;" >
+HRESULT CreateVXGIObject()
+{
+    VXGI::GIParameters params;
+    params.rendererInterface = g_pSceneRenderer->GetRendererInterface();
+    params.errorCallback = g_pSceneRenderer;
+    params.shaderType = VXGI::GIParameters::ST_D3D_BYTECODE_SM50;
+    params.d3dCompilerDLLName = "d3dcompiler_47.dll";
+
+    params.voxelizationParamters.opacityDirectionCount = VXGI::OpacityDirections::SIX_DIMENSIONAL;
+    params.voxelizationParamters.emittanceDirectionCount = VXGI::EmittanceDirections::SIX_DIMENSIONAL;
+    params.voxelizationParamters.mapSize = 128;
+    
+    // Disable scatter light injection because we're using light voxelization here
+    params.voxelizationParamters.maxScatterIterations = 0;
+
+    if(VXGI_FAILED(VFX_VXGI_CreateGIObject(params, &g_pGI)))
+    {
+        MessageBoxA(g_DeviceManager->GetHWND(), "Failed to create a VXGI object.", "VXGI Sample", MB_ICONERROR);
+        return E_FAIL;
+    }
+
+    if(VXGI_FAILED(g_pGI->createNewTracer(&g_pGITracer)))
+    {
+        MessageBoxA(g_DeviceManager->GetHWND(), "Failed to create a VXGI tracer.", "VXGI Sample", MB_ICONERROR);
+        return E_FAIL;
+    }
+
+    return S_OK;
+}
+</pre>
+                    
+                </div>
+
+
+                <h2 class="articleSubTitle" onclick="hide('steps2')"> STEP 2 - Creating the Geometry and Pixel Voxelization Shaders</h2>
+
+                <div id="steps2" style="display:none">
+
+
+                </div>
+
+                <h2 class="articleSubTitle" onclick="hide('steps3')"> STEP 3 - Scene Voxelization</h2>
+
+                <div id="steps3" style="display:none">
+
+                </div>
+
+                <h2 class="articleSubTitle" onclick="hide('steps4')"> STEP 4 - Cone Tracing</h2>
+
+                <div id="steps4" style="display:none">
+
+                </div>
+            </div>
+            
+        </div>
+
+        <br/>
+
+        <div id="btnDown" style="margin-right:219px">
+            <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+        </div>
+    </div>
+
+    <br><br><hr><br><br>
+
+    
+    <div class="banner">
+        
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="text-align:center">VXGI : Voxel Global Illumination</h2>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="copyright text-muted small">Universidade do Minho, Projecto Integrado - VXGI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

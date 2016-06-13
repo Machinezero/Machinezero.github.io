@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css-js/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="css-js/js/jquery.js"></script>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="css-js/js/amcharts.js"> </script>
+    <script src="css-js/js/serial.js"> </script>
+    <script src="css-js/js/dark.js"> </script>
+
+    <script type="text/javascript">
+     google.charts.load('current', {'packages':['corechart']});
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+<script src="css-js/js/answers/bias/gamer/q1.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q2.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q3.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q4.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q5.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q6.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q7.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q8.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q9.js"> </script>
+<script src="css-js/js/answers/bias/gamer/q10.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q1.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q2.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q3.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q4.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q5.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q6.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q7.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q8.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q9.js"> </script>
+<script src="css-js/js/answers/bias/nongamer/q10.js"> </script>
+<script src="css-js/js/answers/nonbias/q0.js"> </script>
+<script src="css-js/js/answers/nonbias/q1.js"> </script>
+<script src="css-js/js/answers/nonbias/q2.js"> </script>
+<script src="css-js/js/answers/nonbias/q3.js"> </script>
+<script src="css-js/js/answers/nonbias/q4.js"> </script>
+<script src="css-js/js/answers/nonbias/q5.js"> </script>
+<script src="css-js/js/answers/nonbias/q6.js"> </script>
+<script src="css-js/js/answers/nonbias/q7.js"> </script>
+<script src="css-js/js/answers/nonbias/q8.js"> </script>
+<script src="css-js/js/answers/nonbias/q9.js"> </script>
+<script src="css-js/js/answers/nonbias/q10.js"> </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>VXGI</h1>
+                        <h3>Voxel Global Illumination</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a id="alud"  class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i><span class="network-name">&nbsp;&nbsp;Fábio Dias</span> </span><span class="network-name email" style="display:none">a64330@alunos.uminho.pt</span></a>
+                                
+                            </li>
+                            <li>
+                                <a id="H" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Helder Novais</span></span><span class="network-name email" style="display:none" >a64378@alunos.uminho.pt</span></a>
+                            </li>
+                            <li>
+                                <a id="P" class="btn btn-default btn-lg emailAlu"><span class="name"><i class="fa fa-google"></i> <span class="network-name">&nbsp;&nbsp;Pedro Carvalho</span></span><span class="network-name email" style="display:none" >a64367@alunos.uminho.pt</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+
+    <!-- Post Content -->
+    <div class="articlePost">
+        <div class="row">
+            <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 row" style="display:none">
+                <a name="a"></a>
+                <h1 class="articleTitle">Quiz</h1>
+                <p><a href="cim.html">Quiz images</a></p>
+<h2 class="articleSubTitle" onclick="hide('div0')">Do you consider yourself a gamer or somewhat aware of modern real time graphics?</h2><div id="div0" class="container"><div class="row"><div><div id="piechartNoneq0"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div1')">Question 1</h2><div id="div1" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq1"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq1"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq1"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div2')">Question 2</h2><div id="div2" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq2"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq2"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq2"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div3')">Question 3</h2><div id="div3" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq3"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq3"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq3"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div4')">Question 4</h2><div id="div4" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq4"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq4"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq4"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div5')">Question 5</h2><div id="div5" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq5"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq5"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq5"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div6')">Question 6</h2><div id="div6" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq6"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq6"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq6"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div7')">Question 7</h2><div id="div7" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq7"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq7"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq7"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div8')">Question 8</h2><div id="div8" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq8"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq8"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq8"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div9')">Would you agree that the most realistic figures in terms of lighting are up to date (modern)?</h2><div id="div9" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq9"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq9"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq9"></div></div></div></div>
+<h2 class="articleSubTitle" onclick="hide('div10')">Choose the best looking figure for each scene. In terms of lighting, reflections and shadows, do you consider that the two scenes used have equivalent detail?</h2><div id="div10" class="container"><div class="row"><div class="col-xs-3"><h3 style="text-align: center;">All</h3><div id="piechartNoneq10"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Non-Gamers</h3><div id="piechartNoq10"></div></div><div class="col-xs-3"><h3 style="text-align: center;">Gamers</h3><div id="piechartYesq10"></div></div></div></div>
+
+	</div>
+
+        </div>
+        <br/>
+
+        <div id="btnDown" style="margin-right:219px">
+            <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
+        </div>
+    </div>
+
+    <br><br><hr><br><br>
+
+    
+    
+    <div class="banner">
+        
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="text-align:center">VXGI : Voxel Global Illumination</h2>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="copyright text-muted small">Universidade do Minho, Projecto Integrado - VXGI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
