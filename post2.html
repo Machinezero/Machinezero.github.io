@@ -11,7 +11,9 @@
 
     <title>VXGI - Voxel Global Illumination</title>
 
-    <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css-js/syntaxhighlighter_3.0.83/styles/shCoreMidnight.css"/>
+
+    <link href="css-js/css/bootstrap2.css" rel="stylesheet">
 
     <link href="css-js/css/landing-page.css" rel="stylesheet">
 
@@ -24,7 +26,6 @@
 
     <script type="text/javascript" src="css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
     <script type="text/javascript" src="css-js/syntaxhighlighter_3.0.83/scripts/shBrushCpp.js"></script>
-    <link type="text/css" rel="stylesheet" href="css-js/syntaxhighlighter_3.0.83/styles/shCoreDefault.css"/>
     <script type="text/javascript">SyntaxHighlighter.all();</script>
 
 
@@ -107,9 +108,68 @@
 
                 <p>You can download a demo without VXGI <a href="Download/GFSDK_VXGI_r0_9_19557187_novxgi.zip" download>here</a>, and follow the steps bellow to achieve global illumination in DirectX environment.</p>
 
+                <p>The demo provided displays the known Sponza scene using RSM (Reflective Shadow Maps) with DirectX.</p>
+
                 <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Creating the VXGI Object</h2>
 
-                <div id="steps1" style="font-size:12px">
+
+                <div id="steps1" >
+                The first step in implementing VXGI is creating the main Object, and define some initial parameters. So lets create a function called <b>CreateVXGIObject</b> in Main.cpp:
+<div style="font-size:14px">
+<pre class="brush: cpp;" >
+HRESULT CreateVXGIObject()
+{
+    //Everything in this chapter will be placed here.
+}
+
+</pre></div>
+
+    The <b>HRESULT</b> either returns an ok or a fail signal. We now have to declare some initial paramaters. For that purpose, a <b>VXGI::GIParameters</b> object is created. Like so:
+<div style="font-size:14px">
+<pre class="brush: cpp;" >
+    VXGI::GIParameters params;
+    params.rendererInterface = g_pSceneRenderer->GetRendererInterface(); // assigning the scene Renderer
+    params.errorCallback = g_pSceneRenderer;
+    params.shaderType = VXGI::GIParameters::ST_D3D_BYTECODE_SM50; //declaring the shader type
+    params.d3dCompilerDLLName = "d3dcompiler_47.dll"; //direct3d compiler
+    </pre></div>
+
+    We also need to declare some parameters concerning the ilumination algorithm, like the number of directions (3 or 6) related to the voxelization  algorithm, the size of the clipmap that will be used to store the voxels, etc. An example:
+     <div style="font-size:14px">
+<pre class="brush: cpp;" >
+    params.voxelizationParamters.opacityDirectionCount = VXGI::OpacityDirections::SIX_DIMENSIONAL;
+    params.voxelizationParamters.emittanceDirectionCount = VXGI::EmittanceDirections::SIX_DIMENSIONAL;
+    params.voxelizationParamters.mapSize = 128;
+
+    // Disable scatter light injection because we're using light voxelization here
+    params.voxelizationParamters.maxScatterIterations = 0;
+    </pre></div>
+
+    For the next step, we need to define our main VXGI object as <b>VXGI::IGlobalIllumination*      g_pGI = NULL;</b> as a global variable (a the top of Main.cpp). Then we initialize that object with the parameters we declared before. If it fails to do so, an error message is returned.
+    <div style="font-size:12px">
+
+<pre class="brush: cpp;" >
+    if(VXGI_FAILED(VFX_VXGI_CreateGIObject(params, &g_pGI)))
+    {
+        MessageBoxA(g_DeviceManager->GetHWND(), "Failed to create a VXGI object.", "VXGI Sample", MB_ICONERROR);
+        return E_FAIL;
+    }
+    </pre></div>
+    We have to follow the same metodology as before for the VXGI tracer. So, we define it as a global variable (<b>VXGI::IViewTracer*              g_pGITracer = NULL;
+</b>) and we then create it, testing whether it failed or not:
+<div style="font-size:12px">
+
+<pre class="brush: cpp;" >
+if(VXGI_FAILED(g_pGI->createNewTracer(&g_pGITracer)))
+    {
+        MessageBoxA(g_DeviceManager->GetHWND(), "Failed to create a VXGI tracer.", "VXGI Sample", MB_ICONERROR);
+        return E_FAIL;
+    }
+    </pre></div>
+
+               All put together, this is what the function looks like:
+
+               <div style="font-size:12px">
 
 <pre class="brush: cpp;" >
 HRESULT CreateVXGIObject()
@@ -141,8 +201,21 @@ HRESULT CreateVXGIObject()
 
     return S_OK;
 }
-</pre>
-                    
+    </pre></div> 
+
+    In our <b>MainVisualController</b> class, int the <b>DeviceCreated</b> method, we can now call this function to create the VXGI object, after creating the scene renderer:
+    <div style="font-size:12px">
+
+<pre class="brush: cpp;" >
+    ID3D11DeviceContext* pImmediateContext;
+    pDevice->GetImmediateContext(&pImmediateContext);
+
+    g_pSceneRenderer = new SceneRenderer(pImmediateContext);
+
+    V_RETURN(CreateVXGIObject());
+
+    //(...)
+    </pre></div>  
                 </div>
 
 
