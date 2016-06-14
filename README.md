@@ -1,26 +1,23 @@
-# [Start Bootstrap](http://startbootstrap.com/) - [Landing Page](http://startbootstrap.com/template-overviews/landing-page/)
+# [VXGI](https://developer.nvidia.com/vxgi) - Voxel Global Ilumination
 
-[Landing Page](http://startbootstrap.com/template-overviews/landing-page/) is a multipurpose landing page template for [Bootstrap](http://getbootstrap.com/) created by [Start Bootstrap](http://startbootstrap.com/).
+[VXGI](https://developer.nvidia.com/vxgi) is a new way, developed by NVIDIA, to simulate Global Illumination. This implementation converts the 3D scene into voxels.
 
-## Getting Started
-
-To use this template, choose one of the following options to get started:
-* Download the latest release on Start Bootstrap
-* Fork this repository on GitHub
-
-## Bugs and Issues
-
-Have a bug or an issue with this template? [Open a new issue](https://github.com/IronSummitMedia/startbootstrap-landing-page/issues) here on GitHub or leave a comment on the [template overview page at Start Bootstrap](http://startbootstrap.com/template-overviews/landing-page/).
+[Here](http://machinezero.github.io/) you can learn everything about [Voxel Global Ilumination](https://developer.nvidia.com/vxgi)
 
 ## Creator
 
-Start Bootstrap was created by and is maintained by **David Miller**, Managing Parter at [Iron Summit Media Strategies](http://www.ironsummitmedia.com/).
+This repository was created and maintained by:
 
-* https://twitter.com/davidmillerskt
-* https://github.com/davidtmiller
+* Fábio Dias
+* Helder Novais
+* Pedro Carvalho
 
-Start Bootstrap is based on the [Bootstrap](http://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
+Students of [University of Minho](https://www.uminho.pt/EN).
+
+## Objectives
+
+
 
 ## Copyright and License
 
-Copyright 2013-2015 Iron Summit Media Strategies, LLC. Code released under the [Apache 2.0](https://github.com/IronSummitMedia/startbootstrap-landing-page/blob/gh-pages/LICENSE) license.
+The application was improved using NVIDIA [demo](https://developer.nvidia.com/gameworksdownload#?dn=nvidia-vxgi-0-9)
