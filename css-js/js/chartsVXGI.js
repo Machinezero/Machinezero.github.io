@@ -1130,4 +1130,202 @@ $(function(){
             ]
         }
     );
+    AmCharts.makeChart("sponzaD3",
+        {
+            "type": "serial",
+            "categoryField": "category",
+            "startDuration": 1,
+            "theme": "dark",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelOffset": 1,
+                "title": "Clipmap Size"
+            },
+            "trendLines": [],
+            "graphs": [
+                {
+                    "alphaField": "R",
+                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "bullet": "round",
+                    "bulletField": "R",
+                    "bulletSizeField": "R",
+                    "closeField": "R",
+                    "colorField": "R",
+                    "customBulletField": "R",
+                    "customMarker": "",
+                    "dashLengthField": "R",
+                    "descriptionField": "R",
+                    "errorField": "R",
+                    "fillColorsField": "R",
+                    "gapField": "R",
+                    "highField": "R",
+                    "id": "AmGraph-1",
+                    "labelColorField": "R",
+                    "lineColorField": "R",
+                    "lowField": "R",
+                    "openField": "R",
+                    "patternField": "R",
+                    "title": "Graphics Card Dedicated Memory",
+                    "valueField": "Graphics Card",
+                    "xField": "R",
+                    "yField": "R"
+                },
+                {
+                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "bullet": "square",
+                    "id": "AmGraph-2",
+                    "title": "Random-Access Memory (RAM)",
+                    "valueField": "RAM"
+                }
+            ],
+            "guides": [],
+            "valueAxes": [
+                {
+                    "id": "ValueAxis-1",
+                    "title": "Memory Used (MBs)"
+                }
+            ],
+            "allLabels": [],
+            "balloon": {},
+            "legend": {
+                "enabled": true,
+                "labelWidth": 0,
+                "rollOverGraphAlpha": 0,
+                "useGraphSettings": true
+            },
+            "titles": [
+                {
+                    "id": "Title-1",
+                    "size": 15,
+                    "text": "Sponza - 3 Voxel Directions"
+                }
+            ],
+            "dataProvider": [
+                {
+                    "category": "16 (66 FPS)",
+                    "Graphics Card": "430",
+                    "RAM": "11"
+                },
+                {
+                    "category": "32 (65 FPS)",
+                    "Graphics Card": "433",
+                    "RAM": "11"
+                },
+                {
+                    "category": "64 (61 FPS)",
+                    "Graphics Card": "473",
+                    "RAM": "14"
+                },
+                {
+                    "category": "128 (58 FPS)",
+                    "Graphics Card": "754",
+                    "RAM": "11"
+                },
+                {
+                    "category": "256 (55 FPS)",
+                    "Graphics Card": "1544",
+                    "RAM": "666"
+                }
+            ]
+        }
+    );
+    AmCharts.makeChart("sponzaD6",
+        {
+            "type": "serial",
+            "categoryField": "category",
+            "startDuration": 1,
+            "theme": "dark",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelOffset": 1,
+                "title": "Clipmap Size"
+            },
+            "trendLines": [],
+            "graphs": [
+                {
+                    "alphaField": "R",
+                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "bullet": "round",
+                    "bulletField": "R",
+                    "bulletSizeField": "R",
+                    "closeField": "R",
+                    "colorField": "R",
+                    "customBulletField": "R",
+                    "customMarker": "",
+                    "dashLengthField": "R",
+                    "descriptionField": "R",
+                    "errorField": "R",
+                    "fillColorsField": "R",
+                    "gapField": "R",
+                    "highField": "R",
+                    "id": "AmGraph-1",
+                    "labelColorField": "R",
+                    "lineColorField": "R",
+                    "lowField": "R",
+                    "openField": "R",
+                    "patternField": "R",
+                    "title": "Graphics Card Dedicated Memory",
+                    "valueField": "Graphics Card",
+                    "xField": "R",
+                    "yField": "R"
+                },
+                {
+                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "bullet": "square",
+                    "id": "AmGraph-2",
+                    "title": "Random-Access Memory (RAM)",
+                    "valueField": "RAM"
+                }
+            ],
+            "guides": [],
+            "valueAxes": [
+                {
+                    "id": "ValueAxis-1",
+                    "title": "Memory Used (MBs)"
+                }
+            ],
+            "allLabels": [],
+            "balloon": {},
+            "legend": {
+                "enabled": true,
+                "labelWidth": 0,
+                "rollOverGraphAlpha": 0,
+                "useGraphSettings": true
+            },
+            "titles": [
+                {
+                    "id": "Title-1",
+                    "size": 15,
+                    "text": "Sponza - 6 Voxel Directions"
+                }
+            ],
+            "dataProvider": [
+                {
+                    "category": "16 (66 FPS)",
+                    "Graphics Card": "430",
+                    "RAM": "11"
+                },
+                {
+                    "category": "32 (63 FPS)",
+                    "Graphics Card": "435",
+                    "RAM": "13"
+                },
+                {
+                    "category": "64 (59 FPS)",
+                    "Graphics Card": "502",
+                    "RAM": "12"
+                },
+                {
+                    "category": "128 (55 FPS)",
+                    "Graphics Card": "972",
+                    "RAM": "10"
+                },
+                {
+                    "category": "256 (45 FPS)",
+                    "Graphics Card": "1843",
+                    "RAM": "2124"
+                }
+            ]
+        }
+    );
 });
