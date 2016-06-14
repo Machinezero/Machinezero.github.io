@@ -20,12 +20,27 @@
     <!-- Custom Fonts -->
     <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+    <link href="css-js/css/table.css" rel="stylesheet">
 
     <script src="css-js/js/jquery.js"></script>
 
     <script src="css-js/js/amcharts.js"> </script>
     <script src="css-js/js/serial.js"> </script>
     <script src="css-js/js/dark.js"> </script>
+    <script src="css-js/js/chartsVXGI.js"> </script>
+
+    <script>
+    function showStuff(id1,id2){
+        if(document.getElementById(id2).style.display == "none"){
+            $('#'+id1).hide();
+            $('#'+id2).show();
+        }
+        else{
+            $('#'+id1).show();
+            $('#'+id2).hide();
+        }
+    }
+</script>
 
     <script type="text/javascript">
     $(document).ready(function(){
@@ -59,604 +74,6 @@
         $("div " + hash).fadeIn(2000);
     });
     </script>
-
-
-    <!-- amCharts javascript code -->
-        <script type="text/javascript">
-            AmCharts.makeChart("camera",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Camera",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Camera",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "ValueAxis-1",
-                            "title": "Frames per Second (FPS)"
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "Static vs Dynamic Camera (without VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "100",
-                            "column-2": "100"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "column-1": "71",
-                            "column-2": "70"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "19",
-                            "column-2": "19"
-                        }
-                    ]
-                }
-            );
-        </script>
-
-        <!-- amCharts javascript code -->
-        <script type="text/javascript">
-            AmCharts.makeChart("cameravxgi",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Camera",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Camera",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "ValueAxis-1",
-                            "title": "Frames per Second (FPS)",
-                            "minimum": 0
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "Static vs Dynamic Camera (with VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "54",
-                            "column-2": "47"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "column-1": "51",
-                            "column-2": "40"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "18",
-                            "column-2": "12"
-                        }
-                    ]
-                }
-            );
-        </script>
-
-        <script type="text/javascript">
-            AmCharts.makeChart("speedupcam",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Camera",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Camera",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "ValueAxis-1",
-                            "title": "Speedup (%)",
-                            "minimum": 0
-
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "SpeedUp Camera Benchmark (With VXGI vs Without VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "0.54",
-                            "column-2": "0.47"
-                        },
-                        {
-                            "category": "Ponte Lima 3D",
-                            "column-1": "0.719",
-                            "column-2": "0.571"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "0.947",
-                            "column-2": "0.632"
-                        }
-                    ]
-                }
-            );
-        </script>
-        <script type="text/javascript">
-            AmCharts.makeChart("light",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Light",
-                            "type": "column",
-                            "valueField": "static"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Light",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-1",
-                            "valueField": "dynamic"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "FPS",
-                            "title": "Frames per Second (FPS)",
-                            "minimum": 0
-                        },
-                        {
-                            "id": "ValueAxis-2",
-                            "position": "right",
-                            "gridAlpha": 0,
-                            "title": "Axis title"
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Light",
-                            "size": 15,
-                            "text": "Dynamic vs Static Light  (without VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "static": "100",
-                            "dynamic": "98"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "static": "70",
-                            "dynamic": "68"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "static": "20",
-                            "dynamic": "19"
-                        }
-                    ]
-                }
-            );
-        </script>
-
-        <script type="text/javascript">
-            AmCharts.makeChart("lightvxgi",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Light",
-                            "type": "column",
-                            "valueField": "static"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Light",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-1",
-                            "valueField": "dynamic"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "FPS",
-                            "title": "Frames per Second (FPS)",
-                            "minimum": 0                            
-                        },
-                        {
-                            "id": "ValueAxis-2",
-                            "position": "right",
-                            "gridAlpha": 0,
-                            "title": "Axis title"
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Light",
-                            "size": 15,
-                            "text": "Dynamic vs Static Light  (with VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "static": "54",
-                            "dynamic": "35"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "static": "51",
-                            "dynamic": "23"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "static": "17",
-                            "dynamic": "6"
-                        }
-                    ]
-                }
-            );
-        </script>
-
-        <script type="text/javascript">
-            AmCharts.makeChart("speeduplight",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "Static Light",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Dynamic Light",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "id": "ValueAxis-1",
-                            "title": "Speedup (%)",
-                            "minimum": 0
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "SpeedUp Light Benchmark (With VXGI vs Without VXGI)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "0.54",
-                            "column-2": "0.357"
-                        },
-                        {
-                            "category": "Ponte Lima 3D",
-                            "column-1": "0.729",
-                            "column-2": "0.338"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "0.85",
-                            "column-2": "0.316"
-                        }
-                    ]
-                }
-            );
-        </script>
-
-        <!-- amCharts javascript code -->
-        <script type="text/javascript">
-            AmCharts.makeChart("sl",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "With VXGI",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Without VXGI",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "axisFrequency": 0,
-                            "axisTitleOffset": 0,
-                            "id": "ValueAxis-1",
-                            "maximum": 1,
-                            "minimum": 0,
-                            "title": "Speedup (%)",
-                            "titleFontSize": 12
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "Camera Speedup (Dynamic/Static)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "0.87",
-                            "column-2": "1"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "column-1": "0.784",
-                            "column-2": "0.99"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "0.667",
-                            "column-2": "1"
-                        }
-                    ]
-                }
-            );
-        </script>
-        <script type="text/javascript">
-            AmCharts.makeChart("spl",
-                {
-                    "type": "serial",
-                    "categoryField": "category",
-                    "startDuration": 1,
-                    "theme": "dark",
-                    "categoryAxis": {
-                        "gridPosition": "start"
-                    },
-                    "trendLines": [],
-                    "graphs": [
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-1",
-                            "title": "With VXGI",
-                            "type": "column",
-                            "valueField": "column-1"
-                        },
-                        {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
-                            "fillAlphas": 1,
-                            "id": "AmGraph-2",
-                            "title": "Without VXGI",
-                            "type": "column",
-                            "valueAxis": "ValueAxis-2",
-                            "valueField": "column-2"
-                        }
-                    ],
-                    "guides": [],
-                    "valueAxes": [
-                        {
-                            "axisFrequency": 0,
-                            "axisTitleOffset": 0,
-                            "id": "ValueAxis-1",
-                            "maximum": 1,
-                            "minimum": 0,
-                            "title": "Speedup (%)",
-                            "titleFontSize": 12
-                        }
-                    ],
-                    "allLabels": [],
-                    "balloon": {},
-                    "legend": {
-                        "enabled": true,
-                        "useGraphSettings": true
-                    },
-                    "titles": [
-                        {
-                            "id": "Title-1",
-                            "size": 15,
-                            "text": "Light Speedup (Dynamic/Static)"
-                        }
-                    ],
-                    "dataProvider": [
-                        {
-                            "category": "Sponza",
-                            "column-1": "0.648",
-                            "column-2": "0.98"
-                        },
-                        {
-                            "category": "Ponte de Lima 3D",
-                            "column-1": "0.45",
-                            "column-2": "0.97"
-                        },
-                        {
-                            "category": "Rungholt",
-                            "column-1": "0.353",
-                            "column-2": "0.95"
-                        }
-                    ]
-                }
-            );
-        </script>
 
 </head>
 
@@ -712,27 +129,27 @@
                 <p>There was a thought behind the scenes we used, like the number of triangles and the actual setting of the scene (outside or inside, extensity).</p>
                 <p>The number of triangles of the scenes can be seen below:</p>
                 <div class="row">
-    <div class="col-lg-8 col-lg-offset-3 text-center">
-                <table style="border:solid 1px black;">
-                     <tr style="border:solid 1px black;">
-                         <th style="border:solid 1px black;"> </th>
-                        <th style="border:solid 1px black;">Sponza</th>
-                        <th style="border:solid 1px black;">Ponte de Lima 3D</th>
-                        <th style="border:solid 1px black;">Rungholt</th>
-                      </tr>
-                      <tr style="border:solid 1px black;">
-                      <td style="border:solid 1px black;">Number of triangles</td>
-                        <td style="border:solid 1px black;">262,267</td>
-                        <td style="border:solid 1px black;">1,064,210</td>
-                        <td style="border:solid 1px black;">6,704,264 </td>
-                      </tr>
-                </table>
-            </div>
-        </div>
+                   <div>
+                        <table>
+                             <tr>
+                                 <th></th>
+                                <th>Sponza</th>
+                                <th><a href="http://www4.di.uminho.pt/pl3d/app.html">Ponte de Lima 3D</a></th>
+                                <th>Rungholt</th>
+                              </tr>
+                              <tr>
+                              <td>Number of triangles</td>
+                                <td>262,267</td>
+                                <td>1,064,210</td>
+                                <td>6,704,264 </td>
+                              </tr>
+                        </table>
+                    </div>
+                </div>
 
-    <hr/>
+                <hr/>
 
-    <p>The hardware used was a <b>Nvidia Geforce GTX 950m.</b></p>
+                <p>The hardware used was a <b>Nvidia Geforce GTX 950m.</b></p>
 
                 <h2 class="articleSubTitle" onclick="hide('op')"> Opacity Voxelization Performance Impact</h2>
                 <div id="op">
@@ -767,7 +184,7 @@
                 </p>
                 <p>From the right graph, we can conclude that the camera is less and less impactful on the performance for larger scenes. This is because, in larger scenes, the frames per second drop due to the dimension of the scene, so the camera performance impact is negligenciable.</p>
                 </div>
-             <h2 class="articleSubTitle" onclick="hide('ep')"> Emittance Voxelization Performance Impact</h2>
+            <h2 class="articleSubTitle" onclick="hide('ep')"> Emittance Voxelization Performance Impact</h2>
                 <div id="ep" style="display: none">
 
                 <p>To test the performance impact of light changes, we decided to compare dynamic and static light, with and withou VXGI. There is a very small impact without VXGI, which only makes more noticeable the impact on the measurements with VXGI. When the light changes position, the Emittance Map is thrown away, and a new one is calculated, which explains the slower performance.</p>
@@ -796,12 +213,308 @@
                 <p>For larger scenes, a dynamic light is gradually slower compared to a static one, but when comparing vxgi vs without vxgi, the performance impact gets more and more negligenciable, the larger the dimension of the scene.</p>
             </div>
 
+            <h2 class="articleSubTitle" onclick="hide('mem')">Memory Benchmark</h2>
+                <div id="mem" style="display: none">
+                    <h2 style="text-align:center">Sponza</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="5">Voxel Directions</th>
+                                <th>Clipmap Size</th>
+                                <th>Graphics Card Dedicated Memory (MB)</th>
+                                <th>RAM Memory (MB)</th>
+                                <th>FPS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl1">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>3<br/>
+                                        <a onclick="showStuff('tbl1','tbody1');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>430</td><td>11</td><td>66</td></tr>
+                                    <tr><td>32</td><td>433</td><td>11</td><td>65</td></tr>
+                                    <tr><td>64</td><td>473</td><td>14</td><td>61</td></tr>
+                                    <tr><td>128</td><td>754</td><td>11</td><td>58</td></tr>
+                                    <tr><td>256</td><td>1544</td><td>666</td><td>55</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="tbody1" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl1','tbody1');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="speeduplight1" style="width: 100%; height: 400px; background-color: #282828;"></div>
+                            </td>
+                            
+                        </tbody>
+
+                        <tbody id="tbl2">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>6<br/>
+                                        <a onclick="showStuff('tbl2','tbody2');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>430</td><td>11</td><td>66</td></tr>
+                                    <tr><td>32</td><td>435</td><td>13</td><td>63</td></tr>
+                                    <tr><td>64</td><td>502</td><td>12</td><td>59</td></tr>
+                                    <tr><td>128</td><td>972</td><td>10</td><td>55</td></tr>
+                                    <tr><td>256</td><td>1843</td><td>2124</td><td>45</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody id="tbody2" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl2','tbody2');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="speeduplight1" style="width: 100%; height: 400px; background-color: #282828;"></div>
+                            </td>
+                            
+                        </tbody>
+
+                    </table>
+
+                    <h2 style="text-align:center">Ponte de Lima</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="5">Voxel Directions</th>
+                                <th>Clipmap Size</th>
+                                <th>Graphics Card Dedicated Memory (MB)</th>
+                                <th>RAM Memory (MB)</th>
+                                <th>FPS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl3">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>3<br/>
+                                        <a onclick="showStuff('tbl3','tbody3');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>388</td><td>9</td><td>57</td></tr>
+                                    <tr><td>32</td><td>391</td><td>10</td><td>55</td></tr>
+                                    <tr><td>64</td><td>430</td><td>9</td><td>54</td></tr>
+                                    <tr><td>128</td><td>712</td><td>9</td><td>52</td></tr>
+                                    <tr><td>256</td><td>1611</td><td>667</td><td>51</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="tbody3" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl3','tbody3');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="chartPL_3D" style="width: 100%; height: 400px; background-color: #282828;"></div>
+                            </td>
+                            
+                        </tbody>
+
+                        <tbody id="tbl4">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>6<br/>
+                                        <a onclick="showStuff('tbl4','tbody4');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>388</td><td>9</td><td>56</td></tr>
+                                    <tr><td>32</td><td>393</td><td>9</td><td>54</td></tr>
+                                    <tr><td>64</td><td>461</td><td>9</td><td>53</td></tr>
+                                    <tr><td>128</td><td>928</td><td>10</td><td>50</td></tr>
+                                    <tr><td>256</td><td>1544</td><td>2084</td><td>46</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody id="tbody4" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl4','tbody4');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="chartPL_6D" style="width: 100%; height: 400px; background-color: #282828;"></div>
+                            </td>
+                            
+                        </tbody>
+
+                    </table>
+
+                    <h2 style="text-align:center">RUNGHOLT</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="5">Voxel Directions</th>
+                                <th>Clipmap Size</th>
+                                <th>Graphics Card Dedicated Memory (MB)</th>
+                                <th>RAM Memory (MB)</th>
+                                <th>FPS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl5">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>3<br/>
+                                        <a onclick="showStuff('tbl5','tbody5');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>967</td><td>7</td><td>19</td></tr>
+                                    <tr><td>32</td><td>970</td><td>7</td><td>19</td></tr>
+                                    <tr><td>64</td><td>1009</td><td>7</td><td>19</td></tr>
+                                    <tr><td>128</td><td>1291</td><td>7</td><td>18</td></tr>
+                                    <tr><td>256</td><td>1988</td><td>849</td><td>8</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="tbody5" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl5','tbody5');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="chartR_3D" style="width: 100%; height: 400px; background-color: #282828;"></div>
+                            </td>
+                            
+                        </tbody>
+
+                        <tbody id="tbl6">
+                            <tr>
+                                <td rowspan="6">
+                                    <strong>6<br/>
+                                        <a onclick="showStuff('tbl6','tbody6');">Graph</a>
+                                    </strong>
+                                    <tr><td>16</td><td>967</td><td>7</td><td>19</td></tr>
+                                    <tr><td>32</td><td>972</td><td>7</td><td>19</td></tr>
+                                    <tr><td>64</td><td>1037</td><td>8</td><td>19</td></tr>
+                                    <tr><td>128</td><td>1508</td><td>9</td><td>18</td></tr>
+                                    <tr><td>256</td><td>1936</td><td>2611</td><td>5</td></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody id="tbody6" style="display:none">
+                            
+                            <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl6','tbody6');">Table</a></strong></td>
+                            <td colspan="5">
+                                <div id="chartR_6D" style="width: 100%; height: 400px; background-color: #282828;"/>
+                            </td>
+                            
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <h2 class="articleSubTitle" onclick="hide('perfCone')">
+                    Performance of Cone Rotation and Sparsity
+                </h2>
+                <div id="perfCone" style="display: none">
+
+                    <h2 style="text-align:center;">Without Cone Rotation</h2>
+
+                    <div class="col-lg-5">
+                        <table style="width:100%; float: left;">
+                          <tr>
+                            <th>Number of Cones</th>
+                            <th>Sparsity</th>
+                            <th>Frames Per Second (FPS)</th>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">8</td>
+                            <td>1</td>
+                            <td>24</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>49</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">16</td>
+                            <td>1</td>
+                            <td>12</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>41</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">32</td>
+                            <td>1</td>
+                            <td>5</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>29</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">64</td>
+                            <td>1</td>
+                            <td>2</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>17</td>
+                          </tr>
+                        </table>  
+                    </div> 
+
+                    <div class="col-lg-7">
+                        <div id="chartCone_SEM" style="width: 100%; height: 400px; margin-top: 45px; background-color: #282828;"></div>
+                    </div> 
+
+                    <div class="col-lg-12">
+                        <h2 style="text-align:center;">With Cone Rotation</h2>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <table style="width:100%; float: left;">
+                          <tr>
+                            <th>Number of Cones</th>
+                            <th>Sparsity</th>
+                            <th>Frames Per Second (FPS)</th>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">8</td>
+                            <td>1</td>
+                            <td>24</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>45</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">16</td>
+                            <td>1</td>
+                            <td>12</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>37</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">32</td>
+                            <td>1</td>
+                            <td>5</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>26</td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2">64</td>
+                            <td>1</td>
+                            <td>2</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>15</td>
+                          </tr>
+                        </table>  
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div id="chartCone_COM" style="width: 100%; height: 400px; margin-top: 45px; background-color: #282828;"></div>
+                    </div> 
+
+                </div>
 
             </div>
-
         </div>
-
-        <br/>
 
         <div id="btnDown" style="margin-right:219px">
             <a class="btn btn-primary btn-lg gradient" style="float:right" href="index.html"><i style="padding-right:12px; padding-left:12px" class="fa fa-arrow-circle-left">&nbsp;&nbsp;back</i></a>
