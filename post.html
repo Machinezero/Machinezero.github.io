@@ -115,6 +115,13 @@
                 <p>A clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
+            </div>
+
+            <div id="b" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+                <a name="b"></a>
+                <h1 class="articleTitle">How VXGI works?</h1>
+
+                <p>The main steps of the VXGI technique consists on the voxelization of the scene, encoding the opacity and emittance information in the clipmap and then is used the voxel cone tracing to compute the global illumination.</p>
 
                 <h2 class="articleSubTitle" onclick="hide('3dclip')">3D Clipmap</h2>
 
@@ -132,7 +139,7 @@
                     <p>Further is defined the <it>Clipmap Stack</it> that is the set of levels that have been clipped from ful mipmap-size by the limit established. The levels at the topmost in the figure below are not fully resident within the Clipmap; only a ClipSize subset is cached.</p>
                     <br>
 					<center>
-                    	<img class="img-responsive" src="img/Clipmap.png" alt="">Clipmap Stack and Pyramid Levels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a></i>
+                    	<img class="img-responsive" src="img/Clipmap.png" alt="">Clipmap Stack and Pyramid Levels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
 					</center>
 					<br>
 					<p>Below the Clipmap Stack is the Clipmap Pyramid, defined as the set of levels of sizes lower than the ClipSize limit. These levels are completely stored in texture memory and have the same spatial resolution of a full mipmap. </p>
@@ -140,29 +147,34 @@
                     <p>To prove the Clipmap storage efficiency lets consider a 13 level 4096<sup>2</sup> Clipmap to be rendered on a 1024<sup>2</sup> display. Given the display size, we know that the upper bound on texture usage from a single level is 2048<sup>2</sup>, so we must set the Clipsize to 2048. There will be one clipped level forming our Clipmap Stack and 12 levels in the Clipmap Pyramid. The storage required for this is 2048<sup>2</sup> texels * 1 level + 4/3 * 2048<sup>2</sup> for the pyramid = 18.7 MB at 2 bytes per texel. This clipmap configuration requires only 18.7 MB of the full 42.7 MB of a full mipmap. The bigger the size of the clipmap, the bigger is the difference of memory usage between the mipmap and Clipmap. This is essencial to store the textures on the graphics dedicated memory and avoid constant swaps with RAM. The table below shows the diferences.</p>
                     <br>
 					<center>
-                    	<img class="img-responsive" src="img/Clipmap_storage.png" alt="">Clipmap Storage. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a></i>
+                    	<img class="img-responsive" src="img/Clipmap_storage.png" alt="">Clipmap Storage. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
 					</center>
 					<br>
 					<p>The clipmap must however be updated when the camera moves in order to maintain all the information needed around the camera to render the current frame. In order to prevent having to update the clipmap completely each time the camera moves, it is possible to take advantage of the fact that usually only a small part of the clipmap needs to be updated (a great portion of the data is already present in the Clipmap since it was needed in the previous frame) (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). In order to update the Clipmap incrementally with the needed data, toroidal addressing is used (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>). Toroidal addressing is a method that guarantees that a point in space always maps to the same point in the texture as shown in the next image.</p>
 					<br>
                 	<center>
-                    	<img class="img-responsive" src="img/toroidal.png" alt="">Toroidal Addressing. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a></i>
+                    	<img class="img-responsive" src="img/toroidal.png" alt="">Toroidal Addressing. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
 					</center>
                 </div>
-            </div>
-
-            <div id="b" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
-                <a name="b"></a>
-                <h1 class="articleTitle">How VXGI works?</h1>
-
-                <p>The main steps of the VXGI technique consists on the voxelization of the scene, encoding the opacity and emittance information in the clipmap and then is used the voxel cone tracing to compute the global illumination.</p>
 
                 <h2 class="articleSubTitle" onclick="hide('opacity')">Opacity Voxelization</h2>
 
                 <div id="opacity">
                     <p>The first step of the VXGI algorithm is the opacity voxelization and downsampling (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>. In this step, the scene geometry is converted to a map which encodes the opacity of space with voxels. If a cube matches a complete voxel, it will produce a fully opaque voxel. But after downsampling, the opacity is reduced to 50%. Each next level of downsampling reduces the previous level to half, like the textures in the mipmap.</p>
 
-                    <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization.</p>
+                    <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). However, the rasterization is performed in Multisample Anti Aliasing mode (MSAA) in order to produce multiple samples for the rasterized triangles.</p>
+                    <br>
+                    <center>
+                    	<img class="img-responsive" src="img/MSAA.png" width="50%" height="50%" alt="">Voxelization using MSAA. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> NVIDIA</a></i>
+					</center>
+					<br>
+					<p>Then the depth coordinate is computed for each sample and reprojected into the other two planes.</p>
+                    <br>
+                    <center>
+                    	<img class="img-responsive" src="img/MSAA2.png" width="50%" height="50%" alt="">Reprojection of the MSAA samples into the other two projection planes. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> NVIDIA</a></i>
+					</center>
+					<br>
+					<p>Finally, a bit count function is used in order to convert the coverage masks obtained by MSAA to an opacity value.</p>
                 </div>
 
 
@@ -182,8 +194,8 @@
                     <p>The final step is the cone tracing. This is the process that computes approximatly the surface irradiance coming from a set of directions, given a primary direction and the cone angle. This technique is described by the equation below.</p>
                     <br>
                     <center>
-                    <!--img src="http://latex.codecogs.com/gif.latex?Irradiance = \sum{}{}Emittance_i\left(\frac{ConeFactor}{SampleSize}\right)^{2}\prod_{0}^{i}(1-Opacity_k)^{tStep * OpacityCorrectionFactor}" border="0" ><br><i>Source:</i--><!--a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a-->
-                        <img class="img-responsive" src="img/ConeTracingEquation.png" alt=""><i>Source:<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a></i>
+                    <img src="http://latex.codecogs.com/gif.latex?Irradiance = \sum{}{}Emittance_i\left(\frac{ConeFactor}{SampleSize}\right)^{2}\prod_{0}^{i}(1-Opacity_k)^{tStep * OpacityCorrectionFactor}" border="0" ><br><i>Source:</i><a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> <i>NVIDIA VXGI</i></a>
+                        <!--img class="img-responsive" src="img/ConeTracingEquation.png" alt=""><i>Source:<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank"> NVIDIA VXGI</a></i-->
                     </center>
                     <br>
                     <p>The cone traverse the given direction, taking samples from the emittance texture that contribute to irradiance. In order to reduce light leaking, occlusion is also calculated as the product of opacities from all the previous samples (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>.</p>

@@ -131,17 +131,20 @@
          <a name="a"></a>
          <h1 class="articleTitle">Qualitative Analysis</h1>
          <p>
-            <a href="cim.html">Quiz images</a>
+            With the purpose of doing a qualitative analysis of the images quality, we decided to create a quiz. This allowed us to make a cross reference between the system memory used <i>vs</i> the images that people chosen by answering the quiz. We used the <i>ClipSize</i> and the <i>ClipRange</i> as the test parameters. Our intention was to approach people who weren't familiar with the subject. Hence, the answers are more plausible. After gathering the opinions of thirty people, the analysis can be consulted below. <a href="cim.html">Quiz images</a>
          </p>
          <h2 class="articleSubTitle" onclick="hide('div0')">Do you consider yourself a gamer or somewhat aware of modern real time graphics?</h2>
          <div id="div0" class="container">
             <div class="row">
                <div>
-                  <div id="piechartNoneq0"></div>
+                  <center>
+                    <div id="piechartNoneq0"></div>
+                  </center>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div1')">Question 1</h2>
+         <p>In the first question was used a ClipSize of 16 and a ClipRange of 256, 512 and 1024, respectively. The most chosen image by all users was the third one (ClipRange at 1024). The graphics card memory used was 430MB and 11MB of RAM.</p>
          <div id="div1" class="container">
             <div class="row">
                <div class="col-xs-3">
@@ -159,6 +162,7 @@
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div2')">Question 2</h2>
+         In this second question, the ClipSize was increased to 32. The memory used and the answer are the same as before (ClipRange at 1024). 
          <div id="div2" class="container">
             <div class="row">
                <div class="col-xs-3">
@@ -176,6 +180,7 @@
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div3')">Question 3</h2>
+         In general the third image was the best by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. This is maybe due to a better ambient occlusion on the curtains.
          <div id="div3" class="container">
             <div class="row">
                <div class="col-xs-3">
@@ -227,6 +232,7 @@
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div6')">Question 6</h2>
+         Comparing this four images, the majory voted on the second image. The parameters used on this one are ClipSize at 128 and ClipRange at 512. The last one uses the ClipSize at 256 and a ClipRange at 1024. This last image uses 1843MB of graphics card memory and 2124MB of RAM while the most voted only uses 972MB of graphics card memory and 10MB of RAM. So, we can concluded that it is not necessary to use the best parameters possible to achieve a good image quality. Hence, we use less resources and have a better frame rate (55 frames per second).
          <div id="div6" class="container">
             <div class="row">
                <div class="col-xs-3">
