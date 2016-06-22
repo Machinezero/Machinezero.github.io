@@ -21,6 +21,7 @@
     <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
 
     <script src="css-js/js/jquery.js"></script>
+    <script src="css-js/fullScreen/jqueryFull.js"></script>
     <script src="css-js/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
@@ -101,13 +102,24 @@
     <div class="articlePost">
         <div class="row">
 
-            <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="c"></a>
                 <h1 class="articleTitle">VXGI steps.</h1>
 
                 <p>You can download a demo without VXGI <a href="Download/GFSDK_VXGI_r0_9_19557187_novxgi.zip" download>here</a>, and follow the steps bellow to achieve global illumination in DirectX environment.</p>
 
                 <p>The demo provided displays the known Sponza scene using RSM (Reflective Shadow Maps) with DirectX.</p>
+
+                <p>The libraries already included in the project are:
+<ul>
+<li>Nvidia GI Works (VXGI)</li>
+<li>Nvidia NVAPI (SDK for direct GPU access)</li>
+<li>FXC (tool for compiling HLSL shaders for all versions of Direct3D)</li>
+<li>Assimp (load 3D models to data structure)</li>
+<li>FreeImage (for textures)</li>
+<li>Other Nvidia Utils (Camera and Device Manager libraries)</li>
+<li>AntTweakBar (User Menu)</li>
+</ul></p>
 
                 <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Creating the VXGI Object</h2>
 
