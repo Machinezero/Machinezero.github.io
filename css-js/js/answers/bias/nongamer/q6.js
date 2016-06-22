@@ -5,7 +5,7 @@
 
         var qNo6 = google.visualization.arrayToDataTable([
           ['Answer', 'Count'],
-          ['Figure 16',5],['Figure 17',4],['Figure 19',3]
+          ['Figure 16',8],['Figure 17',11],['Figure 18',9],['Figure 19',2]
         ]);
 
         var options = {

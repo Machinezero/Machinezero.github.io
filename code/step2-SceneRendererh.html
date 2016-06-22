@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+        <link type="text/css" rel="stylesheet" href="../css-js/syntaxhighlighter_3.0.83/styles/shCoreMidnight.css"/>
+
+    <link href="../css-js/css/bootstrap2.css" rel="stylesheet">
+
+    <link href="../css-js/css/landing-page.css" rel="stylesheet">
+
+    <link href="../css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="../css-js/js/jquery.js"></script>
+    <script src="../css-js/fullScreen/jqueryFull.js"></script>
+    <script src="../css-js/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shBrushCpp.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+    <link href="../css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="../css-js/fullScreen/fullScreen.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+</head>
+
+<body>
+ <pre class="brush: cpp;" >
+/* 
+* Copyright (c) 2012-2014, NVIDIA CORPORATION. All rights reserved. 
+* 
+* NVIDIA CORPORATION and its licensors retain all intellectual property 
+* and proprietary rights in and to this software, related documentation 
+* and any modifications thereto. Any use, reproduction, disclosure or 
+* distribution of this software and related documentation without an express 
+* license agreement from NVIDIA CORPORATION is strictly prohibited. 
+*/ 
+
+#pragma once
+
+#include "GI_Interface.h"
+#include "D3DHelper.h"
+#include "Scene.h"
+#include <Windows.h>
+#include <functional>
+#include "../../GIWorks/examplecode/GI_InterfaceD3D11.h"
+
+#pragma warning(disable : 4324)
+
+__declspec(align(16)) struct GlobalConstants
+{
+    VXGI::Matrix4f viewProjMatrix;
+    VXGI::Matrix4f viewProjMatrixInv;
+    VXGI::Matrix4f lightMatrix;
+    VXGI::Vector4f lightDirection;
+    VXGI::Vector4f diffuseColor;
+    VXGI::Vector4f lightColor;
+    VXGI::Vector4f ambientColor;
+    float rShadowMapSize;
+    uint32_t enableIndirectDiffuse;
+    uint32_t enableIndirectSpecular;
+};
+
+
+struct MeshMaterialInfo: public VXGI::MaterialInfo 
+{
+    ID3D11ShaderResourceView*   diffuseTexture;
+    ID3D11ShaderResourceView*   specularTexture;
+    ID3D11ShaderResourceView*   normalsTexture;
+    VXGI::Vector3f              diffuseColor;
+
+    MeshMaterialInfo(): 
+        diffuseTexture(NULL), 
+        specularTexture(NULL),
+        normalsTexture(NULL),
+        diffuseColor(0.f)
+    {}
+};
+
+typedef std::function<void(const MeshMaterialInfo&)> MaterialCallback;
+
+class SceneRenderer :
+  public VXGI::IErrorCallback
+{
+private:
+
+    Scene*                  m_pScene;
+
+    ID3D11DeviceContext*    m_pImmediateContext;
+
+    VXGI::Util::IRendererInterfaceD3D11 m_RendererInterface;
+
+    ID3D11InputLayout*      m_pInputLayout;
+    ID3D11VertexShader*     m_pDefaultVS;
+    ID3D11VertexShader*     m_pFullScreenQuadVS;
+
+    ID3D11PixelShader*      m_pAttributesPS;
+    ID3D11PixelShader*      m_pBlitPS;
+    ID3D11PixelShader*      m_pCompositingPS;
+
+    ID3D11Buffer*           m_pGlobalCBuffer;
+
+    ID3D11RasterizerState*  m_pShadowRasterizerState;
+
+    ID3D11SamplerState*     m_pDefaultSamplerState;
+    ID3D11SamplerState*     m_pComparisonSamplerState;
+
+    ID3D11DepthStencilState* m_pReadOnlyDepthStencilState;
+
+    UINT                    m_Width;
+    UINT                    m_Height;
+    UINT                    m_SampleCount;
+
+    VXGI::Vector3f          m_LightDirection;
+    VXGI::Matrix4f          m_LightViewMatrix;
+    VXGI::Matrix4f          m_LightProjMatrix;
+    VXGI::Matrix4f          m_LightViewProjMatrix;
+
+    Texture2D               m_TargetAlbedo;
+    Texture2D               m_TargetNormal;
+    Texture2D               m_TargetDepth;
+
+    Texture2D               m_ShadowMap;
+    
+    VXGI::IUserDefinedShaderSet* m_pVoxelizationGS;
+    VXGI::IUserDefinedShaderSet* m_pVoxelizationPS;
+
+public:
+    SceneRenderer(ID3D11DeviceContext* pContext);
+    
+    VXGI::Util::IRendererInterfaceD3D11* GetRendererInterface() { return &m_RendererInterface; }
+
+    HRESULT LoadMesh( ID3D11Device* pd3dDevice, const char* strFileName );
+
+    HRESULT AllocateResources( ID3D11Device* pd3dDevice, VXGI::IGlobalIllumination* pGI );
+    HRESULT AllocateViewDependentResources( ID3D11Device *device, UINT width, UINT height, UINT sampleCount = 1);
+    void ReleaseResources( VXGI::IGlobalIllumination* pGI );
+    void ReleaseViewDependentResources();
+
+    void RenderGeometry( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix );
+    void RenderDepth( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix );
+    void RenderAttributes( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix );
+
+    void SetLightDirection( VXGI::Vector3f direction );
+    void RenderShadowMap( ID3D11DeviceContext *pContext, const VXGI::Vector3f cameraPosition, float lightSize );
+
+    void GetMaterialInfo(UINT meshID, OUT MeshMaterialInfo& materialInfo);
+    
+    void FillTracingInputBuffers(VXGI::IViewTracer::InputBuffers& inputBuffers);
+    VXGI::TextureHandle GetAlbedoBufferHandle();
+
+    void Blit(VXGI::TextureHandle source, ID3D11RenderTargetView* pDestRTV);
+    void Shade(VXGI::TextureHandle indirectDiffuse, VXGI::TextureHandle indirectSpecular, ID3D11RenderTargetView* pDestRTV, const VXGI::Matrix4f& viewProjMatrix, VXGI::Vector3f ambientColor);
+
+    void RenderSceneCommon(
+      VXGI::IGlobalIllumination* pGI,
+      const VXGI::Box3f *clippingBoxes,
+      uint32_t numBoxes,
+      const VXGI::Matrix4f& viewProjMatrix,
+      MaterialCallback* onChangeMaterial,
+      bool voxelization);
+
+    VXGI::LightDesc GetLightDesc();
+
+    // IErrorCallback implementation
+
+    virtual void signalError(const char* file, int line, const char* errorDesc);
+};
+ </pre>
+</body>
+</html>

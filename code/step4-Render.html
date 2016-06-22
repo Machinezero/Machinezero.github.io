@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+        <link type="text/css" rel="stylesheet" href="../css-js/syntaxhighlighter_3.0.83/styles/shCoreMidnight.css"/>
+
+    <link href="../css-js/css/bootstrap2.css" rel="stylesheet">
+
+    <link href="../css-js/css/landing-page.css" rel="stylesheet">
+
+    <link href="../css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="../css-js/js/jquery.js"></script>
+    <script src="../css-js/fullScreen/jqueryFull.js"></script>
+    <script src="../css-js/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shBrushCpp.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+    <link href="../css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="../css-js/fullScreen/fullScreen.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+</head>
+
+<body>
+     <pre class="brush: cpp;" >
+virtual void Render(ID3D11Device*, ID3D11DeviceContext* pDeviceContext, ID3D11RenderTargetView* pRTV, ID3D11DepthStencilView* pDSV) 
+    { 
+        const float Black[4] = {0};
+        pDeviceContext->ClearRenderTargetView(pRTV, Black);
+        pDeviceContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+        XMVECTOR eyePt = g_Camera.GetEyePt();
+        XMVECTOR viewForward = g_Camera.GetWorldAhead();
+        XMMATRIX viewMatrix = g_Camera.GetViewMatrix();
+        XMMATRIX projMatrix = g_Camera.GetProjMatrix();
+        XMMATRIX viewProjMatrixXM = viewMatrix * projMatrix;
+        VXGI::Matrix4f viewProjMatrix = *reinterpret_cast<VXGI::Matrix4f*>(&viewProjMatrixXM);
+
+        // shadow map
+        g_pSceneRenderer->RenderShadowMap(pDeviceContext, VXGI::Vector3f(0.f), g_fLightSize);
+
+        if (g_bEnableGI)
+        {
+            XMVECTOR centerPt = eyePt + viewForward * g_fClipmapRange;
+
+            VXGI::LightDesc light = g_pSceneRenderer->GetLightDesc();
+
+            VXGI::UpdateVoxelizationParameters params;
+            params.clipmapAnchor = VXGI::Vector3f(centerPt.m128_f32);
+            params.giRange = g_fClipmapRange;
+            params.lights = &light;
+            params.lightCount = 1;
+
+            bool performOpacityVoxelization = false;
+            bool performEmittanceVoxelization = false;
+
+            g_pGI->prepareForOpacityVoxelization(
+                params,
+                performOpacityVoxelization,
+                performEmittanceVoxelization);
+
+            if (performOpacityVoxelization || performEmittanceVoxelization)
+            {
+                VXGI::Matrix4f voxelizationMatrix;
+                g_pGI->getVoxelizationViewMatrix(voxelizationMatrix);
+
+                const uint32_t maxRegions = 128;
+                uint32_t numRegions = 0;
+                VXGI::Box3f regions[maxRegions];
+
+                if (VXGI_SUCCEEDED(g_pGI->getInvalidatedRegions(regions, maxRegions, numRegions)))
+                {
+                    if (performOpacityVoxelization)
+                        g_pSceneRenderer->RenderSceneCommon(g_pGI, regions, numRegions, voxelizationMatrix, NULL, true);
+
+                    if (performEmittanceVoxelization)
+                    {
+                        g_pGI->prepareForEmittanceVoxelization();
+                        g_pSceneRenderer->RenderSceneCommon(g_pGI, NULL, 0, voxelizationMatrix, NULL, true);
+                    }
+                }
+            }
+
+            g_pGI->finalizeVoxelization();
+        }
+        // Depth-only pass
+        g_pSceneRenderer->RenderDepth(pDeviceContext, viewProjMatrix);
+
+        // G-Buffer attributes
+        g_pSceneRenderer->RenderAttributes(pDeviceContext, viewProjMatrix);
+
+        VXGI::IViewTracer::InputBuffers inputBuffers;
+        g_pSceneRenderer->FillTracingInputBuffers(inputBuffers);
+        memcpy(&inputBuffers.viewMatrix, &viewMatrix, sizeof(viewMatrix));
+        memcpy(&inputBuffers.projMatrix, &projMatrix, sizeof(projMatrix));
+
+        
+        if (g_DebugRenderMode != VXGI::DebugRenderMode::DISABLED)
+        {
+            // Voxel texture visualization is rendered over the albedo channel, no GI
+
+            VXGI::BlendState blendState;
+
+            blendState.blendEnable[0] = true;
+            blendState.srcBlend[0] = VXGI::BlendState::BLEND_SRC_ALPHA;
+            blendState.destBlend[0] = VXGI::BlendState::BLEND_INV_SRC_ALPHA;
+
+            VXGI::TextureHandle gbufferAlbedo = g_pSceneRenderer->GetAlbedoBufferHandle();
+
+            g_pGI->renderDebug(
+                g_DebugRenderMode,
+                *(VXGI::Matrix4f*)&viewMatrix,
+                *(VXGI::Matrix4f*)&projMatrix,
+                inputBuffers.gbufferViewport,
+                gbufferAlbedo,
+                inputBuffers.gbufferDepth,
+                &blendState,
+                0,
+                0, 0
+                );
+
+            g_pSceneRenderer->Blit(gbufferAlbedo, pRTV);
+        }
+        else {
+
+            VXGI::TextureHandle indirectDiffuse = NULL;
+            VXGI::TextureHandle indirectSpecular = NULL;
+            VXGI::Vector3f ambientColor(0.1);
+
+
+            if (g_bEnableGI) {
+                VXGI::DiffuseTracingParameters diffuseParams;
+                VXGI::SpecularTracingParameters specularParams;
+                diffuseParams.numCones = 8;
+                diffuseParams.tracingSparsity = 4;
+                diffuseParams.enableConeRotation = false;
+                diffuseParams.irradianceScale = 1.0;
+                specularParams.irradianceScale = 1.0;
+                specularParams.filter = VXGI::SpecularTracingParameters::FILTER_NONE;
+
+                for (int n = 0; n < 6; n++)
+                    diffuseParams.ambientColors[n] = ambientColor;
+
+                g_pGITracer->computeDiffuseChannel(diffuseParams, indirectDiffuse, inputBuffers);
+                g_pGITracer->computeSpecularChannel(specularParams, indirectSpecular, inputBuffers);
+            }
+
+            g_pSceneRenderer->Shade(indirectDiffuse, indirectSpecular, pRTV, viewProjMatrix, ambientColor * 0.5f);
+
+        }
+
+    }
+   </pre></body></html>

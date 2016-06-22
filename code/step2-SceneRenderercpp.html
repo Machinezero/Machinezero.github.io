@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VXGI - Voxel Global Illumination</title>
+
+        <link type="text/css" rel="stylesheet" href="../css-js/syntaxhighlighter_3.0.83/styles/shCoreMidnight.css"/>
+
+    <link href="../css-js/css/bootstrap2.css" rel="stylesheet">
+
+    <link href="../css-js/css/landing-page.css" rel="stylesheet">
+
+    <link href="../css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css-js/fonts/lato.css" rel="stylesheet" type="text/css">
+
+    <script src="../css-js/js/jquery.js"></script>
+    <script src="../css-js/fullScreen/jqueryFull.js"></script>
+    <script src="../css-js/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../css-js/syntaxhighlighter_3.0.83/scripts/shBrushCpp.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+    <link href="../css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="../css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="../css-js/fullScreen/fullScreen.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $(".list-inline").on("click",'.emailAlu', function(){
+            $(this).find('.name:visible').slideUp(1);
+            $(this).find('.name:hidden').delay(10).slideDown(1);
+            $(this).find('.email:visible').slideUp(1);
+            $(this).find('.email:hidden').delay(10).slideDown(1);
+            
+            
+        });
+    });
+    </script>
+
+    <script>
+    function hide(i) {
+        if(document.getElementById(i).style.display == "none"){
+            $("#"+i).slideDown(200);
+        }
+        else{
+            $("#"+i).slideUp(200);
+        }
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        var hash=$(location).attr('hash');
+        $("div " + hash).fadeIn(2000);
+    });
+    </script>
+</head>
+
+<body>
+     <pre class="brush: cpp;" >
+/* 
+* Copyright (c) 2012-2014, NVIDIA CORPORATION. All rights reserved. 
+* 
+* NVIDIA CORPORATION and its licensors retain all intellectual property 
+* and proprietary rights in and to this software, related documentation 
+* and any modifications thereto. Any use, reproduction, disclosure or 
+* distribution of this software and related documentation without an express 
+* license agreement from NVIDIA CORPORATION is strictly prohibited. 
+*/ 
+
+#include <array>
+#include "SceneRenderer.h"
+#include "DirectXMath.h"
+
+#include "shaders\DefaultVS.h"
+#include "shaders\AttributesPS.h"
+#include "shaders\FullScreenQuadVS.h"
+#include "shaders\Blit
+PS.h"
+#include "shaders\CompositingPS.h"
+
+
+static const UINT s_ShadowMapSize = 2048;
+
+using namespace DirectX;
+
+SceneRenderer::SceneRenderer(ID3D11DeviceContext* pContext)
+    : m_RendererInterface(this, pContext)
+    , m_pImmediateContext(pContext)
+    , m_pScene(NULL)
+    , m_pInputLayout(NULL)
+    , m_pDefaultVS(NULL)
+    , m_pFullScreenQuadVS(NULL)
+    , m_pAttributesPS(NULL)
+    , m_pBlitPS(NULL)
+    , m_pCompositingPS(NULL)
+    , m_pGlobalCBuffer(NULL)
+    , m_pShadowRasterizerState(NULL)
+    , m_pDefaultSamplerState(NULL)
+    , m_pComparisonSamplerState(NULL)
+    , m_pReadOnlyDepthStencilState(NULL)
+    , m_Width(0)
+    , m_Height(0)
+    , m_SampleCount(1)
+    , m_pVoxelizationGS(NULL)
+    , m_pVoxelizationPS(NULL)
+{ }
+
+HRESULT SceneRenderer::LoadMesh( ID3D11Device*, const char* strFileName )
+{
+    m_pScene = new Scene();
+    return m_pScene->Load(strFileName, 0);
+}
+
+HRESULT SceneRenderer::AllocateResources( ID3D11Device* pd3dDevice, VXGI::IGlobalIllumination* pGI )
+{
+    HRESULT hr;
+
+    V_RETURN( pd3dDevice->CreateVertexShader( g_DefaultVS, sizeof(g_DefaultVS), NULL, &m_pDefaultVS ) );
+
+    const D3D11_INPUT_ELEMENT_DESC SceneLayout[] =
+    {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 2, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 3, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 4, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    };
+
+    V_RETURN( pd3dDevice->CreateInputLayout( SceneLayout, ARRAYSIZE( SceneLayout ), g_DefaultVS, sizeof(g_DefaultVS), &m_pInputLayout ) );
+    V_RETURN( pd3dDevice->CreateVertexShader( g_FullScreenQuadVS, sizeof(g_FullScreenQuadVS), NULL, &m_pFullScreenQuadVS ) );
+    V_RETURN( pd3dDevice->CreatePixelShader( g_AttributesPS, sizeof(g_AttributesPS), NULL, &m_pAttributesPS ) );
+    V_RETURN( pd3dDevice->CreatePixelShader( g_BlitPS, sizeof(g_BlitPS), NULL, &m_pBlitPS ) );
+    V_RETURN( pd3dDevice->CreatePixelShader( g_CompositingPS, sizeof(g_CompositingPS), NULL, &m_pCompositingPS ) );
+    
+    CD3D11_BUFFER_DESC bufDesc(sizeof(GlobalConstants), D3D11_BIND_CONSTANT_BUFFER);
+    V_RETURN( pd3dDevice->CreateBuffer(&bufDesc, NULL, &m_pGlobalCBuffer) );
+
+    CD3D11_SAMPLER_DESC samplerDesc(D3D11_DEFAULT);
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+    samplerDesc.MaxAnisotropy = 16;
+    V_RETURN( pd3dDevice->CreateSamplerState(&samplerDesc, &m_pDefaultSamplerState) );
+
+    CD3D11_SAMPLER_DESC samplerComparisonDesc(D3D11_DEFAULT);
+    samplerComparisonDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerComparisonDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerComparisonDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerComparisonDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+    samplerComparisonDesc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+    samplerComparisonDesc.BorderColor[0] = 0;
+    samplerComparisonDesc.BorderColor[1] = 0;
+    samplerComparisonDesc.BorderColor[2] = 0;
+    samplerComparisonDesc.BorderColor[3] = 0;
+    V_RETURN( pd3dDevice->CreateSamplerState(&samplerComparisonDesc, &m_pComparisonSamplerState) );
+
+    CD3D11_RASTERIZER_DESC shadowRasterDesc(D3D11_DEFAULT);
+    shadowRasterDesc.CullMode = D3D11_CULL_NONE;
+    shadowRasterDesc.SlopeScaledDepthBias = 4.0f;
+    V_RETURN( pd3dDevice->CreateRasterizerState(&shadowRasterDesc, &m_pShadowRasterizerState) );
+
+    CD3D11_DEPTH_STENCIL_DESC depthDesc(D3D11_DEFAULT);
+    depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+    depthDesc.DepthFunc = D3D11_COMPARISON_EQUAL;
+    V_RETURN( pd3dDevice->CreateDepthStencilState(&depthDesc, &m_pReadOnlyDepthStencilState) );
+
+    { // Shadow map
+        CD3D11_TEXTURE2D_DESC desc(DXGI_FORMAT_R24G8_TYPELESS, s_ShadowMapSize, s_ShadowMapSize, 1, 1, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL, D3D11_USAGE_DEFAULT, 0, 1);
+        V_RETURN( pd3dDevice->CreateTexture2D(&desc, NULL, &m_ShadowMap.pResource) );
+
+        CD3D11_SHADER_RESOURCE_VIEW_DESC descSRV(m_ShadowMap.pResource, D3D11_SRV_DIMENSION_TEXTURE2D, DXGI_FORMAT_R24_UNORM_X8_TYPELESS);
+        V_RETURN( pd3dDevice->CreateShaderResourceView(m_ShadowMap.pResource, &descSRV, &m_ShadowMap.pSRV) );
+
+        CD3D11_DEPTH_STENCIL_VIEW_DESC descDSV(m_ShadowMap.pResource, D3D11_DSV_DIMENSION_TEXTURE2D, DXGI_FORMAT_D24_UNORM_S8_UINT);
+        V_RETURN( pd3dDevice->CreateDepthStencilView(m_ShadowMap.pResource, &descDSV, &m_ShadowMap.pDSV) );
+    }
+
+    V_RETURN( m_pScene->InitResources(pd3dDevice) );
+    
+
+    if(VXGI_FAILED(pGI->createVoxelizationGeometryShaderFromVS(&m_pVoxelizationGS, g_DefaultVS, sizeof(g_DefaultVS))))
+      return E_FAIL;
+
+    HRSRC resource = FindResourceA(NULL, "VoxelizationPS", "TEXTFILE");
+
+    if(resource == NULL) // should never happen if the app is built correctly
+        return E_FAIL;
+
+    void* data = LockResource(LoadResource(NULL, resource));
+    uint32_t size = SizeofResource(NULL, resource);
+    
+    // Enumerate resource slots (constant buffers, textures, samplers, potentially UAVs)
+    // that are used by the user part of the voxelization pixel shader
+    VXGI::ShaderResources resources;
+    resources.constantBufferCount = 1;
+    resources.constantBufferSlots[0] = 0;
+    resources.textureCount = 2;
+    resources.textureSlots[0] = 0;
+    resources.textureSlots[1] = 1;
+    resources.samplerCount = 2;
+    resources.samplerSlots[0] = 0;
+    resources.samplerSlots[1] = 1;
+
+    VXGI::VoxelizationPixelShaderDesc desc;
+    desc.userShaderCodeResources = &resources;
+    desc.source = (char*)data;
+    desc.sourceSize = size;
+
+    if(VXGI_FAILED(pGI->createVoxelizationPixelShader(&m_pVoxelizationPS, desc)))
+        return E_FAIL;
+    
+    return S_OK;
+}
+
+HRESULT SceneRenderer::AllocateViewDependentResources( ID3D11Device* pd3dDevice, UINT width, UINT height, UINT sampleCount )
+{
+    HRESULT hr;
+
+    m_Width = width;
+    m_Height = height;
+    m_SampleCount = sampleCount;
+
+    { // Albedo
+        CD3D11_TEXTURE2D_DESC desc(DXGI_FORMAT_R8G8B8A8_UNORM, m_Width, m_Height, 1, 1, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET, D3D11_USAGE_DEFAULT, 0, m_SampleCount);
+        V_RETURN( pd3dDevice->CreateTexture2D(&desc, NULL, &m_TargetAlbedo.pResource) );
+        V_RETURN( pd3dDevice->CreateShaderResourceView(m_TargetAlbedo.pResource, NULL, &m_TargetAlbedo.pSRV) );
+        V_RETURN( pd3dDevice->CreateRenderTargetView(m_TargetAlbedo.pResource, NULL, &m_TargetAlbedo.pRTV) );
+    }
+
+    { // Normal
+        CD3D11_TEXTURE2D_DESC desc(DXGI_FORMAT_R16G16B16A16_FLOAT, m_Width, m_Height, 1, 1, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET, D3D11_USAGE_DEFAULT, 0, m_SampleCount);
+        V_RETURN( pd3dDevice->CreateTexture2D(&desc, NULL, &m_TargetNormal.pResource) );
+        V_RETURN( pd3dDevice->CreateShaderResourceView(m_TargetNormal.pResource, NULL, &m_TargetNormal.pSRV) );
+        V_RETURN( pd3dDevice->CreateRenderTargetView(m_TargetNormal.pResource, NULL, &m_TargetNormal.pRTV) );
+    }
+
+    { // Depth
+        CD3D11_TEXTURE2D_DESC desc(DXGI_FORMAT_R24G8_TYPELESS, m_Width, m_Height, 1, 1, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL, D3D11_USAGE_DEFAULT, 0, m_SampleCount);
+        V_RETURN( pd3dDevice->CreateTexture2D(&desc, NULL, &m_TargetDepth.pResource) );
+
+        CD3D11_SHADER_RESOURCE_VIEW_DESC descSRV(m_TargetDepth.pResource, m_SampleCount > 1 ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D, DXGI_FORMAT_R24_UNORM_X8_TYPELESS);
+        V_RETURN( pd3dDevice->CreateShaderResourceView(m_TargetDepth.pResource, &descSRV, &m_TargetDepth.pSRV) );
+
+        CD3D11_DEPTH_STENCIL_VIEW_DESC descDSV(m_TargetDepth.pResource, m_SampleCount > 1 ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D, DXGI_FORMAT_D24_UNORM_S8_UINT);
+        V_RETURN( pd3dDevice->CreateDepthStencilView(m_TargetDepth.pResource, &descDSV, &m_TargetDepth.pDSV) );
+    }
+
+    return hr;
+}
+
+void SceneRenderer::ReleaseResources( VXGI::IGlobalIllumination* pGI )
+{
+    if (m_pScene)
+    {
+        m_pScene->ReleaseResources();
+        m_pScene->Release();
+        delete m_pScene;
+        m_pScene = NULL;
+    }
+
+    SAFE_RELEASE(m_pInputLayout);
+    SAFE_RELEASE(m_pDefaultVS);
+    SAFE_RELEASE(m_pFullScreenQuadVS);
+    SAFE_RELEASE(m_pAttributesPS);
+    SAFE_RELEASE(m_pBlitPS);
+    SAFE_RELEASE(m_pCompositingPS);
+
+    SAFE_RELEASE(m_pGlobalCBuffer);
+
+    SAFE_RELEASE(m_pDefaultSamplerState);
+    SAFE_RELEASE(m_pComparisonSamplerState);
+    SAFE_RELEASE(m_pReadOnlyDepthStencilState);
+    SAFE_RELEASE(m_pShadowRasterizerState);
+
+    m_ShadowMap.Release();
+    SAFE_RELEASE(m_pImmediateContext);
+    
+    if(m_pVoxelizationGS)
+    {
+        pGI->destroyUserDefinedShaderSet(m_pVoxelizationGS);
+        m_pVoxelizationGS = NULL;
+    }
+
+    if(m_pVoxelizationPS)
+    {
+        pGI->destroyUserDefinedShaderSet(m_pVoxelizationPS);
+        m_pVoxelizationPS = NULL;
+    }
+}
+
+void SceneRenderer::ReleaseViewDependentResources()
+{
+    m_TargetAlbedo.Release();
+    m_TargetNormal.Release();
+    m_TargetDepth.Release();
+}
+
+void SceneRenderer::SetLightDirection( VXGI::Vector3f direction )
+{ 
+    m_LightDirection = direction.normalize();
+}
+
+XMVECTOR XMVectorSet(VXGI::Vector3f v)
+{
+  return XMVectorSet(v.x, v.y, v.z, 0.f);
+}
+
+void SceneRenderer::RenderShadowMap( ID3D11DeviceContext *pContext, const VXGI::Vector3f cameraPosition, float lightSize )
+{   
+    const float lightRange = lightSize * 10.0f;
+
+    XMVECTOR lightPos = XMVectorSet(cameraPosition - m_LightDirection * lightRange * 0.5f);
+    XMVECTOR lookAt = XMVectorSet(cameraPosition);
+    XMVECTOR lightUp = XMVectorSet(0, 1.0f, 0, 0);
+
+    XMMATRIX viewMatrix = XMMatrixLookAtLH(lightPos, lookAt, lightUp);
+    XMMATRIX projMatrix = XMMatrixOrthographicLH(lightSize, lightSize, lightRange * 0.01f, lightRange);
+    XMMATRIX viewProjMatrix = viewMatrix * projMatrix;
+    memcpy(&m_LightViewMatrix, &viewMatrix, sizeof(viewMatrix));
+    memcpy(&m_LightProjMatrix, &projMatrix, sizeof(projMatrix));
+    memcpy(&m_LightViewProjMatrix, &viewProjMatrix, sizeof(viewProjMatrix));
+
+    pContext->PSSetShader(NULL, NULL, 0);
+
+    pContext->OMSetDepthStencilState(NULL, 0);
+    pContext->OMSetBlendState(NULL, NULL, 0xffffffff);
+
+    pContext->OMSetRenderTargets(0, NULL, m_ShadowMap.pDSV);
+
+    pContext->ClearDepthStencilView(m_ShadowMap.pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+    CD3D11_VIEWPORT viewport(0.0f, 0.0f, (float)s_ShadowMapSize, (float)s_ShadowMapSize);
+    pContext->RSSetViewports(1, &viewport);
+
+    pContext->RSSetState(m_pShadowRasterizerState);
+
+    RenderGeometry(pContext, m_LightViewProjMatrix);
+
+    pContext->RSSetState(NULL);
+    pContext->OMSetRenderTargets(0, NULL, NULL);
+}
+
+void SceneRenderer::RenderGeometry( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix )
+{
+    MaterialCallback onChangeMaterial = [this, &pContext](const MeshMaterialInfo& material)
+    {
+        pContext->PSSetShaderResources(0, 1, &material.diffuseTexture);
+        pContext->PSSetShaderResources(1, 1, &material.specularTexture);
+        pContext->PSSetShaderResources(2, 1, &material.normalsTexture);
+    };
+    
+    RenderSceneCommon(NULL, NULL, 0, viewProjMatrix, &onChangeMaterial, false);
+
+    ID3D11ShaderResourceView* nullSRVs[4] = {NULL, NULL, NULL, NULL};
+    pContext->PSSetShaderResources(0, 4, nullSRVs);
+}
+
+void SceneRenderer::RenderDepth( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix)
+{
+    pContext->RSSetState(NULL);
+    pContext->PSSetShader(NULL, NULL, 0);
+
+    pContext->OMSetDepthStencilState(NULL, 0);
+    pContext->OMSetBlendState(NULL, NULL, 0xffffffff);
+
+    pContext->OMSetRenderTargets(0, NULL, m_TargetDepth.pDSV);
+    pContext->ClearDepthStencilView(m_TargetDepth.pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+    CD3D11_VIEWPORT viewport(0.0f, 0.0f, (float)m_Width, (float)m_Height);
+    pContext->RSSetViewports(1, &viewport);
+
+    RenderGeometry(pContext, viewProjMatrix);
+
+    pContext->OMSetRenderTargets(0, NULL, NULL);
+}
+
+void SceneRenderer::RenderAttributes( ID3D11DeviceContext *pContext, const VXGI::Matrix4f& viewProjMatrix )
+{
+    pContext->RSSetState(NULL);
+    pContext->PSSetShader(m_pAttributesPS, NULL, 0);
+    pContext->PSSetConstantBuffers(0, 1, &m_pGlobalCBuffer);
+    pContext->PSSetSamplers(0, 1, &m_pDefaultSamplerState);
+
+    pContext->OMSetDepthStencilState(m_pReadOnlyDepthStencilState, 0);
+    pContext->OMSetBlendState(NULL, NULL, 0xffffffff);
+
+    ID3D11RenderTargetView* pRTVs[2] = {
+        m_TargetAlbedo.pRTV,
+        m_TargetNormal.pRTV
+    };
+
+    pContext->OMSetRenderTargets(2, pRTVs, m_TargetDepth.pDSV);
+
+    float clearColor[4] = {0, 0, 0, 0};
+    pContext->ClearRenderTargetView(m_TargetAlbedo.pRTV, clearColor);
+    pContext->ClearRenderTargetView(m_TargetNormal.pRTV, clearColor);
+
+    CD3D11_VIEWPORT viewport(0.0f, 0.0f, (float)m_Width, (float)m_Height);
+    pContext->RSSetViewports(1, &viewport);
+
+    RenderGeometry(pContext, viewProjMatrix);
+
+    pContext->OMSetRenderTargets(0, NULL, NULL);
+    pContext->OMSetDepthStencilState(NULL, 0);
+    pContext->PSSetShader(NULL, NULL, 0);
+}
+
+void SceneRenderer::RenderSceneCommon(
+    VXGI::IGlobalIllumination* pGI,
+    const VXGI::Box3f *clippingBoxes,
+    uint32_t numBoxes,
+    const VXGI::Matrix4f& viewProjMatrix,
+    MaterialCallback* onChangeMaterial,
+    bool voxelization)
+{
+    
+    GlobalConstants globalConstants;
+    globalConstants.viewProjMatrix = viewProjMatrix;
+    globalConstants.lightMatrix = (VXGI::Matrix4f&)m_LightViewProjMatrix;
+    globalConstants.lightDirection = (VXGI::Vector3f&)m_LightDirection;
+    globalConstants.diffuseColor = VXGI::Vector4f(0.f);
+    globalConstants.lightColor = VXGI::Vector4f(1.f);
+    globalConstants.rShadowMapSize = 1.0f / s_ShadowMapSize;
+    m_pImmediateContext->UpdateSubresource(m_pGlobalCBuffer, 0, NULL, &globalConstants, 0, 0);
+
+    m_pImmediateContext->IASetInputLayout(m_pInputLayout);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pGlobalCBuffer);
+    m_pImmediateContext->VSSetShader(m_pDefaultVS, NULL, 0);
+
+    static const UINT SRV_SLOT_DIFFUSE_TEXTURE = 0;
+    static const UINT SRV_SLOT_SHADOW_MAP = 1;
+    
+    int lastMaterial = -2;
+    VXGI::MaterialInfo lastMaterialInfo;
+    VXGI::DrawCallState voxelizationState;
+
+    UINT numMeshes = m_pScene->GetMeshesNum();
+
+    for (UINT i = 0; i < numMeshes; ++i)
+    {
+        VXGI::Box3f meshBounds = m_pScene->GetMeshBounds(i);
+
+        if(clippingBoxes && numBoxes)
+        {
+            bool contained = false;
+            for (UINT clipbox = 0; clipbox < numBoxes; ++clipbox)
+            {
+                if (clippingBoxes[clipbox].intersectsWith(meshBounds))
+                {
+                    contained = true;
+                    break;
+                }
+            }
+
+            if(!contained)
+                continue;
+        }
+        
+        int material = m_pScene->GetMaterialIndex(i);
+        
+        if(material != lastMaterial)
+        {
+            MeshMaterialInfo materialInfo;
+            GetMaterialInfo(i, materialInfo);
+                
+            if(onChangeMaterial)
+            {
+                (*onChangeMaterial)(materialInfo);
+            }
+
+            lastMaterial = material;
+            lastMaterialInfo = materialInfo;
+        }
+
+
+        UINT indexOffset;
+        ID3D11Buffer* indexBuffer = m_pScene->GetIndexBuffer(i, indexOffset);
+        m_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, indexOffset);
+
+        const UINT buffersNum = 5;
+        const UINT strides[buffersNum] = {
+            sizeof(float) * 3, // position
+            sizeof(float) * 2, // texture coordiante
+            sizeof(float) * 3, // normal
+            sizeof(float) * 3, // tangent
+            sizeof(float) * 3  // bitangent
+        };
+
+        UINT offsets[buffersNum] = {0, 0, 0, 0, 0};
+
+        ID3D11Buffer* pVertexBuffers[buffersNum] = {
+            m_pScene->GetPositionBuffer(i, offsets[0]),
+            m_pScene->GetTexCoordinateBuffer(i, offsets[1]),
+            m_pScene->GetNormalBuffer(i, offsets[2]),
+            m_pScene->GetTangentBuffer(i, offsets[3]),
+            m_pScene->GetBitangentBuffer(i, offsets[4])
+        };
+
+        m_pImmediateContext->IASetVertexBuffers(0, buffersNum, pVertexBuffers, strides, offsets);
+
+        UINT numIndices = m_pScene->GetMeshIndicesNum(i);
+        m_pImmediateContext->DrawIndexed(numIndices, 0, 0);
+    }
+}
+
+void SceneRenderer::GetMaterialInfo(UINT meshID, OUT MeshMaterialInfo& materialInfo)
+{
+    materialInfo.diffuseTexture = m_pScene->GetTextureSRV(aiTextureType_DIFFUSE, meshID);
+    materialInfo.specularTexture = m_pScene->GetTextureSRV(aiTextureType_SPECULAR, meshID);
+    materialInfo.normalsTexture = m_pScene->GetTextureSRV(aiTextureType_NORMALS, meshID);
+
+    materialInfo.diffuseColor = m_pScene->GetColor(aiTextureType_DIFFUSE, meshID);
+
+    materialInfo.voxelizationThickness = 1.0f;
+    materialInfo.twoSided = false;
+
+    materialInfo.geometryShader = m_pVoxelizationGS;
+    materialInfo.pixelShader = m_pVoxelizationPS;
+}
+
+void SceneRenderer::signalError(const char* file, int line, const char* errorDesc)
+{
+  char buffer[4096];
+  int length = (int)strlen(errorDesc);
+  length = std::min(length, 4000); // avoid a "buffer too small" exception for really long error messages
+  sprintf_s(buffer, "%s:%i\n%.*s\n", file, line, length, errorDesc);
+
+  OutputDebugStringA(buffer);
+  MessageBoxA(NULL, buffer, "ERROR", MB_ICONERROR | MB_OK);
+}
+
+void SceneRenderer::FillTracingInputBuffers(VXGI::IViewTracer::InputBuffers& inputBuffers)
+{
+  inputBuffers.gbufferViewport = VXGI::Box3f(VXGI::Vector3f(0,0,0), VXGI::Vector3f((float)m_Width, (float)m_Height, 1.0f));
+  inputBuffers.gbufferDepth = m_RendererInterface.getHandleForTexture(m_TargetDepth.pResource);
+  inputBuffers.gbufferNormal = m_RendererInterface.getHandleForTexture(m_TargetNormal.pResource); 
+}
+
+VXGI::TextureHandle SceneRenderer::GetAlbedoBufferHandle()
+{
+  return m_RendererInterface.getHandleForTexture(m_TargetAlbedo.pResource);
+}
+
+void SceneRenderer::Blit(VXGI::TextureHandle source, ID3D11RenderTargetView* pDestRTV)
+{
+    m_pImmediateContext->IASetIndexBuffer(NULL, DXGI_FORMAT_UNKNOWN, 0);
+    m_pImmediateContext->IASetInputLayout(NULL);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+    
+    m_pImmediateContext->VSSetShader(m_pFullScreenQuadVS, NULL, 0);
+
+    CD3D11_VIEWPORT viewport(0.f, 0.f, (float)m_Width, (float)m_Height, 0.f, 1.f);
+    m_pImmediateContext->RSSetViewports(1, &viewport);
+    m_pImmediateContext->RSSetState(NULL);
+
+    m_pImmediateContext->PSSetShader(m_pBlitPS, NULL, 0);
+    ID3D11ShaderResourceView* pSourceSRV = m_RendererInterface.getSRVForTexture(source);
+    m_pImmediateContext->PSSetShaderResources(0, 1, &pSourceSRV);
+
+    m_pImmediateContext->OMSetRenderTargets(1, &pDestRTV, NULL);
+    m_pImmediateContext->OMSetDepthStencilState(NULL, 0);
+    m_pImmediateContext->OMSetBlendState(NULL, NULL, 0xffffffff);
+
+    m_pImmediateContext->Draw(4, 0);
+
+    pSourceSRV = NULL;
+    m_pImmediateContext->OMSetRenderTargets(0, NULL, NULL);
+    m_pImmediateContext->PSSetShaderResources(0, 1, &pSourceSRV);
+    m_pImmediateContext->PSSetShader(NULL, NULL, 0);
+    m_pImmediateContext->VSSetShader(NULL, NULL, 0);
+}
+
+void SceneRenderer::Shade(VXGI::TextureHandle indirectDiffuse, VXGI::TextureHandle indirectSpecular, ID3D11RenderTargetView* pDestRTV, const VXGI::Matrix4f& viewProjMatrix, VXGI::Vector3f ambientColor)
+{
+    m_pImmediateContext->IASetIndexBuffer(NULL, DXGI_FORMAT_UNKNOWN, 0);
+    m_pImmediateContext->IASetInputLayout(NULL);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+    
+    m_pImmediateContext->VSSetShader(m_pFullScreenQuadVS, NULL, 0);
+
+    CD3D11_VIEWPORT viewport(0.f, 0.f, (float)m_Width, (float)m_Height, 0.f, 1.f);
+    m_pImmediateContext->RSSetViewports(1, &viewport);
+    m_pImmediateContext->RSSetState(NULL);
+
+    m_pImmediateContext->PSSetShader(m_pCompositingPS, NULL, 0);
+
+    std::array<ID3D11ShaderResourceView*, 6> pSRVs;
+    pSRVs.fill(NULL);
+    pSRVs[0] = m_TargetAlbedo.pSRV;
+    pSRVs[1] = m_TargetNormal.pSRV;
+    pSRVs[2] = m_TargetDepth.pSRV;
+    pSRVs[3] = indirectDiffuse ? m_RendererInterface.getSRVForTexture(indirectDiffuse) : NULL;
+    pSRVs[4] = indirectSpecular ? m_RendererInterface.getSRVForTexture(indirectSpecular) : NULL;
+    pSRVs[5] = m_ShadowMap.pSRV;
+    m_pImmediateContext->PSSetShaderResources(0, (UINT)pSRVs.size(), &pSRVs[0]);
+
+    GlobalConstants CB;
+    memset(&CB, 0, sizeof(CB));
+    CB.viewProjMatrix = viewProjMatrix;
+    CB.viewProjMatrixInv = viewProjMatrix.invert();
+    CB.lightMatrix = m_LightViewProjMatrix;
+    CB.lightDirection = m_LightDirection;
+    CB.lightColor = VXGI::Vector4f(1.f);
+    CB.ambientColor = ambientColor;
+    CB.rShadowMapSize = 1.0f / s_ShadowMapSize;
+    CB.enableIndirectDiffuse = indirectDiffuse ? 1 : 0;
+    CB.enableIndirectSpecular = indirectSpecular ? 1 : 0;
+    m_pImmediateContext->UpdateSubresource(m_pGlobalCBuffer, 0, NULL, &CB, 0, 0);
+    m_pImmediateContext->PSSetConstantBuffers(0, 1, &m_pGlobalCBuffer);
+
+    m_pImmediateContext->PSSetSamplers(0, 1, &m_pComparisonSamplerState);
+
+    m_pImmediateContext->OMSetRenderTargets(1, &pDestRTV, NULL);
+    m_pImmediateContext->OMSetDepthStencilState(NULL, 0);
+    m_pImmediateContext->OMSetBlendState(NULL, NULL, 0xffffffff);
+
+    m_pImmediateContext->Draw(4, 0);
+
+    pSRVs.fill(NULL);
+    m_pImmediateContext->PSSetShaderResources(0, (UINT)pSRVs.size(), &pSRVs[0]);
+    m_pImmediateContext->OMSetRenderTargets(0, NULL, NULL);
+    m_pImmediateContext->PSSetShader(NULL, NULL, 0);
+    m_pImmediateContext->VSSetShader(NULL, NULL, 0);
+}
+
+VXGI::LightDesc SceneRenderer::GetLightDesc()
+{
+    VXGI::LightDesc desc;
+
+    desc.handle = (VXGI::LightHandle)1;
+    desc.viewMatrix = m_LightViewMatrix;
+    desc.projMatrix = m_LightProjMatrix;
+    desc.useInvalidationRegion = true;
+
+    return desc;
+}
+     </pre>
+
+</body>
+
+</html>
+
+
+
+
+
