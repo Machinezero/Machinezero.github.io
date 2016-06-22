@@ -9,7 +9,9 @@ html {
     width: 100%;
     height: 100%;
 }
-
+.articlePost > .row {
+  margin-left: 0px !important; margin-right: 0px !important;
+}
 body,
 h1,
 h2,
