@@ -126,6 +126,7 @@
                 <h2 class="articleSubTitle" onclick="hide('3dclip')">3D Clipmap</h2>
 
                 <div id="3dclip">
+                    <a name="3dclip" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none"></a>
                     <!--<p>Clipmaps are multidimensional textures that were proposed as a solution to reduce the memory footprint of very large textures (<a href="http://doi.acm.org/10.1145/280814.280855" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
 
                     <p>A clipmap is a partial representation of a mipmap, in which the levels are clipped according to a user-defined maximum size (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). The clipmaps only differ from mipmaps in the finer levels of detail. So the finer levels have the same number of voxels, but the same spatial resolution as the mipmap.</p>
@@ -159,7 +160,7 @@
 
                 <h2 class="articleSubTitle" onclick="hide('opacity')">Opacity Voxelization</h2>
 
-                <div id="opacity">
+                <div id="opacity" style="display:none">
                     <p>The first step of the VXGI algorithm is the opacity voxelization and downsampling (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>. In this step, the scene geometry is converted to a map which encodes the opacity of space with voxels. If a cube matches a complete voxel, it will produce a fully opaque voxel. But after downsampling, the opacity is reduced to 50%. Each next level of downsampling reduces the previous level to half, like the textures in the mipmap.</p>
 
                     <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). However, the rasterization is performed in Multisample Anti Aliasing mode (MSAA) in order to produce multiple samples for the rasterized triangles.</p>
@@ -206,8 +207,8 @@
 
                     <br>
 
-                    <div class="col-sm-10">
-                        <p style="margin-left:-15px">This step compute the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
+                    <div class="col-sm-9" style="float:left">
+                        <p>This step compute the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
                     </div>
                     <div style="float:right;padding:0px">
                         <img src="img/diffuse_tracing.png" class="normalP" style="width:150px; height:100px !important" />

@@ -131,10 +131,10 @@
          <a name="a"></a>
          <h1 class="articleTitle">Qualitative Analysis</h1>
          <p>
-            With the purpose of doing a qualitative analysis of the images quality, we decided to create a quiz. This allowed us to make a cross reference between the system memory used <i>vs</i> the images that people chosen by answering the quiz. We used the <i>ClipSize</i> and the <i>ClipRange</i> as the test parameters. Our intention was to approach people who weren't familiar with the subject. Hence, the answers are more plausible. After gathering the opinions of thirty people, the analysis can be consulted below. <a href="cim.html">Quiz images</a>
+            With the purpose of doing a qualitative analysis of the images quality, we decided to create a quiz. This allowed us to make a cross reference between the system memory used <i>vs</i> the images that people chosen by answering the quiz. We used the <i>ClipSize</i> and the <i>ClipRange</i> as the test parameters. Our intention was to approach people who weren't familiar with the subject. Hence, the answers are more plausible. After gathering the opinions of thirty people, the analysis can be consulted below.
          </p>
          <h2 class="articleSubTitle" onclick="hide('div0')">Do you consider yourself a gamer or somewhat aware of modern real time graphics?</h2>
-         <div id="div0" class="container">
+         <div id="div0">
             <div class="row">
                <div>
                   <center>
@@ -144,106 +144,294 @@
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div1')">Question 1</h2>
-         <p>In the first question was used a ClipSize of 16 and a ClipRange of 256, 512 and 1024, respectively. The most chosen image by all users was the third one (ClipRange at 1024). The graphics card memory used was 430MB and 11MB of RAM.</p>
-         <div id="div1" class="container">
+         <div id="div1">
+          <table style="width:100%" >
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 1" href="img/quiz1/Clipmap_16_range_256.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_16_range_256.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 2" href="img/quiz1/Clipmap_16_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_16_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 3" href="img/quiz1/Clipmap_16_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_16_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 1</i></td>
+            <td align="center"><i class="legend">Figure 2</i></td>
+            <td align="center"><i class="legend">FIgure 3</i></td>
+        </tr>
+    </table>
+         <p>In the first question was used a ClipSize of 16 and a ClipRange of 256 (Figure 1), 512 (Figure 2) and 1024 (Figure 3). The most chosen image by all users was the third one (ClipRange at 1024). The graphics card memory used was 430MB and 11MB of RAM.</p>
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq1"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq1"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq1"></div>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div2')">Question 2</h2>
+         <div id="div2">
+          <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 4" href="img/quiz1/Clipmap_32_range_256.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_32_range_256.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 5" href="img/quiz1/Clipmap_32_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_32_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 6" href="img/quiz1/Clipmap_32_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_32_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 4</i></td>
+            <td align="center"><i class="legend">Figure 5</i></td>
+            <td align="center"><i class="legend">FIgure 6</i></td>
+        </tr>
+    </table>
          In this second question, the ClipSize was increased to 32. The memory used and the answer are the same as before (ClipRange at 1024). 
-         <div id="div2" class="container">
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq2"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq2"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq2"></div>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div3')">Question 3</h2>
-         In general the third image was the best by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. This is maybe due to a better ambient occlusion on the curtains.
-         <div id="div3" class="container">
+         <div id="div3">
+          <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 7" href="img/quiz1/Clipmap_64_range_256.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_64_range_256.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 8" href="img/quiz1/Clipmap_64_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_64_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 9" href="img/quiz1/Clipmap_64_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_64_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 7</i></td>
+            <td align="center"><i class="legend">Figure 8</i></td>
+            <td align="center"><i class="legend">FIgure 9</i></td>
+        </tr>
+    </table>
+         In general the Figure 9 was the best by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. This is maybe due to a better ambient occlusion on the curtains.
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq3"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq3"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq3"></div>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div4')">Question 4</h2>
-         <div id="div4" class="container">
+         <div id="div4">
+            <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 10" href="img/quiz1/Clipmap_128_range_256.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_256.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 11" href="img/quiz1/Clipmap_128_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 12" href="img/quiz1/Clipmap_128_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 10</i></td>
+            <td align="center"><i class="legend">Figure 11</i></td>
+            <td align="center"><i class="legend">Figure 12</i></td>
+        </tr>
+    </table>
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq4"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq4"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq4"></div>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div5')">Question 5</h2>
-         <div id="div5" class="container">
+         <div id="div5">
+          <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 13" href="img/quiz1/Clipmap_256_range_256.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_256_range_256.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 14" href="img/quiz1/Clipmap_256_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 15" href="img/quiz1/Clipmap_256_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 13</i></td>
+            <td align="center"><i class="legend">Figure 14</i></td>
+            <td align="center"><i class="legend">Figure 15</i></td>
+        </tr>
+    </table>
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq5"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq5"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq5"></div>
                </div>
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div6')">Question 6</h2>
-         Comparing this four images, the majory voted on the second image. The parameters used on this one are ClipSize at 128 and ClipRange at 512. The last one uses the ClipSize at 256 and a ClipRange at 1024. This last image uses 1843MB of graphics card memory and 2124MB of RAM while the most voted only uses 972MB of graphics card memory and 10MB of RAM. So, we can concluded that it is not necessary to use the best parameters possible to achieve a good image quality. Hence, we use less resources and have a better frame rate (55 frames per second).
-         <div id="div6" class="container">
+         <div id="div6">
+          <table style="width:100%">
+        <tr>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 16" href="img/quiz1/Clipmap_64_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_64_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 17" href="img/quiz1/Clipmap_128_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_128_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 18" href="img/quiz1/Clipmap_256_range_512.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_256_range_512.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:25%">
+                <div class="image">
+                    <a rel="gallery" title="Figure 19" href="img/quiz1/Clipmap_256_range_1024.jpg">
+                        <img class="img-responsive col-lg-12" src="img/quiz1/Clipmap_256_range_1024.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Figure 16</i></td>
+            <td align="center"><i class="legend">Figure 17</i></td>
+            <td align="center"><i class="legend">Figure 18</i></td>
+            <td align="center"><i class="legend">Figure 19</i></td>
+        </tr>
+    </table>
+          Comparing this four images, the majory voted on the second image. The parameters used on this one are ClipSize at 128 and ClipRange at 512. The last one uses the ClipSize at 256 and a ClipRange at 1024. This last image uses 1843MB of graphics card memory and 2124MB of RAM while the most voted only uses 972MB of graphics card memory and 10MB of RAM. So, we can concluded that it is not necessary to use the best parameters possible to achieve a good image quality. Hence, we use less resources and have a better frame rate (55 frames per second).
             <div class="row">
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
                   <div id="piechartNoneq6"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Non-Gamers</h3>
                   <div id="piechartNoq6"></div>
                </div>
-               <div class="col-xs-3">
+               <div class="col-xs-4">
                   <h3 style="text-align: center;">Gamers</h3>
                   <div id="piechartYesq6"></div>
                </div>

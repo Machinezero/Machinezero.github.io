@@ -6,7 +6,7 @@ Our main goals were:
 * Learn how [VXGI](https://developer.nvidia.com/vxgi) works;
 * Create a [website](http://machinezero.github.io/)  with some documentation and explanation of [NVIDIA's](http://www.nvidia.com/Download/index.aspx?lang=en-us) code, due to the lack of documentation;
 * Imporve the [demo](https://developer.nvidia.com/gameworksdownload#?dn=nvidia-vxgi-0-9) from [NVIDIA](http://www.nvidia.com/Download/index.aspx?lang=en-us);
-* Test the scalability of [VXGI](https://developer.nvidia.com/vxgi) by testing with larger scenes than [Sponza](http://graphics.cs.williams.edu/data/meshes.xml) model, like [Ponte De Lima](http://www4.di.uminho.pt/pl3d/) and [Rungholt](http://graphics.cs.williams.edu/data/meshes.xml)
+* Test the scalability of [VXGI](https://developer.nvidia.com/vxgi) by testing with larger scenes than [Sponza](http://graphics.cs.williams.edu/data/meshes.xml#1) model, like [Ponte De Lima](http://www4.di.uminho.pt/pl3d/) and [Rungholt](http://graphics.cs.williams.edu/data/meshes.xml#12)
 
 [Here](http://machinezero.github.io/) you can see everything that we learned and created about [Voxel Global Ilumination](https://developer.nvidia.com/vxgi)
 

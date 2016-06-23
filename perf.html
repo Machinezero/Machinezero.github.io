@@ -127,14 +127,20 @@
                 <p>The emittance voxelization was benchmarked by changing the position of the light every frame, which forces the whole emittance voxelization algorithm to be recalculated.</p>
 
                 <p>There was a thought behind the scenes we used, like the number of triangles and the actual setting of the scene (outside or inside, extensity).</p>
-                <p>The number of triangles of the scenes can be seen below:</p>
+                <p>The renderer scenes were:</p>
+                <ul>
+                    <li><a href="http://graphics.cs.williams.edu/data/meshes.xml#1" target="_blank">Sponza;</a></li>
+                    <li><a href="http://www4.di.uminho.pt/pl3d/" target="_blank">Ponte de Lima 3D;</a></li>
+                    <li><a href="http://graphics.cs.williams.edu/data/meshes.xml#12" target="_blank">Rungholt.</a></li>
+                </ul>
+                <p>The number of triangles of each scene can be seen below:</p>
                 <div class="row">
                    <div>
                         <table>
                              <tr>
                                  <th></th>
                                 <th>Sponza</th>
-                                <th><a href="http://www4.di.uminho.pt/pl3d/app.html">Ponte de Lima 3D</a></th>
+                                <th>Ponte de Lima 3D</a></th>
                                 <th>Rungholt</th>
                               </tr>
                               <tr>
@@ -149,7 +155,7 @@
 
                 <hr/>
 
-                <p>The hardware used was a <b>Nvidia Geforce GTX 950m.</b></p>
+                <p>The hardware used in the following benchmarks was a <b>Nvidia Geforce GTX 950m.</b></p>
 
                 <h2 class="articleSubTitle" onclick="hide('op')"> Opacity Voxelization Performance Impact</h2>
                 <div id="op">
@@ -227,7 +233,7 @@
                                 <th>FPS</th>
                             </tr>
                         </thead>
-                        <tbody id="tbl1">
+                        <tbody id="tbl1" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>3<br/>
@@ -241,7 +247,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody id="tbody1" style="display:none">
+                        <tbody id="tbody1">
                             
                             <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl1','tbody1');">Table</a></strong></td>
                             <td colspan="5">
@@ -250,7 +256,7 @@
                             
                         </tbody>
 
-                        <tbody id="tbl2">
+                        <tbody id="tbl2" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>6<br/>
@@ -265,7 +271,7 @@
                             </tr>
                         </tbody>
 
-                        <tbody id="tbody2" style="display:none">
+                        <tbody id="tbody2">
                             
                             <td rowspan="6"><strong>6<br/><a onclick="showStuff('tbl2','tbody2');">Table</a></strong></td>
                             <td colspan="5">
@@ -288,7 +294,7 @@
                                 <th>FPS</th>
                             </tr>
                         </thead>
-                        <tbody id="tbl3">
+                        <tbody id="tbl3" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>3<br/>
@@ -302,7 +308,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody id="tbody3" style="display:none">
+                        <tbody id="tbody3">
                             
                             <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl3','tbody3');">Table</a></strong></td>
                             <td colspan="5">
@@ -311,7 +317,7 @@
                             
                         </tbody>
 
-                        <tbody id="tbl4">
+                        <tbody id="tbl4" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>6<br/>
@@ -326,7 +332,7 @@
                             </tr>
                         </tbody>
 
-                        <tbody id="tbody4" style="display:none">
+                        <tbody id="tbody4" >
                             
                             <td rowspan="6"><strong>6<br/><a onclick="showStuff('tbl4','tbody4');">Table</a></strong></td>
                             <td colspan="5">
@@ -349,7 +355,7 @@
                                 <th>FPS</th>
                             </tr>
                         </thead>
-                        <tbody id="tbl5">
+                        <tbody id="tbl5" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>3<br/>
@@ -363,7 +369,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody id="tbody5" style="display:none">
+                        <tbody id="tbody5">
                             
                             <td rowspan="6"><strong>3<br/><a onclick="showStuff('tbl5','tbody5');">Table</a></strong></td>
                             <td colspan="5">
@@ -372,7 +378,7 @@
                             
                         </tbody>
 
-                        <tbody id="tbl6">
+                        <tbody id="tbl6" style="display:none">
                             <tr>
                                 <td rowspan="6">
                                     <strong>6<br/>
@@ -387,7 +393,7 @@
                             </tr>
                         </tbody>
 
-                        <tbody id="tbody6" style="display:none">
+                        <tbody id="tbody6">
                             
                             <td rowspan="6"><strong>6<br/><a onclick="showStuff('tbl6','tbody6');">Table</a></strong></td>
                             <td colspan="5">
