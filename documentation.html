@@ -7,6 +7,7 @@
       <link rel="stylesheet" href="css-js/css/bootstrap.min.css">
       <link rel="stylesheet" href="css-js/font-awesome/css/font-awesome.min.css">
       <script src="css-js/js/jquery-1.10.2.js"></script>
+
       <script src="css-js/js/jquery-ui.js"></script>
       <script src="css-js/js/bootstrap.min.js"></script>
       <style>
@@ -114,6 +115,7 @@
       </div>
       <script>
           $(function() {
+            
             var names = [];
             var fileUrl = "API/vxgi.xml";
             var stringData = $.ajax({
@@ -129,8 +131,22 @@
                 $('#main-list').append(html);
 
                 names.push({ label:$(this).attr('name'), category:$(this).prop("nodeName"), id: idx});
+
+                
                    
-            });
+            }
+
+
+            );
+
+            var hash=$(location).attr('hash');
+            if(hash){
+                  $(hash).slideDown();
+                  $(hash).find(".desc").slideDown();
+                  $("html, body").animate({ scrollTop: $(hash).offset().top }, 1000);
+
+
+              }
 
             function structOrClass(elem,idx){
                 var count=0;
@@ -267,6 +283,7 @@
                select: function (event, ui) {
                 $("#"+ui.item.id).slideDown();
                 $("#"+ui.item.id).find(".desc").slideDown();
+                $("html, body").animate({ scrollTop: $("#"+ui.item.id).offset().top }, 1000);
               }
             });
               $("li").on('click','.closeli',function(e) {
