@@ -64,6 +64,8 @@
     $(document).ready(function(){
         var hash=$(location).attr('hash');
         $(hash).fadeIn(2000);
+
+        $("html, body").animate({ scrollTop: $(hash).offset().top }, 1000);
     });
     </script>
 </head>
@@ -102,30 +104,43 @@
     <div class="articlePost">
         <div class="row">
 
-            <div id="c" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <a name="c"></a>
                 <h1 class="articleTitle">VXGI steps.</h1>
 
-                <p>You can download a demo without VXGI <a href="Download/GFSDK_VXGI_r0_9_19557187_novxgi.zip" download>here</a>, and follow the steps bellow to achieve global illumination in DirectX environment.</p>
+                <p>You can download a demo without VXGI <a href="Download/GFSDK_VXGI_r0_9_19557187_novxgi.zip" download>here</a>, and follow the steps bellow to achieve global illumination in DirectX environment. Note that this is simply the demo provided by NVidia, without VXGI. We decided to do this so people can learn how to implement VXGI in an application without it.</p>
 
                 <p>The demo provided displays the known Sponza scene using RSM (Reflective Shadow Maps) with DirectX.</p>
 
                 <p>The libraries already included in the project are:
 <ul>
-<li>Nvidia GI Works (VXGI)</li>
-<li>Nvidia NVAPI (SDK for direct GPU access)</li>
-<li>FXC (tool for compiling HLSL shaders for all versions of Direct3D)</li>
-<li>Assimp (load 3D models to data structure)</li>
-<li>FreeImage (for textures)</li>
-<li>Other Nvidia Utils (Camera and Device Manager libraries)</li>
-<li>AntTweakBar (User Menu)</li>
+<li><a href="https://developer.nvidia.com/vxgi">Nvidia GI Works (VXGI</a>)</li>
+    <li><a href="https://developer.nvidia.com/nvapi" target="_blank">Nvidia NVAPI</a>(SDK for direct GPU access)</li>
+    <li><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb509710%28v=vs.85%29.aspx" target="_blank">FXC</a> (tool for compiling HLSL shaders for all versions of Direct3D)</li>
+    <li><a href="http://www.assimp.org/" target="_blank">Assimp</a> (load 3D models to data structure)</li>
+    <li><a href="http://freeimage.sourceforge.net/" target="_blank">FreeImage</a> (for textures)</li>
+<li>Other Nvidia Utils (Camera and Device Manager libraries based )</li>
+    <li><a href="http://anttweakbar.sourceforge.net/doc/" target="_blank">AntTweakBar</a> (User Menu)</li>
 </ul></p>
+                <h2 class="articleSubTitle" onclick="hide('steps0')"> STEP 0 - Setting up VXGI Libraries</h2>
+
+                <div id="steps0"  style="display:none">
+                </div>
 
                 <h2 class="articleSubTitle" onclick="hide('steps1')"> STEP 1 - Creating the VXGI Object</h2>
 
 
-                <div id="steps1" >
-                The first step in implementing VXGI is creating the main Object, and define some initial parameters. So lets create a function called <b>CreateVXGIObject</b> in Main.cpp (outside classes, just below global variables):
+                <div id="steps1"  style="display:none">
+                The first step in implementing VXGI is creating the main Object, and define some initial parameters. So first let's create two global variables in <b>Main.cpp</b>:
+<div style="font-size:14px">
+<pre class="brush: cpp;" >
+VXGI::IGlobalIllumination*      g_pGI = NULL;
+
+VXGI::IViewTracer*              g_pGITracer = NULL;
+    </pre></div>
+
+
+                The first variable is our main VXGI object and the second is the tracer. Now let's create a function called <b>CreateVXGIObject</b> in Main.cpp (outside classes, just below global variables):
 <div style="font-size:14px">
 <pre class="brush: cpp;" >
 HRESULT CreateVXGIObject()
@@ -147,7 +162,7 @@ HRESULT CreateVXGIObject()
 
     We also need to declare some parameters concerning the ilumination algorithm, like the number of directions (3 or 6) related to the voxelization  algorithm, the size of the clipmap that will be used to store the voxels, etc. An example:
      <div style="font-size:14px">
-<pre class="brush: cpp;" >
+<pre class="brush: cpp; " >
     params.voxelizationParamters.opacityDirectionCount = VXGI::OpacityDirections::SIX_DIMENSIONAL;
     params.voxelizationParamters.emittanceDirectionCount = VXGI::EmittanceDirections::SIX_DIMENSIONAL;
     params.voxelizationParamters.mapSize = 128;
@@ -156,7 +171,7 @@ HRESULT CreateVXGIObject()
     params.voxelizationParamters.maxScatterIterations = 0;
     </pre></div>
 
-    For the next step, we need to define our main VXGI object as <b>VXGI::IGlobalIllumination*      g_pGI = NULL;</b> as a global variable (at the top of Main.cpp). Then we initialize that object with the parameters we declared before. If it fails to do so, an error message is returned.
+    Then we initialize the VXGI object with the parameters we declared before. If it fails to do so, an error message is returned.
     <div style="font-size:12px">
 
 <pre class="brush: cpp;" >
@@ -166,8 +181,7 @@ HRESULT CreateVXGIObject()
         return E_FAIL;
     }
     </pre></div>
-    We have to follow the same metodology as before for the VXGI tracer. So, we define it as a global variable (<b>VXGI::IViewTracer*              g_pGITracer = NULL;
-</b>) and we then create it, testing whether it failed or not:
+ Now we create the Tracer, testing whether it failed or not:
 <div style="font-size:12px">
 
 <pre class="brush: cpp;" >
@@ -217,7 +231,7 @@ HRESULT CreateVXGIObject()
     In our <b>MainVisualController</b> class, int the <b>DeviceCreated</b> method, we can now call this function to create the VXGI object, after creating the scene renderer:
     <div style="font-size:12px">
 
-<pre class="brush: cpp;" >
+<pre class="brush: cpp;highlight: [6];" >
     ID3D11DeviceContext* pImmediateContext;
     pDevice->GetImmediateContext(&pImmediateContext);
 
@@ -249,26 +263,32 @@ HRESULT CreateVXGIObject()
 </div>
 
 To keep the code compilable, we need to change the arguments of said functions in <b>Main.cpp</b> and <b>SceneRenderer.cpp</b>.
- So, every function mentioned will now also take as an argument <b>g_pGI</b>. For example:
+   So, every function mentioned will now also take as an argument <b>g_pGI</b>. These are the changes you need to make <b>Main.cpp</b>:
  <div style="font-size:12px">
 
                     <pre class="brush: cpp;" >
-                    //MAIN.CPP
                     V_RETURN( g_pSceneRenderer->AllocateResources(pDevice, g_pGI) );
                     (...)
-                    g_pSceneRenderer->ReleaseResources(g_pGI);
-                    //SCENERENDERER.CPP
-                    RenderSceneCommon( NULL,NULL, 0, viewProjMatrix, &onChangeMaterial,false);
+                    g_pSceneRenderer->ReleaseResources(g_pGI);                    
                     </pre></div>
 
+
+  Also make note of this change in <b>SceneRenderer.cpp</b>:
+
+<div style="font-size:12px">
+
+                    <pre class="brush: cpp;" >
+                        RenderSceneCommon( NULL,NULL, 0, viewProjMatrix, &onChangeMaterial,false);
+                    </pre></div>
 Build and run the application to make sure no error was made. There should not be any change in the result being rendered.
                 </div>
+
 
 
                 <h2 class="articleSubTitle" onclick="hide('steps2')"> STEP 2 - Creating the Geometry and Pixel Voxelization Shaders</h2>
 
                 <div id="steps2" style="display:none">
-                    <i>Note: This section will concern the files <b>SceneRenderer.cpp</b> and <b>SceneRenderer.h</b> unless you are said otherwise.</i><br/>
+                    <i>Note: This section will concern the files <b>SceneRenderer.cpp</b> and <b>SceneRenderer.h</b> unless you are told otherwise.</i><br/>
 
                     The next step is to create a geometry shader based on a vertex shader (a domain shader can be used too) and a pixel shader. The vertex shader is already defined in our <b>SceneRenderer</b> as <b>g_DefaultVS</b>. The geometry shader is generated by VXGI using a list of attributes required for the materials, which are passed down from the vertex shader. That information is then passed down to the pixel shader.  <br/>
                     So, we need to assign a Pixel and Geometry shader to the Scene Renderer in order to voxelize our scene.
@@ -277,7 +297,7 @@ Build and run the application to make sure no error was made. There should not b
 
     <div style="font-size:12px">
 
-                    <pre class="brush: cpp;" >
+                    <pre class="brush: cpp;highlight: [6];highlight: [13,14];" >
     private:
 
     Scene*                  m_pScene;
@@ -299,7 +319,7 @@ Build and run the application to make sure no error was made. There should not b
 In <b>SceneRenderer.cpp</b> we now need to initialize the new variables in our constructor:
 <div style="font-size:12px">
 
-                    <pre class="brush: cpp;" >
+                    <pre class="brush: cpp;highlight: [6,7];" >
 SceneRenderer::SceneRenderer(ID3D11DeviceContext* pContext)
     : m_RendererInterface(this, pContext)
     , m_pImmediateContext(pContext)
@@ -314,7 +334,7 @@ SceneRenderer::SceneRenderer(ID3D11DeviceContext* pContext)
 
 Now that we have these variables defined, 
 
-Let's now create the Geometry shader using <b>createVoxelizationGeometryShaderFromVS</b> provided by VXGI within the <b>AllocateResources</b> function. The code should be added before the last return.
+Let's create the Geometry shader using <b>createVoxelizationGeometryShaderFromVS</b> provided by VXGI within the <b>AllocateResources</b> function. The code should be added before the last return.
 
 <div style="font-size:12px">
 
@@ -362,7 +382,7 @@ So, in the <b>AllocateResources</b> function we will need to read this file, and
         return E_FAIL;
 </pre></div>
 
-Now that we have created the shaders we can also need to release them when they are not needed anymore. So, in the <b>ReleaseResources</b>, using <b>destroyUserDefinedShaderSet</b>, we destroy a given shader from the VXGI object. <br/>
+Now that we have created the shaders we need to release them. So, in the <b>ReleaseResources</b>, using <b>destroyUserDefinedShaderSet</b>, we destroy a given shader from the VXGI object. <br/>
 
 At the very bottom of <b>ReleaseResources</b>:
 
@@ -371,16 +391,16 @@ At the very bottom of <b>ReleaseResources</b>:
                     <pre class="brush: cpp;" >
 
 if(m_pVoxelizationGS)       
-        {       
-            pGI->destroyUserDefinedShaderSet(m_pVoxelizationGS);        
-            m_pVoxelizationGS = NULL;       
-        }       
-            
-        if(m_pVoxelizationPS)       
-        {       
-            pGI->destroyUserDefinedShaderSet(m_pVoxelizationPS);        
-            m_pVoxelizationPS = NULL;       
-        }
+{       
+    pGI->destroyUserDefinedShaderSet(m_pVoxelizationGS);        
+    m_pVoxelizationGS = NULL;       
+}       
+    
+if(m_pVoxelizationPS)       
+{       
+    pGI->destroyUserDefinedShaderSet(m_pVoxelizationPS);        
+    m_pVoxelizationPS = NULL;       
+}
 </pre></div>
 
 Finally we also need to update the <b>GetMaterialInfo</b> function by adding at the bottom:
@@ -391,7 +411,7 @@ materialInfo.geometryShader = m_pVoxelizationGS;
 materialInfo.pixelShader = m_pVoxelizationPS;
         </pre></div>
 
-Finally, your <b>SceneRender.cpp</b> and <b>SceneRenderer.h</b> should look like  <a href="code\step2-SceneRenderercpp.html" TARGET="_blank">this</a> and  <a href="code\step2-SceneRendererh.html" TARGET="_blank">this</a>. Build and run the application again to confirm that no error was made.
+Finally, your <b>SceneRender.cpp</b> and <b>SceneRenderer.h</b> should look like  <a href="code/step2-SceneRenderercpp.html" TARGET="_blank">this</a> and  <a href="code/step2-SceneRendererh.html" TARGET="_blank">this</a>. Build and run the application again to confirm that no error was made.
 
                 </div>
 
@@ -402,13 +422,15 @@ After setting up the shaders we can finally proceed to the voxelization. First l
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
 static float g_fClipmapRange    = 512.0f;
+static int g_iDebugLevel        = 0;
 static bool g_bEnableGI         = true;
 static VXGI::DebugRenderMode::Enum g_DebugRenderMode = VXGI::DebugRenderMode::DISABLED;     
                     </pre></div>
 
-The Clipmap Range defines the distance in the scene we want to voxelize in the first level of the clipmap (the finer level). The Debug Render Mode will be used to render the voxels in our screen, for debugging purposes. We will use the g_bEnableGI to switch between global illumination and normal illumination. Let's add some entries to our menu so that we can change some things when we are running our application. We should be able to decide whether we want GI or not, and whether we want to see the opacity voxels, the emittance voxels, or none at all. So, in <b>Main.cpp</b>, in the <b>AntTweakBarVisualController</b> class, let's change the <b>InitDialogs</b> function. Let's add two entries for our menu:
+The Clipmap Range defines the distance in the scene we want to voxelize in the first level of the clipmap (the finer level). The Debug Render Mode will be used to render the voxels in our screen, for debugging purposes, and the Debug level will be used to render different levels of the clipmap. We will use the g_bEnableGI to switch between global illumination and normal illumination. Let's add some entries to our menu so we can make some changes when running the application. We should be able to decide whether we want GI or not, and whether we want to see the opacity voxels, the emittance voxels, or none at all. So, in <b>Main.cpp</b>, in the <b>AntTweakBarVisualController</b> class, let's change the <b>InitDialogs</b> function. Let's add two entries for our menu:
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
+TwAddVarRW(bar, "Enable GI", TW_TYPE_BOOLCPP, &g_bEnableGI, "");
 TwAddVarRW(bar, "Enable GI", TW_TYPE_BOOLCPP, &g_bEnableGI, "");
 
 { // Debug rendering mode
@@ -420,6 +442,9 @@ TwAddVarRW(bar, "Enable GI", TW_TYPE_BOOLCPP, &g_bEnableGI, "");
             TwType debugRenderModeType = TwDefineEnum("Debug rendering mode", debugRenderModeEV, sizeof(debugRenderModeEV) / sizeof(debugRenderModeEV[0]));
             TwAddVarRW(bar, "Debug mode", debugRenderModeType, &g_DebugRenderMode, "keyIncr=g keyDecr=G");
 }
+
+TwAddVarRW(bar, "Debug level", TW_TYPE_INT32, &g_iDebugLevel, "min=0 max=4");
+
 
 </pre>
 </div>
@@ -443,52 +468,52 @@ Next we have to replace the <b>if(material != lastMaterial)</b> as so:
 <div style="font-size:11px">
 <pre class="brush: cpp;" >
 if(material != lastMaterial)
-            {               
-                MeshMaterialInfo materialInfo;                 
-                GetMaterialInfo(i, materialInfo); 
-                                            
-                if (voxelization) 
-                {       
-                    m_pImmediateContext->PSSetShaderResources(SRV_SLOT_DIFFUSE_TEXTURE, 1, &materialInfo.diffuseTexture);       
+{               
+    MeshMaterialInfo materialInfo;                 
+    GetMaterialInfo(i, materialInfo); 
+                                
+    if (voxelization) 
+    {       
+        m_pImmediateContext->PSSetShaderResources(SRV_SLOT_DIFFUSE_TEXTURE, 1, &materialInfo.diffuseTexture);       
+
+        globalConstants.diffuseColor = VXGI::Vector4f(materialInfo.diffuseColor, materialInfo.diffuseTexture ? 1.f : 0.f);      
+        m_pImmediateContext->UpdateSubresource(m_pGlobalCBuffer, 0, NULL, &globalConstants, 0, 0);      
+
+        if(lastMaterial < 0 || lastMaterialInfo != materialInfo)        
+        {       
+            if(VXGI_FAILED(pGI->getVoxelizationState(materialInfo, voxelizationState)))         
+              continue;     
             
-                    globalConstants.diffuseColor = VXGI::Vector4f(materialInfo.diffuseColor, materialInfo.diffuseTexture ? 1.f : 0.f);      
-                    m_pImmediateContext->UpdateSubresource(m_pGlobalCBuffer, 0, NULL, &globalConstants, 0, 0);      
-            
-                    if(lastMaterial < 0 || lastMaterialInfo != materialInfo)        
-                    {       
-                        if(VXGI_FAILED(pGI->getVoxelizationState(materialInfo, voxelizationState)))         
-                          continue;     
-                        
-                        m_RendererInterface.applyState(voxelizationState);      
-                    }       
-                }       
-                else if(onChangeMaterial)       
-                {                   
-                    (*onChangeMaterial)(materialInfo);                      
-                }                   
-            
-                lastMaterial = material;                   
-                lastMaterialInfo = materialInfo;                   
-            }
+            m_RendererInterface.applyState(voxelizationState);      
+        }       
+    }       
+    else if(onChangeMaterial)       
+    {                   
+        (*onChangeMaterial)(materialInfo);                      
+    }                   
+
+    lastMaterial = material;                   
+    lastMaterialInfo = materialInfo;                   
+}
 
             </pre></div>
 This is what voxelizes the material.<br/>
-Finally at the end of the function (after the <b>for</b>, just before the final brace) we can finalize the voxelization draw calls:
+Finally at the end of the function we can finalize the voxelization draw calls:
             <div style="font-size:12px">
 <pre class="brush: cpp;" >
 if (voxelization)       
-        {       
-            pGI->endVoxelizationDrawCallGroup();        
-            m_RendererInterface.clearState();       
-        }
+{       
+    pGI->endVoxelizationDrawCallGroup();        
+    m_RendererInterface.clearState();       
+}
             </pre></div>
 
 We will now start working on the function <b>Render</b> in <b>Main.cpp</b> in order to voxelize our scene. Let's start with a simple <b>if</b> after the <b>RenderShadowMap</b> call:
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
  if (g_bEnableGI)       
-        {              
-        }
+{              
+}
             </pre></div>
 
  First, we have to define a center point for our clipmap, which is usually the position of the camera plus a vector in the eye direction (its norm is usually the clipmap range). We will also have to retrieve the light being used.  So, inside the if:
@@ -496,10 +521,10 @@ We will now start working on the function <b>Render</b> in <b>Main.cpp</b> in or
 <pre class="brush: cpp;" >
 XMVECTOR centerPt = eyePt + viewForward * g_fClipmapRange;     
             
-VXGI::LightDesc light = g_pSceneRenderer->GetLightDesc()
+VXGI::LightDesc light = g_pSceneRenderer->GetLightDesc();
 </pre></div>
 
-Now we create the <b>UpdateVoxelizationParameters</b>, giving it our center point (known as the anchor), the clipmap range  (mencioned before) and the light. 
+Now we create the <b>UpdateVoxelizationParameters</b>, giving it our center point (known as the anchor), the clipmap range  (mencioned before) and the light. Again, inside the same block:
 
  <div style="font-size:12px">
 <pre class="brush: cpp;" >
@@ -525,94 +550,98 @@ g_pGI->prepareForOpacityVoxelization(
 </pre></div>
 
 
-Let's now define a number of regions (cubes) which will be later used to know what parts need to be revoxelized. This code will only run if there was an indication that we can perform some part of the voxelization.
+Let's define a number of regions (cubes) which will be later used to know what parts need to be revoxelized. This code will only run if there was an indication that we can perform some part of the voxelization. So, after the last piece of code:
 
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
  if(performOpacityVoxelization || performEmittanceVoxelization)     
-                {       
-                    VXGI::Matrix4f voxelizationMatrix;      
-                    g_pGI->getVoxelizationViewMatrix(voxelizationMatrix);       
-            
-                    const uint32_t maxRegions = 128;        
-                    uint32_t numRegions = 0;        
-                    VXGI::Box3f regions[maxRegions];
-                }
+{       
+    VXGI::Matrix4f voxelizationMatrix;      
+    g_pGI->getVoxelizationViewMatrix(voxelizationMatrix);       
+
+    const uint32_t maxRegions = 128;        
+    uint32_t numRegions = 0;        
+    VXGI::Box3f regions[maxRegions];
+}
 </pre></div>
 
-After defining the regions, we call <b>getInvalidatedRegions</b> to retrieve which regions need to be revoxelized. After that we run whatever step of the voxelization needs to run.
+We need to call <b>getInvalidatedRegions</b> to retrieve which regions need to be revoxelized. After that we run whatever step of the voxelization needs to run. After defining the regions:
 
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
 if(VXGI_SUCCEEDED(g_pGI->getInvalidatedRegions(regions, maxRegions, numRegions)))       
-                    {       
-                        if(performOpacityVoxelization)      
-                            g_pSceneRenderer->RenderSceneCommon(g_pGI, regions, numRegions, voxelizationMatrix, NULL, true);        
-            
-                        if(performEmittanceVoxelization)        
-                        {       
-                            g_pGI->prepareForEmittanceVoxelization();       
-                            g_pSceneRenderer->RenderSceneCommon(g_pGI, NULL, 0, voxelizationMatrix, NULL, true);        
-                        }       
-                    }
+{       
+    if(performOpacityVoxelization)      
+        g_pSceneRenderer->RenderSceneCommon(g_pGI, regions, numRegions, voxelizationMatrix, NULL, true);        
+
+    if(performEmittanceVoxelization)        
+    {       
+        g_pGI->prepareForEmittanceVoxelization();       
+        g_pSceneRenderer->RenderSceneCommon(g_pGI, NULL, 0, voxelizationMatrix, NULL, true);        
+    }       
+}
 </pre></div>
 
 We can now finalize the voxelization.
 
 <div style="font-size:12px">
-<pre class="brush: cpp;" >
+<pre class="brush: cpp;highlight: [6]" >
+if(performOpacityVoxelization || performEmittanceVoxelization)
+{
+    (...)
+}
+
 g_pGI->finalizeVoxelization();
 </pre></div>
 Finally the if should look like this:
 
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
-            if (g_bEnableGI)        
-            {       
-                XMVECTOR centerPt = eyePt + viewForward * g_fClipmapRange;      
-            
-                VXGI::LightDesc light = g_pSceneRenderer->GetLightDesc();       
-                        
-                VXGI::UpdateVoxelizationParameters params;      
-                params.clipmapAnchor = VXGI::Vector3f(centerPt.m128_f32);       
-                params.giRange = g_fClipmapRange;       
-                params.lights = &light;     
-                params.lightCount = 1;      
-            
-                bool performOpacityVoxelization = false;        
-                bool performEmittanceVoxelization = false;      
-            
-                g_pGI->prepareForOpacityVoxelization(       
-                  params,       
-                  performOpacityVoxelization,       
-                  performEmittanceVoxelization);        
-            
-                if(performOpacityVoxelization || performEmittanceVoxelization)      
-                {       
-                    VXGI::Matrix4f voxelizationMatrix;      
-                    g_pGI->getVoxelizationViewMatrix(voxelizationMatrix);       
-            
-                    const uint32_t maxRegions = 128;        
-                    uint32_t numRegions = 0;        
-                    VXGI::Box3f regions[maxRegions];        
-            
-                    if(VXGI_SUCCEEDED(g_pGI->getInvalidatedRegions(regions, maxRegions, numRegions)))       
-                    {       
-                        if(performOpacityVoxelization)      
-                            g_pSceneRenderer->RenderSceneCommon(g_pGI, regions, numRegions, voxelizationMatrix, NULL, true);        
-            
-                        if(performEmittanceVoxelization)        
-                        {       
-                            g_pGI->prepareForEmittanceVoxelization();       
-                            g_pSceneRenderer->RenderSceneCommon(g_pGI, NULL, 0, voxelizationMatrix, NULL, true);        
-                        }       
-                    }       
-                }       
-            
-                g_pGI->finalizeVoxelization();      
-            }
+if (g_bEnableGI)        
+{       
+    XMVECTOR centerPt = eyePt + viewForward * g_fClipmapRange;      
 
-            </pre></div>
+    VXGI::LightDesc light = g_pSceneRenderer->GetLightDesc();       
+            
+    VXGI::UpdateVoxelizationParameters params;      
+    params.clipmapAnchor = VXGI::Vector3f(centerPt.m128_f32);       
+    params.giRange = g_fClipmapRange;       
+    params.lights = &light;     
+    params.lightCount = 1;      
+
+    bool performOpacityVoxelization = false;        
+    bool performEmittanceVoxelization = false;      
+
+    g_pGI->prepareForOpacityVoxelization(       
+      params,       
+      performOpacityVoxelization,       
+      performEmittanceVoxelization);        
+
+    if(performOpacityVoxelization || performEmittanceVoxelization)      
+    {       
+        VXGI::Matrix4f voxelizationMatrix;      
+        g_pGI->getVoxelizationViewMatrix(voxelizationMatrix);       
+
+        const uint32_t maxRegions = 128;        
+        uint32_t numRegions = 0;        
+        VXGI::Box3f regions[maxRegions];        
+
+        if(VXGI_SUCCEEDED(g_pGI->getInvalidatedRegions(regions, maxRegions, numRegions)))       
+        {       
+            if(performOpacityVoxelization)      
+                g_pSceneRenderer->RenderSceneCommon(g_pGI, regions, numRegions, voxelizationMatrix, NULL, true);        
+
+            if(performEmittanceVoxelization)        
+            {       
+                g_pGI->prepareForEmittanceVoxelization();       
+                g_pSceneRenderer->RenderSceneCommon(g_pGI, NULL, 0, voxelizationMatrix, NULL, true);        
+            }       
+        }       
+    }       
+
+    g_pGI->finalizeVoxelization();      
+}
+</pre></div>
 
 If we want to view the voxels in debug mode, thus confirming that the scene is being voxelized correctly, you can use <b>renderDebug</b> to render the voxels. This is what you would have to do, after the creation of the Projection and View matrices:
 
@@ -650,10 +679,10 @@ if (g_DebugRenderMode != VXGI::DebugRenderMode::DISABLED)
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
  else
-    {
+{
     VXGI::Vector3f ambientColor(0.1);
     g_pSceneRenderer->Shade(pRTV, viewProjMatrix, ambientColor * 0.5f);
-    }
+}
 </pre>
 </div>
     Build and run the application to check everything is done right, and that the scene is being voxelized correctly.
@@ -678,31 +707,46 @@ VXGI::Vector3f ambientColor
 </pre></div>
 
 
-And inside that function we now deploy the new resources to our shader:
+And inside that function we now deploy the new resources to our shader, by changing from:
+
+<div style="font-size:12px">
+<pre class="brush: cpp;" >
+pSRVs[3] = NULL;
+pSRVs[4] = NULL;
+    </pre></div>
+To:
 
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
 pSRVs[3] = indirectDiffuse ? m_RendererInterface.getSRVForTexture(indirectDiffuse) : NULL;
 pSRVs[4] = indirectSpecular ? m_RendererInterface.getSRVForTexture(indirectSpecular) : NULL;
-
-//and a little after that
-
+    </pre></div>
+    And below that, in the definition of the <b>GlobalConstants</b> structure, change from:
+<div style="font-size:12px">
+<pre class="brush: cpp;" >
+CB.enableIndirectDiffuse = 0;
+CB.enableIndirectSpecular = 0;
+    </pre></div>
+    To:
+<div style="font-size:12px">
+<pre class="brush: cpp;" >
 CB.enableIndirectDiffuse = indirectDiffuse ? 1 : 0;
 CB.enableIndirectSpecular = indirectSpecular ? 1 : 0;
 </pre></div>
 
 
-Now in <b>Main.cpp</b>, on the <b>Render</b> function we have to define some parameters concerning Diffuse and Specular effects of the Cone Tracing algorithm. First we define our Indirect Diffuse and Specular textures (after the definition of the ambient color):
+    Now in <b>Main.cpp</b>, on the <b>Render</b> function we have to define the parameters concerning Diffuse and Specular effects of the Cone Tracing algorithm. First we define our Indirect Diffuse and Specular textures (<b>after the definition of the ambient color, but before the Shade call</b>):
+
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
 VXGI::TextureHandle indirectDiffuse = NULL;     
 VXGI::TextureHandle indirectSpecular = NULL;        
 </pre></div>
 
- After that we have to assign some parameterss inherent to the two lighting fenomena. For example, for the parameters of Diffuse Cone Tracing, we have to define the number of cones for example, and some other parameters, which you can consult the documentation of in our documentation page. 
+ We have to assign some parameters inherent to the two lighting phenomena. For example, for the parameters of Diffuse Cone Tracing, we have to define the number of cones for example, and some other parameters, which you can consult the documentation of in our documentation page. Then, let's compute our diffuse and specular channels (the result will be saved in the textures we defined previously). Let's also define the ambient color of the materials for each axis direction. After the last piece of code:
 <div style="font-size:12px">
 <pre class="brush: cpp;" >
-if(g_bEnableGI)
+if(g_bEnableGI){
     VXGI::DiffuseTracingParameters diffuseParams;       
     VXGI::SpecularTracingParameters specularParams;     
     diffuseParams.numCones = 8;     
@@ -711,20 +755,17 @@ if(g_bEnableGI)
     diffuseParams.irradianceScale = 1.0;        
     specularParams.irradianceScale = 1.0;      
     specularParams.filter = VXGI::SpecularTracingParameters::FILTER_NONE;       
-</pre></div>
+    for(int n = 0; n < 6; n++)      
+          diffuseParams.ambientColors[n] = ambientColor;        
 
-Finally, let's compute our diffuse and specular channels (the result will be saved in the textures we defined previously). Let's also define the ambient color of the materials for each axis direction.
-<div style="font-size:12px">
-<pre class="brush: cpp;" >
-for(int n = 0; n < 6; n++)      
-      diffuseParams.ambientColors[n] = ambientColor;        
-
-g_pGITracer->computeDiffuseChannel(diffuseParams, indirectDiffuse, inputBuffers);              
-g_pGITracer->computeSpecularChannel(specularParams, indirectSpecular, inputBuffers); 
+    g_pGITracer->computeDiffuseChannel(diffuseParams, indirectDiffuse, inputBuffers);              
+    g_pGITracer->computeSpecularChannel(specularParams, indirectSpecular, inputBuffers); 
 }       
 </pre></div>
 
+
 And finally we can render with the <b>Shade</b> function we changed before.
+
 <div style="font-size:12px">
 <pre class="brush: cpp;" > 
 
@@ -733,7 +774,14 @@ g_pSceneRenderer->Shade(indirectDiffuse, indirectSpecular, pRTV, viewProjMatrix,
 
 <a href="code/step4-Render.html" target="_blank">Here</a> you can find the complete <b>Render</b> function, after all the changes were made. After building and running the application you should now have VXGI up and running. Consult our <a href="documentation.html">documentation</a> page for more information about the API.
                 </div>
+
+                <h2 class="articleSubTitle" onclick="hide('steps5')"> STEP 5 - Adding more stuff to User Menu (Extra)</h2>
+                
+                
+            <div id="steps5" style="display:none"></div>
             </div>
+
+
             
         </div>
 
