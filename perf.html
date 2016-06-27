@@ -222,8 +222,8 @@
             <h2 class="articleSubTitle" onclick="hide('mem')">Memory Benchmark</h2>
                 <div id="mem" style="display: none">
 
-                    <p>In order to mesure the memory spend (in RAM and Graphics Card Dedicated) used in <a href="http://graphics.cs.williams.edu/data/meshes.xml#1" target="_blank">Sponza</a>, <a href="http://www4.di.uminho.pt/pl3d/models.en.html" target="_blank">Ponte de Lima</a> and <a href="http://graphics.cs.williams.edu/data/meshes.xml#12" target="_blank">Rungholt</a> scenes we used <a href="https://www.techpowerup.com/gpuz/">GPU-Z</a>. To get more realistic measurements we should use NVIDIA's libraries to perform the mesures.</p>
-                    <p>The test were made to the Clipmap Size (16, 32, 64, 128 and 256) and to the number of Directions (3 or 6), <a href="post.html#b">here</a> you can learn more about these parameters.</p>
+                    <p>In order to mesure the memory spent (in RAM and graphics card dedicated memory) on <a href="http://graphics.cs.williams.edu/data/meshes.xml#1" target="_blank">Sponza</a>, <a href="http://www4.di.uminho.pt/pl3d/models.en.html" target="_blank">Ponte de Lima</a> and <a href="http://graphics.cs.williams.edu/data/meshes.xml#12" target="_blank">Rungholt</a> models we used <a href="https://www.techpowerup.com/gpuz/">GPU-Z</a>. To get more realistic measurements we should use NVIDIA's libraries to perform the mesures.</p>
+                    <p>The test were made varying the Clipmap Sizes (16, 32, 64, 128 and 256) and the number of Voxel Directions (3 or 6). <a href="post.html#b">Here</a> you can learn more about these parameters.</p>
 
                     <h2 style="text-align:center">Sponza</h2>
 
@@ -414,7 +414,7 @@
                     Performance of Cone Rotation and Sparsity
                 </h2>
                 <div id="perfCone" style="display: none">
-                    In order to mesure the impact of the number of cones on the frames per second (FPS) we decided to mesure the number of Cones between 8 and 64 (8, 16, 32 and 64), with Cone Sparsity 1 or 4 and with or without Cone Rotation, the tests were made on the <a href="http://graphics.cs.williams.edu/data/meshes.xml#1" target="_blank">Sponza</a> scene.
+                    In order to mesure the impact of the number of cones on performance (frames per second) we decided to vary the number of cones traced in the scene between 8 and 64 (8, 16, 32 and 64), with <a href="http://machinezero.github.io/documentation.html#10&tracingSparsity" target="_blank">Cone Sparsity</a> at 1 or 4 and with or without <a href="http://machinezero.github.io/documentation.html#10&enableConeRotation" target="_blank">Cone Rotation</a>. The tests were made on the <a href="http://graphics.cs.williams.edu/data/meshes.xml#1" target="_blank">Sponza</a> model.
 
 
                     <h2 style="text-align:center;">Without Cone Rotation</h2>
