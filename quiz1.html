@@ -14,22 +14,22 @@
     <!-- Bootstrap Core CSS -->
     <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <link href="css-js/css/landing-page.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
     <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
 
     <script src="css-js/js/jquery.js"></script>
-    
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="css-js/js/amcharts.js"> </script>
-    <script src="css-js/js/serial.js"> </script>
-    <script src="css-js/js/dark.js"> </script>
+    <script src="css-js/fullScreen/jqueryFull.js"></script>
+    <script src="css-js/js/bootstrap.min.js"></script>
+
+    <link href="css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
+
+    <script src="css-js/fullScreen/jquery.fullscreenslides.min.js"></script>
+    <script src="css-js/fullScreen/jquery.fullscreenslides.js"></script>
+    <script src="css-js/fullScreen/fullScreen.js"></script>
 
     <script type="text/javascript">
-     google.charts.load('current', {'packages':['corechart']});
     $(document).ready(function(){
     
         $(".list-inline").on("click",'.emailAlu', function(){
@@ -55,7 +55,6 @@
     </script>
 
     <script>
-
     $(document).ready(function(){
         var hash=$(location).attr('hash');
         $("div " + hash).fadeIn(2000);
@@ -276,6 +275,29 @@
         <br>
         In general the Figure 9 was considered as the best image by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. We think that this is due to a better ambient occlusion on the curtains of the scene.
         <br>
+        <table style="width:100%; margin-top:20px">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure diff51" href="img/Quiz_Images\Question_5\Differences\diff31.jpg">
+                        <img class="img-responsive col-lg-12" src="img/Quiz_Images\Question_5\Differences\diff31.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure diff52" href="img/Quiz_Images\Question_5\Differences\diff32.jpg">
+                        <img class="img-responsive col-lg-12" src="img/Quiz_Images\Question_5\Differences\diff32.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Difference between Figure 15 and 13</i></td>
+            <td align="center"><i class="legend">Difference between Figure 15 and 14</i></td>
+        </tr>
+    </table>
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -376,7 +398,7 @@
     <br>
     <br>
     <div id="div9">
-          <table style="width:100%">
+    <table style="width:100%">
         <tr>
             <td align="center" style="width:33%">
                 <div class="image">
