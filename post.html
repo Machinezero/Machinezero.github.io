@@ -97,7 +97,7 @@
             <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="a"></a>
                 <h1 class="articleTitle">What is VXGI?</h1>
-                <p>Voxel Global Illumination, VXGI, it is a new way, developed by <i>NVIDIA</i>, to simulate Global Ilumination.</p>
+                <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, it is a new way, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
                 <blockquote style="font-family: 'Tahoma'; color:white"> <i>Voxel Global Illumination (VXGI) is a stunning advancement, delivering incredibly realistic lighting, shading and reflections to next-generation games and game engines.</i>
                 <br/>
                 <h3 style="font-weight:normal; text-align:right; font-family: 'Trocchi', serif">
@@ -105,13 +105,17 @@
                 </h3>
                 </blockquote>
 
-                <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the Unreal Engine 4 supports this technology, for now.</p>
+                <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
 
                 <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
 
-                <p>A clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
+                <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
+                <center>
+                    <iframe src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0"  width="1250" height="900" ></iframe>
+                </center>
+
             </div>
 
             <div id="b" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
@@ -432,7 +436,7 @@
                 <a name="d"></a>
                 <h1 class="articleTitle">Application & Tutorial</h1>
                 
-                <p>This section has the purpose of helping the users to test the improved demo that we made based on NVIDIA's demo. It contains a detailed tutorial to ease the interation between the user and the interface.</p>
+                <p>This section has the purpose of helping the users to test the improved demo that we made based on <a href="https://developer.nvidia.com/vxgi" target="_blank">NVIDIA's demo</a>. It contains a detailed tutorial to ease the interation between the user and the interface.</p>
 
                 <p>If you want to try the demo for yourself you can download it  <a href="Download/VXGI Demo.zip" download>here</a>.</p>
                 
