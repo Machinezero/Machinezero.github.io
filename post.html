@@ -97,6 +97,8 @@
             <div id="a" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none">
                 <a name="a"></a>
                 <h1 class="articleTitle">What is VXGI?</h1>
+                <p>In the real world, all objects are lit by a combination of direct light (photons that travel directly from a light source to illuminate an object) and indirect light (photons that travel from the light source, hit one object and bounce off of it and then hit a second object, thus indirectly illuminating that object). (<a href="http://www.geforce.com/hardware/technology/vxgi/technology" target="_blank">NVIDIA</a>) “Global illumination” (GI) is a term for lighting systems that model this effect. Without indirect lighting, scenes can look harsh and artificial. However, while light received directly is fairly simple to compute, indirect lighting computations are highly complex and computationally heavy.</p>
+
                 <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, it is a new way, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
                 <blockquote style="font-family: 'Tahoma'; color:white"> <i>Voxel Global Illumination (VXGI) is a stunning advancement, delivering incredibly realistic lighting, shading and reflections to next-generation games and game engines.</i>
                 <br/>
@@ -105,16 +107,18 @@
                 </h3>
                 </blockquote>
 
-                <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
+                <p>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. </p>
+
+                <p>This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
 
                 <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
 
                 <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
-                <center>
-                    <iframe src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0"  width="1250" height="900" ></iframe>
-                </center>
+                <iframe width="1620" height="920" src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" style="-webkit-transform:scale(1.0);-moz-transform:scale(1.0);">
+                    
+                </iframe>
 
             </div>
 
