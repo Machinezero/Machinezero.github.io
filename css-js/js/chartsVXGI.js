@@ -712,15 +712,16 @@ $(function(){
                     "lowField": "R",
                     "openField": "R",
                     "patternField": "R",
-                    "title": "graph 1",
+                    "title": "Graphics Card Dedicated Memory",
                     "valueField": "Graphics Card",
                     "xField": "R",
                     "yField": "R"
                 },
                 {
                     "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "bullet": "square",
                     "id": "AmGraph-2",
-                    "title": "graph 2",
+                    "title": "Random-Access Memory (RAM)",
                     "valueField": "RAM"
                 }
             ],
@@ -735,16 +736,15 @@ $(function(){
             "balloon": {},
             "legend": {
                 "enabled": true,
-                "labelText": "Graphics Card Dedicated Memory",
                 "labelWidth": 0,
                 "rollOverGraphAlpha": 0,
                 "useGraphSettings": true
             },
             "titles": [
                 {
-                    "id": "",
+                    "id": "Title-1",
                     "size": 15,
-                    "text": "Ponte de Lima 3D - 6 Voxel Directions"
+                    "text": "Ponte de Lima 3D - 3 Voxel Directions"
                 }
             ],
             "dataProvider": [
