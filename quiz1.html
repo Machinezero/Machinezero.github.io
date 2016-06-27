@@ -14,14 +14,20 @@
     <!-- Bootstrap Core CSS -->
     <link href="css-js/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
     <link href="css-js/css/landing-page.css" rel="stylesheet">
 
+    <!-- Custom Fonts -->
     <link href="css-js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css-js/fonts/lato.css" rel="stylesheet" type="text/css">
 
     <script src="css-js/js/jquery.js"></script>
     <script src="css-js/fullScreen/jqueryFull.js"></script>
-    <script src="css-js/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="css-js/js/amcharts.js"> </script>
+    <script src="css-js/js/serial.js"> </script>
+    <script src="css-js/js/dark.js"> </script>
 
     <link href="css-js/fullScreen/fullscreenstyle.css" rel="stylesheet" type="text/css"></link>
 
@@ -30,6 +36,7 @@
     <script src="css-js/fullScreen/fullScreen.js"></script>
 
     <script type="text/javascript">
+     google.charts.load('current', {'packages':['corechart']});
     $(document).ready(function(){
     
         $(".list-inline").on("click",'.emailAlu', function(){
@@ -55,6 +62,7 @@
     </script>
 
     <script>
+
     $(document).ready(function(){
         var hash=$(location).attr('hash');
         $("div " + hash).fadeIn(2000);
