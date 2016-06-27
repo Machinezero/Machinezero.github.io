@@ -1966,7 +1966,7 @@
 		</func>
 		<func>
 			<type>virtual Status::Enum</type>
-			<name>createVoxelizationDefaultPixelShader</name>
+			<name>createVoxelizationPixelShader</name>
 			<comment>Creates a custom voxelization PS that can be used for both opacity and emittance voxelization. Static const int VXGI::IsEmissiveVoxelizationPass is defined to help the user code tell whether it's compiled for opacity voxelization (0) or emittance voxelization (1). VXGI::GetIrradiance(...) function is also available to the user code to get the indirect irradiance, see the comments for VoxelizationParameters::multiBounceMode for more details. The useForOpacity and useForEmittance parameters control whether this shader will be used for opacity and emittance voxelization, respectively. When one of this flags is false and the shader is actually used for that kind of voxelization, calling getVoxelizationState will return a SHADER_MISSING error. If canUseDefaultOpacityShader parameter is set to true, VXGI will try to use the default opacity voxelization PS. It will only succeed if the resource bindings that are generated automatically for the emittance voxelization PS and the default resource bindings match. This means that the user code should claim that it requires only b0 and no other resources in slots lower than 9. If the resource bindings do not match, a new PS will be compiled.</comment>
 			<parameters>
 				<var>

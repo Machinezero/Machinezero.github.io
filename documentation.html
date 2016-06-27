@@ -43,9 +43,13 @@
         .lititle:hover{
 
           color: gray;
+                        cursor: pointer;
+
+
         }
         #menu li a:hover {
               background-color: #111;
+              cursor: pointer;
           }
         .active {
             background-color: #4CAF50;
@@ -56,6 +60,11 @@
           bottom: 10px;
           right: 20px; 
           z-index: 99;
+      }
+
+      .marker {
+        background-color: orange;
+        font-weight: bold;
       }
 
         
@@ -141,12 +150,23 @@
 
             var hash=$(location).attr('hash');
             if(hash){
+                  var arr = hash.split('&');
+                  hash = arr[0];
                   $(hash).slideDown();
                   $(hash).find(".desc").slideDown();
-                  $("html, body").animate({ scrollTop: $(hash).offset().top }, 1000);
-
-
+            
+                setTimeout(function(){
+                      if (arr[1]){
+                        highlight(arr[1]); 
+                      }
+                    },200);
               }
+
+            function highlight(word) {
+                var container = $('span:contains("'+ word +'")');
+                $('html,body').animate({scrollTop: container.offset().top - $("#top").height()});
+                container.addClass("marker");
+            }
 
             function structOrClass(elem,idx){
                 var count=0;
@@ -283,7 +303,9 @@
                select: function (event, ui) {
                 $("#"+ui.item.id).slideDown();
                 $("#"+ui.item.id).find(".desc").slideDown();
-                $("html, body").animate({ scrollTop: $("#"+ui.item.id).offset().top }, 1000);
+
+                $(".marker").removeClass("marker");
+                highlight(ui.item.label);
               }
             });
               $("li").on('click','.closeli',function(e) {
