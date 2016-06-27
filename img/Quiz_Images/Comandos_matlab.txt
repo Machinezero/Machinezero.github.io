@@ -1,0 +1,12 @@
+img1 = imread('C:\Users\hp\Desktop\Quiz_Images\Question_5\1.jpg');
+img2 = imread('C:\Users\hp\Desktop\Quiz_Images\Question_5\2.jpg');
+img3 = imread('C:\Users\hp\Desktop\Quiz_Images\Question_5\3.jpg');
+
+crop2 = imcrop(img2,[1 2 1597 1598]); //Exemplo
+crop3 = imcrop(img3,[2 3 1596 1598]); //Exemplo
+
+diff31 = crop3 - img1;
+diff32 = crop3 - crop2;
+
+imwrite(diff31, 'C:\Users\hp\Desktop\Quiz_Images\Question_5\Differences\diff31.jpg');
+imwrite(diff32, 'C:\Users\hp\Desktop\Quiz_Images\Question_5\Differences\diff32.jpg');

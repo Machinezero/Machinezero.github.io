@@ -131,7 +131,7 @@
          <a name="a"></a>
          <h1 class="articleTitle">Qualitative Analysis</h1>
          <p>
-            With the purpose of doing a qualitative analysis of the images quality, we decided to create a quiz. This allowed us to make a cross reference between the system memory used <i>vs</i> the images that people chosen by answering the quiz. We used the <i>ClipSize</i> and the <i>ClipRange</i> as the test parameters. Our intention was to approach people who weren't familiar with the subject. Hence, the answers are more plausible. After gathering the opinions of thirty people, the analysis can be consulted below.
+            With the purpose of doing a qualitative analysis of the images quality, we decided to create a quiz. This allowed us to make a cross reference between the system memory used <i>vs</i> the images that people chosen by answering the quiz. We used the <i>ClipSize</i> and the <i>ClipRange</i> as test parameters. Our intention was to approach people who were not familiar with the subject. Hence, the answers are more plausible. After gathering the opinion of thirty people, the analysis can be consulted below.
          </p>
          <h2 class="articleSubTitle" onclick="hide('div0')">Do you consider yourself a gamer or somewhat aware of modern real time graphics?</h2>
          <div id="div0">
@@ -175,7 +175,8 @@
             <td align="center"><i class="legend">FIgure 3</i></td>
         </tr>
     </table>
-         <p>In the first question was used a ClipSize of 16 and a ClipRange of 256 (Figure 1), 512 (Figure 2) and 1024 (Figure 3). The most chosen image by all users was the third one (ClipRange at 1024). The graphics card memory used was 430MB and 11MB of RAM.</p>
+    <br>
+         <p>In the first question was used a ClipSize of 16 and a ClipRange of 256 (Figure 1), 512 (Figure 2) and 1024 (Figure 3). On average the most chosen image was the third one (ClipRange at 1024). The graphics card memory used was 430MB and 11MB of RAM.</p>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -223,6 +224,7 @@
             <td align="center"><i class="legend">FIgure 6</i></td>
         </tr>
     </table>
+        <br>
          In this second question, the ClipSize was increased to 32. The memory used and the answer are the same as before (ClipRange at 1024). 
             <div class="row">
                <div class="col-xs-4">
@@ -240,8 +242,8 @@
             </div>
          </div>
          <h2 class="articleSubTitle" onclick="hide('div3')">Question 3</h2>
-         <div id="div3">
-          <table style="width:100%">
+      <div id="div3">
+        <table style="width:100%">
         <tr>
             <td align="center" style="width:33%">
                 <div class="image">
@@ -270,8 +272,10 @@
             <td align="center"><i class="legend">Figure 8</i></td>
             <td align="center"><i class="legend">FIgure 9</i></td>
         </tr>
-    </table>
-         In general the Figure 9 was considered as the best image by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. We think that this due to a better ambient occlusion on the curtains of the scene.
+        </table>
+        <br>
+        In general the Figure 9 was considered as the best image by 50% of the people (ClipSize at 64 and ClipRange at 1024). But if we analyse the answers of the "Gamers", we see that the results are more balanced. We think that this is due to a better ambient occlusion on the curtains of the scene.
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -319,6 +323,7 @@
             <td align="center"><i class="legend">Figure 12</i></td>
         </tr>
     </table>
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -366,6 +371,34 @@
             <td align="center"><i class="legend">Figure 15</i></td>
         </tr>
     </table>
+    <br>
+    The most voted choice in this question was the third image once more, because the first ones were too dark. The ClipSize was define at 256. So if the ClipRange is not big enough, it can not include the complete scene to voxelize. So these parts of the scene do not contribute to the global illumination and if not directly illuminated they are black as shown in the images. To better understand, the images bellow represent the differences between the third image and the other two, respectively.
+    <br>
+    <br>
+    <div id="div9">
+          <table style="width:100%">
+        <tr>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure diff51" href="img/Quiz_Images\Question_5\Differences\diff31.jpg">
+                        <img class="img-responsive col-lg-12" src="img/Quiz_Images\Question_5\Differences\diff31.jpg"/>
+                    </a>
+                </div>
+            </td>
+            <td align="center" style="width:33%">
+                <div class="image">
+                    <a rel="gallery" title="Figure diff52" href="img/Quiz_Images\Question_5\Differences\diff32.jpg">
+                        <img class="img-responsive col-lg-12" src="img/Quiz_Images\Question_5\Differences\diff32.jpg"/>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><i class="legend">Difference between Figure 15 and 13</i></td>
+            <td align="center"><i class="legend">Difference between Figure 15 and 14</i></td>
+        </tr>
+    </table>
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -421,7 +454,8 @@
             <td align="center"><i class="legend">Figure 19</i></td>
         </tr>
     </table>
-          Comparing this four images, the majory voted on the second image. The parameters used on this one are ClipSize at 128 and ClipRange at 512. The last one uses the ClipSize at 256 and a ClipRange at 1024. This last image uses 1843MB of graphics card memory and 2124MB of RAM while the most voted only uses 972MB of graphics card memory and 10MB of RAM. So, we can concluded that it is not necessary to use the best parameters possible to achieve a good image quality. Hence, we use less resources and have a better frame rate (55 frames per second).
+        <br>
+          Comparing this four images, the majory voted on the second image. The parameters used on this one are ClipSize at 128 and ClipRange at 512. The last one uses the ClipSize at 256 and a ClipRange at 1024. This last image uses 1843MB of graphics card memory and 2124MB of RAM while the most voted only uses 972MB of graphics card memory and 10MB of RAM. So, we can concluded that it is not necessary to use the best parameters possible to achieve a good image quality. Hence, we use less computational resources and have a better frame rate (55 frames per second).
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -469,6 +503,9 @@
             <td align="center"><i class="legend">Figure 22</i></td>
         </tr>
     </table>
+        <br>
+        The less voted image is the Figure 21. This is probably due to the flat ambient colors because it has none global illumination contribute. The most voted (Figure 22) has a ClipSize of 64 while Figure 20 only has a ClipSize of 32, spending 461MB and 393MB of graphics card memory, respectively.
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>
@@ -516,6 +553,9 @@
             <td align="center"><i class="legend">Figure 25</i></td>
         </tr>
     </table>
+        <br>
+        Once more, the image with the lowest settings (Figure 4) is the choice for most. This image has a ClipSize of 64 with a ClipRange at 20, while Figure 23 and 25 have a ClipSize at 128 and 256 respectively. We can conclude that with the right parameters, we can achieve great results with low computational cost. 
+        <br>
             <div class="row">
                <div class="col-xs-4">
                   <h3 style="text-align: center;">All</h3>

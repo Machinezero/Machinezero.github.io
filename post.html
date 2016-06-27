@@ -166,13 +166,13 @@
                     <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). However, the rasterization is performed in Multisample Anti Aliasing mode (MSAA) in order to produce multiple samples for the rasterized triangles.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/MSAA.png" width="50%" height="50%" alt="">Voxelization using MSAA. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> NVIDIA</a></i>
+                    	<img class="img-responsive" src="img/MSAA.png" width="50%" height="50%" alt="">Voxelization using MSAA. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
 					</center>
 					<br>
 					<p>Then the depth coordinate is computed for each sample and reprojected into the other two planes.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/MSAA2.png" width="50%" height="50%" alt="">Reprojection of the MSAA samples into the other two projection planes. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> NVIDIA</a></i>
+                    	<img class="img-responsive" src="img/MSAA2.png" width="50%" height="50%" alt="">Reprojection of the MSAA samples into the other two projection planes. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
 					</center>
 					<br>
 					<p>Finally, a bit count function is used in order to convert the coverage masks obtained by MSAA to an opacity value.</p>
@@ -184,10 +184,10 @@
                 <div id="emittance"  style="display:none">
                     <p>In this pass it is used the opacity values calculated before to determinate the amount of light that geometry in their volume reflects or emits in all directions.</p>
                     <p>Starts by selecting the projection plane and rasterize the triangle. After that, the approximate light intensity for each voxel is computed. It can project the intensity to 3 or 6 directions. Finally, the directional intensities are accumulated for all rasterized triangles.
-                    <p>Objects can change their brightness abruptly if they move, due to alterations to te number of covered  samples(small objects or large voxels in the coarse clipmap levels) (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). To solve this problem, supersampling is used.</p>
+                    <p>Objects can change their brightness abruptly if they move, due to alterations to te number of covered  samples(small objects or large voxels in the coarse clipmap levels) (<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank">NVIDIA</a>). To solve this problem, supersampling is used.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/supersampling.png" width="50%" height="50%" alt="">Movements from small objects or inside large voxels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> NVIDIA</a></i>
+                    	<img class="img-responsive" src="img/supersampling.png" width="50%" height="50%" alt="">Movements from small objects or inside large voxels. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
 					</center>
 					<br>
 					<p>The coverage masks are then used to generate the brightness value of the fragment and the emittance is computed with the help of a shadow map generated previously.</p>
