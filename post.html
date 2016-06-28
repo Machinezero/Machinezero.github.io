@@ -116,9 +116,15 @@
                 <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
-                <iframe width="1620" height="920" src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" style="-webkit-transform:scale(1.0);-moz-transform:scale(1.0);">
-                    
+
+                <hr>
+
+                <p>In the bellow slider you can observe a easy way to distinct VXGI from Direct Illumination, this <a href="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html">slider</a> was taken from NVIDIA.</p>
+                <iframe src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" style="margin-left:-130px; width:131%; height:920px; -webkit-transform:scale(1.0);-moz-transform:scale(1.0);">
                 </iframe>
+                <p style="text-align:center">
+                    Demonstration of VXGI vs Direct Illumination by NVIDIA.
+                </p>
 
             </div>
 
@@ -133,34 +139,31 @@
                 <div id="3dclip">
                     <a name="3dclip" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="display:none"></a>
                     <!--<p>Clipmaps are multidimensional textures that were proposed as a solution to reduce the memory footprint of very large textures (<a href="http://doi.acm.org/10.1145/280814.280855" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
-
                     <p>A clipmap is a partial representation of a mipmap, in which the levels are clipped according to a user-defined maximum size (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). The clipmaps only differ from mipmaps in the finer levels of detail. So the finer levels have the same number of voxels, but the same spatial resolution as the mipmap.</p>
-
                     <p>The regions near the camera are represented with finer levels of detail and far regions with coarser levels of detail. This maps nicely when applying voxel cone tracing, due to the higher spatial density of pixels near the camera.</p>
-
                     <p>When the camera moves, we don't need to update de clipmap completely, since only a small portion of the clipmap needs to be updated because most of the data is already present in the clipmap since it was needed in the previous frame.</p>-->
                     <p>A <i>Clipmap</i> is a multidimensional texture that were proposed as a solution to reduce the memory footprint of very large textures (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
                     <p>For that purpose each level need to be clipped to a user-specified maximum size (<i>ClipSize</i>). This parameterization results in an obelisk shape for clipmaps as opposed to the pyramid of mipmaps. It also defines the size of the texture memory cache needed to fully represent the texture hierarchy.</p>
                     <p>ClipSize represents the limit, in texels, for any single level of a clipmap texture. In a normal mipmap, the texture size in memory would be bigger. Instead, the Clipmap retain the logical size and render-time accessing the corresponding level of a full mipmap.</p>
                     <p>Further is defined the <it>Clipmap Stack</it> that is the set of levels that have been clipped from ful mipmap-size by the limit established. The levels at the topmost in the figure below are not fully resident within the Clipmap; only a ClipSize subset is cached.</p>
                     <br>
-					<center>
-                    	<img class="img-responsive" src="img/Clipmap.png" alt="">Clipmap Stack and Pyramid Levels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
-					</center>
-					<br>
-					<p>Below the Clipmap Stack is the Clipmap Pyramid, defined as the set of levels of sizes lower than the ClipSize limit. These levels are completely stored in texture memory and have the same spatial resolution of a full mipmap. </p>
+                    <center>
+                        <img class="img-responsive" src="img/Clipmap.png" alt="">Clipmap Stack and Pyramid Levels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
+                    </center>
+                    <br>
+                    <p>Below the Clipmap Stack is the Clipmap Pyramid, defined as the set of levels of sizes lower than the ClipSize limit. These levels are completely stored in texture memory and have the same spatial resolution of a full mipmap. </p>
                     <p>The regions near the camera are represented with finer levels of detail and far regions with coarser levels of detail. This maps nicely when applying voxel cone tracing, due to the higher spatial density of pixels near the camera (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>).</p>
                     <p>To prove the Clipmap storage efficiency lets consider a 13 level 4096<sup>2</sup> Clipmap to be rendered on a 1024<sup>2</sup> display. Given the display size, we know that the upper bound on texture usage from a single level is 2048<sup>2</sup>, so we must set the Clipsize to 2048. There will be one clipped level forming our Clipmap Stack and 12 levels in the Clipmap Pyramid. The storage required for this is 2048<sup>2</sup> texels * 1 level + 4/3 * 2048<sup>2</sup> for the pyramid = 18.7 MB at 2 bytes per texel. This clipmap configuration requires only 18.7 MB of the full 42.7 MB of a full mipmap. The bigger the size of the clipmap, the bigger is the difference of memory usage between the mipmap and Clipmap. This is essencial to store the textures on the graphics dedicated memory and avoid constant swaps with RAM. The table below shows the diferences.</p>
                     <br>
-					<center>
-                    	<img class="img-responsive" src="img/Clipmap_storage.png" alt="">Clipmap Storage. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
-					</center>
-					<br>
-					<p>The clipmap must however be updated when the camera moves in order to maintain all the information needed around the camera to render the current frame. In order to prevent having to update the clipmap completely each time the camera moves, it is possible to take advantage of the fact that usually only a small part of the clipmap needs to be updated (a great portion of the data is already present in the Clipmap since it was needed in the previous frame) (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). In order to update the Clipmap incrementally with the needed data, toroidal addressing is used (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>). Toroidal addressing is a method that guarantees that a point in space always maps to the same point in the texture as shown in the next image.</p>
-					<br>
-                	<center>
-                    	<img class="img-responsive" src="img/toroidal.png" alt="">Toroidal Addressing. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
-					</center>
+                    <center>
+                        <img class="img-responsive" src="img/Clipmap_storage.png" alt="">Clipmap Storage. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
+                    </center>
+                    <br>
+                    <p>The clipmap must however be updated when the camera moves in order to maintain all the information needed around the camera to render the current frame. In order to prevent having to update the clipmap completely each time the camera moves, it is possible to take advantage of the fact that usually only a small part of the clipmap needs to be updated (a great portion of the data is already present in the Clipmap since it was needed in the previous frame) (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). In order to update the Clipmap incrementally with the needed data, toroidal addressing is used (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>). Toroidal addressing is a method that guarantees that a point in space always maps to the same point in the texture as shown in the next image.</p>
+                    <br>
+                    <center>
+                        <img class="img-responsive" src="img/toroidal.png" alt="">Toroidal Addressing. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
+                    </center>
                 </div>
 
                 <h2 class="articleSubTitle" onclick="hide('opacity')">Opacity Voxelization</h2>
@@ -171,16 +174,16 @@
                     <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). However, the rasterization is performed in Multisample Anti Aliasing mode (MSAA) in order to produce multiple samples for the rasterized triangles.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/MSAA.png" width="50%" height="50%" alt="">Voxelization using MSAA. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
-					</center>
-					<br>
-					<p>Then the depth coordinate is computed for each sample and reprojected into the other two planes.</p>
+                        <img class="img-responsive" src="img/MSAA.png" width="50%" height="50%" alt="">Voxelization using MSAA. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
+                    </center>
+                    <br>
+                    <p>Then the depth coordinate is computed for each sample and reprojected into the other two planes.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/MSAA2.png" width="50%" height="50%" alt="">Reprojection of the MSAA samples into the other two projection planes. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
-					</center>
-					<br>
-					<p>Finally, a bit count function is used in order to convert the coverage masks obtained by MSAA to an opacity value.</p>
+                        <img class="img-responsive" src="img/MSAA2.png" width="50%" height="50%" alt="">Reprojection of the MSAA samples into the other two projection planes. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
+                    </center>
+                    <br>
+                    <p>Finally, a bit count function is used in order to convert the coverage masks obtained by MSAA to an opacity value.</p>
                 </div>
 
 
@@ -192,10 +195,10 @@
                     <p>Objects can change their brightness abruptly if they move, due to alterations to te number of covered  samples(small objects or large voxels in the coarse clipmap levels) (<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank">NVIDIA</a>). To solve this problem, supersampling is used.</p>
                     <br>
                     <center>
-                    	<img class="img-responsive" src="img/supersampling.png" width="50%" height="50%" alt="">Movements from small objects or inside large voxels. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
-					</center>
-					<br>
-					<p>The coverage masks are then used to generate the brightness value of the fragment and the emittance is computed with the help of a shadow map generated previously.</p>
+                        <img class="img-responsive" src="img/supersampling.png" width="50%" height="50%" alt="">Movements from small objects or inside large voxels. <i>Source:<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank"> NVIDIA</a></i>
+                    </center>
+                    <br>
+                    <p>The coverage masks are then used to generate the brightness value of the fragment and the emittance is computed with the help of a shadow map generated previously.</p>
                 </div>
 
                  <h2 class="articleSubTitle " onclick="hide('voxelCone')">Voxel Cone Tracing</h2>
