@@ -118,10 +118,11 @@
                 <p  style=>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. </p>
                 <hr/>
                 <p>This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
-
-                </div>
-                 <div style="clear: both;">
                 <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
+                </div>
+                
+    
+                     <div style="clear: both;">
 
                 <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
 
@@ -131,7 +132,7 @@
 
                 <p>In the slider bellow you can observe an easy way to distinct VXGI from direct illumination. This <a href="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html">slider</a> was taken from NVIDIA.</p>
 
-                <iframe src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" style="position: absolute;left: -50%; width:190%; height:960px; -webkit-transform:scale(1.0);-moz-transform:scale(0.7);">
+                <iframe src="http://international.download.nvidia.com/geforce-com/international/comparisons/nvidia-geforce-gtx-titan-x/nvidia-geforce-gtx-titan-x-sci-fi-hallway-scene-nvidia-vxgi-on-vs-off-2.html" style="position: absolute;left: -50%; width:190%; height:960px; -webkit-transform:scale(0.7);-moz-transform:scale(0.7);">
                 </iframe>
 
                 <div style=" height:900px;">
