@@ -99,7 +99,7 @@
                 <h1 class="articleTitle">What is VXGI?</h1>
                 <p>In the real world, all objects are lit by a combination of direct light (photons that travel directly from a light source to illuminate an object) and indirect light (photons that travel from the light source, hit one object and bounce off of it and then hit a second object, thus indirectly illuminating that object). (<a href="http://www.geforce.com/hardware/technology/vxgi/technology" target="_blank">NVIDIA</a>) “Global illumination” (GI) is a term for lighting systems that model this effect. Without indirect lighting, scenes can look harsh and artificial. However, while light received directly is fairly simple to compute, indirect lighting computations are highly complex and computationally heavy.</p>
 
-                <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, it is a new way, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
+                <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, is a new way, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
                 <blockquote style="font-family: 'Tahoma'; color:white"> <i>Voxel Global Illumination (VXGI) is a stunning advancement, delivering incredibly realistic lighting, shading and reflections to next-generation games and game engines.</i>
                 <br/>
                 <h3 style="font-weight:normal; text-align:right; font-family: 'Trocchi', serif">
@@ -115,9 +115,9 @@
                  </div>
                 
                 <div class="col-sm-10" style="width: 54%; float: left;"  >
-                <p  style=>The VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. </p>
+                <p  style=>VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. </p>
 
-                <p>This can not be build into the graphics driver, so we can not switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
+                <p>This can not be build into the graphics driver, so we cannot switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
                 <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
                 </div>
                 
@@ -127,7 +127,7 @@
                 <br>
 
 
-                <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to don't exceed a pre-defined size.</p>
+                <p>A Clipmap is a hierarchical data structure similar to a 3D mipmap with the difference of clipping finer levels, in order to not exceed a pre-defined size.</p>
 
                 <p>The algorithm encodes the opacity and emittance information in the climaps and the executes the Voxel Cone Tracing to compute approximately the global illumination in real time.</p>
                 </div>
@@ -151,7 +151,7 @@
                 <a name="b"></a>
                 <h1 class="articleTitle">How VXGI works?</h1>
 
-                <p>The main steps of the VXGI technique consists on the voxelization of the scene, encoding the opacity and emittance information in the clipmap and then is used the voxel cone tracing to compute the global illumination.</p>
+                <p>The main steps of the VXGI technique consists on the voxelization of the scene, encoding the opacity and emittance information in the clipmap and then voxel cone tracing is used to compute global illumination.</p>
 
                 <h2 class="articleSubTitle" onclick="hide('3dclip')">3D Clipmap</h2>
 
@@ -161,10 +161,10 @@
                     <p>A clipmap is a partial representation of a mipmap, in which the levels are clipped according to a user-defined maximum size (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). The clipmaps only differ from mipmaps in the finer levels of detail. So the finer levels have the same number of voxels, but the same spatial resolution as the mipmap.</p>
                     <p>The regions near the camera are represented with finer levels of detail and far regions with coarser levels of detail. This maps nicely when applying voxel cone tracing, due to the higher spatial density of pixels near the camera.</p>
                     <p>When the camera moves, we don't need to update de clipmap completely, since only a small portion of the clipmap needs to be updated because most of the data is already present in the clipmap since it was needed in the previous frame.</p>-->
-                    <p>A <i>Clipmap</i> is a multidimensional texture that were proposed as a solution to reduce the memory footprint of very large textures (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
-                    <p>For that purpose each level need to be clipped to a user-specified maximum size (<i>ClipSize</i>). This parameterization results in an obelisk shape for clipmaps as opposed to the pyramid of mipmaps. It also defines the size of the texture memory cache needed to fully represent the texture hierarchy.</p>
+                    <p>A <i>Clipmap</i> is a multidimensional texture that was proposed as a solution to reduce the memory footprint of very large textures (<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank">Tanner et al., 1998</a>), (<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter02.html" target="_blank">Asirvatham and Hoppe, 2005</a>).</p>
+                    <p>For that purpose each level needs to be clipped to a user-specified maximum size (<i>ClipSize</i>). This parameterization results in an obelisk shape for clipmaps as opposed to the pyramid of mipmaps. It also defines the size of the texture memory cache needed to fully represent the texture hierarchy.</p>
                     <p>ClipSize represents the limit, in texels, for any single level of a clipmap texture. In a normal mipmap, the texture size in memory would be bigger. Instead, the Clipmap retain the logical size and render-time accessing the corresponding level of a full mipmap.</p>
-                    <p>Further is defined the <it>Clipmap Stack</it> that is the set of levels that have been clipped from ful mipmap-size by the limit established. The levels at the topmost in the figure below are not fully resident within the Clipmap; only a ClipSize subset is cached.</p>
+                    <p>Further is defined the <it>Clipmap Stack</it> that is the set of levels that have been clipped from full mipmap-size by the limit established. The levels at the topmost in the figure below are not fully resident within the Clipmap; only a ClipSize subset is cached.</p>
                     <br>
                     <center>
                         <img class="img-responsive" src="img/Clipmap.png" alt="">Clipmap Stack and Pyramid Levels. <i>Source:<a href="http://www.cs.virginia.edu/~gfx/courses/2002/BigData/papers/Texturing/Clipmap.pdf" target="_blank"> Tanner et al., 1998</a></i>
@@ -209,7 +209,7 @@
                 <h2 class="articleSubTitle" onclick="hide('emittance')">Emittance Voxelization</h2>
 
                 <div id="emittance"  style="display:none">
-                    <p>In this pass it is used the opacity values calculated before to determinate the amount of light that geometry in their volume reflects or emits in all directions.</p>
+                    <p>In this pass the opacity values calculated before are used to determine the amount of light that geometry in their volume reflects or emits in all directions.</p>
                     <p>Starts by selecting the projection plane and rasterize the triangle. After that, the approximate light intensity for each voxel is computed. It can project the intensity to 3 or 6 directions. Finally, the directional intensities are accumulated for all rasterized triangles.
                     <p>Objects can change their brightness abruptly if they move, due to alterations to te number of covered  samples(small objects or large voxels in the coarse clipmap levels) (<a href="http://on-demand.gputechconf.com/siggraph/2014/presentation/SG4114-Practical-Real-Time-Voxel-Based-Global-Illumination-Current-GPUs.pdf" target="_blank">NVIDIA</a>). To solve this problem, supersampling is used.</p>
                     <br>
@@ -253,7 +253,7 @@
                     <br><br><br><br>
 
                     <div class="col-sm-9">
-                        <p style="margin-left:-15px">For finer surface, it is used a thiner cone. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
+                        <p style="margin-left:-15px">For finer surfaces, a thiner cone is used. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
                     </div>
                     <div style="float:right;padding:0px">
                         <img src="img/finer_specular.png" class="normalP" style="width:150px; height:100px !important" />
@@ -616,7 +616,7 @@
                                     
                     <br><br>
                                         
-                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>By enable and disable the shading parameters, like the diffuse color or specularity, we can see different results on the desired scene.</p>
+                    <p class="tutorialApp"><img src="img/arrow.png" class="normalP"/>By enabling and disabling the shading parameters, like the diffuse color or specularity, we can see different results on the desired scene.</p>
                     
                     <table style="width:100%">
                         <tr>
