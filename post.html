@@ -99,7 +99,7 @@
                 <h1 class="articleTitle">What is VXGI?</h1>
                 <p>In the real world, all objects are lit by a combination of direct light (photons that travel directly from a light source to illuminate an object) and indirect light (photons that travel from the light source, hit one object and bounce off of it and then hit a second object, thus indirectly illuminating that object). (<a href="http://www.geforce.com/hardware/technology/vxgi/technology" target="_blank">NVIDIA</a>) “Global illumination” (GI) is a term for lighting systems that model this effect. Without indirect lighting, scenes can look harsh and artificial. However, while light received directly is fairly simple to compute, indirect lighting computations are highly complex and computationally heavy.</p>
 
-                <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, is a new way, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
+                <p>Voxel Global Illumination, <a href="https://developer.nvidia.com/vxgi" target="_blank">VXGI</a>, is a new method, developed by <a href="http://www.nvidia.com/page/home.html" target="_blank">NVIDIA</a>, to simulate Global Ilumination.</p>
                 <blockquote style="font-family: 'Tahoma'; color:white"> <i>Voxel Global Illumination (VXGI) is a stunning advancement, delivering incredibly realistic lighting, shading and reflections to next-generation games and game engines.</i>
                 <br/>
                 <h3 style="font-weight:normal; text-align:right; font-family: 'Trocchi', serif">
@@ -115,10 +115,10 @@
                  </div>
                 
                 <div class="col-sm-10" style="width: 54%; float: left;"  >
-                <p  style=>VXGI is a software library of a very complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene. </p>
+                <p  style=>VXGI is a software library for a complex rendering technique. This algorithm uses Voxel Cone Tracing to accumulate light contributions in the scene, including indirect light. </p>
 
-                <p>This can not be build into the graphics driver, so we cannot switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. Only the <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> supports this technology, for now.</p>
-                <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a 3D Clipmap.</p>
+                <p>This can not be build into the graphics driver, so we cannot switch the graphical properties if we want to use it in a game, for example. It needs to be integrated into the game engine, but it is hard to do it. The <a href="https://www.unrealengine.com/what-is-unreal-engine-4" target="_blank">Unreal Engine 4</a> is one of the few implementations available.</p>
+                <p>This technique differs on previous alternatives because it uses a different data structure to encode the voxel data. Instead of using a Sparse Voxel Octree (like the Sparse Voxel Octree Global Illumination (SVOGI)) , it uses a <a href="post.html#b" target="_blank">3D Clipmap</a>.</p>
                 </div>
                 
     
@@ -188,7 +188,7 @@
                 <h2 class="articleSubTitle" onclick="hide('opacity')">Opacity Voxelization</h2>
 
                 <div id="opacity" style="display:none">
-                    <p>The first step of the VXGI algorithm is the opacity voxelization and downsampling (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>. In this step, the scene geometry is converted to a map which encodes the opacity of space with voxels. If a cube matches a complete voxel, it will produce a fully opaque voxel. But after downsampling, the opacity is reduced to 50%. Each next level of downsampling reduces the previous level to half, like the textures in the mipmap.</p>
+                    <p>The first step of the VXGI algorithm is the opacity voxelization and downsampling (<a href="http://developer.download.nvidia.com/assets/events/GDC15/GEFORCE/VXGI_Dynamic_Global_Illumination_GDC15.pdf" target="_blank">NVIDIA VXGI)</a>. In this step, the scene geometry is converted to a map which encodes the opacity of space with voxels. </p>
 
                     <p>The voxelization process starts by choosing the projection plane in order to maximize the number of fragments generated during rasterization (<a href="http://www4.di.uminho.pt/~arf/supervision/DanielGomesVoxelRendering.pdf" target="_blank">Daniel Gomes et al, 2015</a>). However, the rasterization is performed in Multisample Anti Aliasing mode (MSAA) in order to produce multiple samples for the rasterized triangles.</p>
                     <br>
@@ -235,7 +235,7 @@
                     <br>
 
                     <div class="col-sm-9" style="float:left">
-                        <p style="margin-left:-15px">This step compute the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
+                        <p style="margin-left:-15px">This step computes the diffuse and specular indirect illumination. The diffuse tracing shoots several cones from every visible pixel, into a set of directions covering the hemisphere.</p>
                     </div>
                     <div style="float:right;padding:0px">
                         <img src="img/diffuse_tracing.png" class="normalP" style="width:150px; height:100px !important" />
@@ -253,7 +253,7 @@
                     <br><br><br><br>
 
                     <div class="col-sm-9">
-                        <p style="margin-left:-15px">For finer surfaces, a thiner cone is used. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
+                        <p style="margin-left:-15px">For shinier surfaces, a thiner cone is used. Due to the low spatial resolution, it is impossible to compute mirror-like reflections similar to ray tracing algorithms.</p>
                     </div>
                     <div style="float:right;padding:0px">
                         <img src="img/finer_specular.png" class="normalP" style="width:150px; height:100px !important" />
