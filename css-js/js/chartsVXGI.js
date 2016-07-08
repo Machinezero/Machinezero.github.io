@@ -744,7 +744,7 @@ $(function(){
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Ponte de Lima 3D - 3 Voxel Directions"
+                    "text": "Ponte de Lima 3D - 6 Voxel Directions"
                 }
             ],
             "dataProvider": [

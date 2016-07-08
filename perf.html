@@ -159,7 +159,7 @@
 
                 <h2 class="articleSubTitle" onclick="hide('op')"> Opacity Voxelization Performance Impact</h2>
                 <div id="op">
-                <p>To test the normal performance impact of rotating the camera, we decided to compare static and dynamic Camera movement, with and without VXGI. We can see that the impact of rotating the camera is pratically null. But with VXGI, there is a noticeable impact, this is due to the recalculation of the opacity voxelization of part of the scene.</p>
+                <p>To test the normal performance impact of rotating the camera, we decided to compare static and dynamic camera movement, with and without VXGI. We can see that the impact of rotating the camera is pratically null. But with VXGI, there is a noticeable impact, this is due to the recalculation of the opacity voxelization of part of the scene.</p>
 
                 <div class="row" style="margin-left: 10px;margin-right: 10px">
                     <div class="col-sm-6" style="padding: 0px">
@@ -174,7 +174,7 @@
                 <hr/>
 
                 <p>
-                    The speedup graph proves that without VXGI there is zero performance impact. With VXGI, the assessment is different.
+                    The speedup graph shows that without VXGI there is zero performance impact. With VXGI, the assessment is different.
                 </p>
                 <div class="row" style="margin-left: 10px;margin-right: 10px">
                     <div class="col-sm-6" style="padding: 0px">
@@ -206,7 +206,7 @@
                 </div>
                 <hr/>
 
-                <p>There is a slower performance than when we tested the opacity voxelization, but we can't deduce that one algorithm is heavier than another because in the opacity voxelization performance tests, only part of the structure is being recalculated, while in this emittance algorithm tests, everything is being recalculated. One solution is to rotate the scene instead of the camera, forcing everything to be recalculated, which we weren't able to do.</p>
+                <p>There is a slower performance than when we tested the opacity voxelization, but we can't deduce that one algorithm is heavier than another because in the opacity voxelization performance tests, only part of the structure is being recalculated, while in this emittance algorithm tests, everything is being recalculated. One solution is to rotate the scene instead of the camera, forcing everything to be recalculated, we weren't able to do.</p>
                  <div class="row" style="margin-left: 10px;margin-right: 10px">
                     <div class="col-sm-6" style="padding: 0px">
                          <div id="spl" style="width: 100%; height: 400px; background-color: #282828;" ></div>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 <hr/>
-                <p>For larger scenes, a dynamic light is gradually slower compared to a static one, but when comparing global illumination vs without global illumination, the performance impact gets more and more negligenciable, the larger the dimension of the scene.</p>
+                <p>For larger scenes, a dynamic light is gradually slower compared to a static one, but when comparing global illumination vs without global illumination, the performance impact gets smaller as the scene gets larger.</p>
             </div>
 
             <h2 class="articleSubTitle" onclick="hide('mem')">Memory Benchmark</h2>
@@ -348,8 +348,7 @@
                         </tbody>
 
                     </table>
-
-                    <p>Besides what was said before we can observe that the graphics card dedicated memory and RAM used increase drastically (even with ClipSize at 128). This happens because Ponte de Lima is larger than Sponza by far. Using 6 Voxel Directions has a great impact also.</p>
+                    What was said before can be applied to the Ponte de Lima scene, but we can also observe a small decrease in the number of frames per second (FPS), this happens because Ponte de Lima is larger than Sponza by far.
 
                     <h2 style="text-align:center">RUNGHOLT</h2>
 
